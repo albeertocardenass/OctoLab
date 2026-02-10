@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true, // Asegúrate de que tenga esto
-  imports: [RouterOutlet], // Eliminamos LoginComponent de aquí
+  standalone: true, 
+  imports: [RouterOutlet], 
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

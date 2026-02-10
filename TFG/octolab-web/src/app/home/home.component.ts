@@ -1,23 +1,37 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router'; // Importante para las rutas
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Asegúrate de importar RouterModule
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html', 
   styleUrls: ['./home.component.css'] 
 })
-export class HomeComponent {
-  // Lista de pestañas para iterar en el HTML
+export class HomeComponent implements OnInit {
+  usuarioActivo: any = null;
   tabs: string[] = ['Inicio', 'Temario', 'Comunidad', 'Donaciones', 'Configuración'];
-  
-  // Pestaña activa por defecto
-  activeTab: string = 'Inicio';
 
-  selectTab(tabName: string) {
-    this.activeTab = tabName;
+  constructor(
+    public router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  ngOnInit() {
+
+    if (isPlatformBrowser(this.platformId)) {
+      const datos = localStorage.getItem('usuario');
+      if (datos) {
+        this.usuarioActivo = JSON.parse(datos);
+      }
+    }
   }
-  constructor(public router: Router) {} // Inyectamos el router
+
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('usuario');
+    }
+    this.router.navigate(['/login']);
+  }
 }

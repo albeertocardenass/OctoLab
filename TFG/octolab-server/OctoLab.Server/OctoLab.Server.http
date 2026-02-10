@@ -1,0 +1,6 @@
+@OctoLab.Server_HostAddress = http://localhost:5276
+
+GET {{OctoLab.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

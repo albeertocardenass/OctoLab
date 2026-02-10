@@ -1,17 +1,16 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-// Importa tus otros componentes aquí:
-// import { TemarioComponent } from './temario/temario.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { 
-    path: 'home', 
+  { path: 'register', component: RegisterComponent },
+  {
+    path: 'home',
     component: HomeComponent,
-children: [
-
+    children: [
       { path: 'inicio', loadComponent: () => import('./inicio/inicio.component').then(m => m.InicioComponent) },
       { path: 'temario', loadComponent: () => import('./temario/temario.component').then(m => m.TemarioComponent) },
       { path: 'comunidad', loadComponent: () => import('./comunidad/comunidad.component').then(m => m.ComunidadComponent) },

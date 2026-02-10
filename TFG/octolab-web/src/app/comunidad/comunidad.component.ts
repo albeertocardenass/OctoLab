@@ -5,12 +5,13 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <div class="fade-in">
-      <h2>👥 Comunidad Octolab</h2>
-      <p>Conecta con otros desarrolladores y comparte tus progresos.</p>
+      <h2>👥 Comunidad Octolab/SharkLab</h2>
+      <p>Pregunta y conecta con otros Sharks y comparte tu progreso</p>
       <div class="forum-preview">
         <div class="post">
-          <strong>Alberto Cárdenas:</strong> "¿Alguien sabe cómo inyectar el Router en un componente standalone?"
-          <span class="tag">Ayuda</span>
+          <p><strong>Alberto Cárdenas:</strong> "¿Es suficiente con usar un ORM (como Prisma, Sequelize o Entity Framework) para estar 100% protegido contra SQL Injection, o existen escenarios donde todavía podríamos ser vulnerables?"</p>
+          <p><strong>Juan Alberto:</strong>"¿Cuál es la diferencia real entre un 'Exploit' y un 'Payload' en Metasploit? Siempre los confundo."
+          <span class="tag">Ayuda</span></p>
         </div>
       </div>
     </div>

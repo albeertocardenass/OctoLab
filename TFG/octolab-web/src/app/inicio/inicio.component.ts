@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-inicio',
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="inicio-container">
       <div class="welcome-section">
-        <h1>¡Hola de nuevo, Admin! 👋</h1>
+        <h1>¡Hola de nuevo, {{ usuarioActivo?.nombre || 'Usuario' }}! 👋</h1>
         <p>Bienvenido al panel central de OctolabWeb. Aquí tienes un resumen de lo que está pasando.</p>
       </div>
 
@@ -95,4 +95,19 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class InicioComponent {}
+export class InicioComponent implements OnInit {
+  usuarioActivo: any = null;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const datos = localStorage.getItem('usuario');
+      if (datos) {
+        this.usuarioActivo = JSON.parse(datos);
+      }
+    }
+  }
+}
+
+

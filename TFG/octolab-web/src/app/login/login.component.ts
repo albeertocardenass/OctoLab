@@ -1,25 +1,35 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; // 1. Importar el Router
+import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  loginData = { email: '', password: '' };
+  errorMessage = '';
 
-  // 2. Inyectar en el constructor
-  constructor(private router: Router) {}
+  constructor(private http: HttpClient, public router: Router) {}
 
   onLogin() {
-    // Aquí iría tu validación (ej: con auth.service.ts)
-    const success = true; 
+    const url = 'http://localhost:5276/api/Auth/login';
 
-    if (success) {
-      console.log('Login exitoso, redirigiendo...');
-      // 3. Navegar a la ruta 'home'
-      this.router.navigate(['/home']);
-    }
+    this.http.post(url, this.loginData).subscribe({
+      next: (response: any) => {
+        console.log('Login exitoso:', response);
+        localStorage.setItem('usuario', JSON.stringify(response.usuario));
+        this.router.navigate(['/home/inicio']);
+      },
+      error: (error) => {
+        this.errorMessage = 'Email o contraseña incorrectos';
+        console.error('Error en el login', error);
+      }
+    });
   }
 }

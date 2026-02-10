@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\OctoLab.Server",
+    "\\OctoLab.Server\\Controllers",
+    "\\OctoLab.Server\\Data",
+    "\\OctoLab.Server\\Migrations",
+    "\\OctoLab.Server\\Models",
+    "\\OctoLab.Server\\Models\\Entities"
+  ],
+  "SelectedNode": "\\OctoLab.Server\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}
