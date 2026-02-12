@@ -42,7 +42,8 @@
               "RelativeToolTip": "OctoLab.Server\\Controllers\\AuthController.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAAADMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T18:24:41.463Z"
+              "WhenOpened": "2026-02-10T18:24:41.463Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -54,7 +55,8 @@
               "RelativeToolTip": "OctoLab.Server\\Data\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T18:12:13.964Z"
+              "WhenOpened": "2026-02-10T18:12:13.964Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -66,7 +68,8 @@
               "RelativeToolTip": "OctoLab.Server\\Models\\Entities\\Usuario.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T18:10:37.845Z"
+              "WhenOpened": "2026-02-10T18:10:37.845Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
