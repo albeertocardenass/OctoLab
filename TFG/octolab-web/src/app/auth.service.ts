@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private loggedIn = false;
 
-  // Simulamos una validación
   login(user: string, pass: string): boolean {
     if (user === 'admin' && pass === '1234') {
       this.loggedIn = true;

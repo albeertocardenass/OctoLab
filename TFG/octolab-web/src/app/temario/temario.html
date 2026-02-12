@@ -1,0 +1,14 @@
+<div class="fade-in">
+  <h2>📚 Temario del Curso</h2>
+  <p>Explora los módulos de aprendizaje disponibles en Octolab.</p>
+  <div class="list-container">
+    <div class="module-card" *ngFor="let mod of modulos">
+      <div class="icon">📖</div>
+      <div class="info">
+        <h3>{{ mod.titulo }}</h3>
+        <p>{{ mod.lecciones }} lecciones</p>
+      </div>
+      <button class="btn-open">Abrir</button>
+    </div>
+  </div>
+</div>

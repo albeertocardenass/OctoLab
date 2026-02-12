@@ -1,0 +1,24 @@
+    <div class="fade-in">
+      <h2>⚙️ Configuración de Perfil</h2>
+      
+      <div class="form-group">
+        <label>Nombre de Usuario</label>
+        <input type="text" [(ngModel)]="usuarioActivo.nombre">
+      </div>
+
+      <div class="form-group">
+        <label>Email de Notificaciones</label>
+        <input type="email" [(ngModel)]="usuarioActivo.email">
+      </div>
+
+      <div class="form-group">
+        <label>Nueva Contraseña</label>
+        <input type="password" [(ngModel)]="usuarioActivo.password" placeholder="Escribe para cambiarla">
+      </div>
+
+      <button class="btn-save" (click)="guardarCambios()">Guardar Cambios</button>
+      
+      <p *ngIf="mensaje" [style.color]="error ? 'red' : 'green'" style="margin-top: 15px; font-weight: bold;">
+        {{ mensaje }}
+      </p>
+    </div>
