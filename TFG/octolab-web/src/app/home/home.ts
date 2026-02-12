@@ -34,4 +34,11 @@ export class HomeComponent implements OnInit {
     }
     this.router.navigate(['/login']);
   }
+
+  descargarAppPython() {
+  const link = document.createElement('a');
+  link.href = 'assets/OctoLab_v1.exe';
+  link.download = 'OctoLab_v1.exe';
+  link.click();
+}
 }

@@ -5,6 +5,9 @@
     </div>
 
     <div class="user-profile">
+      <button (click)="descargarAppPython()" style="margin-left: 10px;">
+        📥 Descargar App
+      </button>
       <div class="user-info">
         <span class="username">{{ usuarioActivo?.nombre || 'Usuario' }}</span>
         <span class="role">{{ usuarioActivo?.rol || 'Invitado' }}</span>
@@ -13,7 +16,8 @@
         {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
       </div>
 
-      <button (click)="logout()" style="margin-left: 10px; cursor: pointer; border: none; background: none; font-size: 1.2rem;">
+      <button (click)="logout()"
+        style="margin-left: 10px; cursor: pointer; border: none; background: none; font-size: 1.2rem;">
         🚪
       </button>
     </div>
@@ -32,7 +36,6 @@
       <div *ngIf="router.url === '/home'" class="welcome-placeholder">
         <h2>Bienvenido, {{ usuarioActivo?.nombre || 'a OctolabWeb' }}</h2>
         <p>Selecciona una sección en el menú superior para comenzar.</p>
-        <div class="logo-watermark">O</div>
       </div>
 
       <router-outlet></router-outlet>
