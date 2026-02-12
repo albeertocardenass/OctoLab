@@ -7,41 +7,8 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-configuracion',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  template: `
-    <div class="fade-in">
-      <h2>⚙️ Configuración de Perfil</h2>
-      
-      <div class="form-group">
-        <label>Nombre de Usuario</label>
-        <input type="text" [(ngModel)]="usuarioActivo.nombre">
-      </div>
-
-      <div class="form-group">
-        <label>Email de Notificaciones</label>
-        <input type="email" [(ngModel)]="usuarioActivo.email">
-      </div>
-
-      <div class="form-group">
-        <label>Nueva Contraseña</label>
-        <input type="password" [(ngModel)]="usuarioActivo.password" placeholder="Escribe para cambiarla">
-      </div>
-
-      <button class="btn-save" (click)="guardarCambios()">Guardar Cambios</button>
-      
-      <p *ngIf="mensaje" [style.color]="error ? 'red' : 'green'" style="margin-top: 15px; font-weight: bold;">
-        {{ mensaje }}
-      </p>
-    </div>
-  `,
-  styles: [`
-    .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; max-width: 400px; }
-    label { margin-bottom: 0.5rem; font-weight: 600; color: #475569; }
-    input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
-    .btn-save { background: #1e293b; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; transition: 0.3s; }
-    .btn-save:hover { background: #334155; }
-    .fade-in { animation: fadeIn 0.5s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  `]
+  templateUrl: './configuracion.html',
+  styleUrl: './configuracion.css'
 })
 export class ConfiguracionComponent implements OnInit {
   usuarioActivo: any = { id: 0, nombre: '', email: '', password: '' };
