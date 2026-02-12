@@ -6,11 +6,11 @@
 
     <div class="user-profile">
       <div class="user-info">
-        <span class="username">{{ usuarioActivo?.nombre  'Usuario' }}</span>
-        <span class="role">{{ usuarioActivo?.rol  'Invitado' }}</span>
+        <span class="username">{{ usuarioActivo?.nombre || 'Usuario' }}</span>
+        <span class="role">{{ usuarioActivo?.rol || 'Invitado' }}</span>
       </div>
       <div class="profile-circle">
-        {{ usuarioActivo?.nombre?.charAt(0)  'U' }}
+        {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
       </div>
 
       <button (click)="logout()" style="margin-left: 10px; cursor: pointer; border: none; background: none; font-size: 1.2rem;">
@@ -30,7 +30,7 @@
 
     <section class="main-viewport">
       <div *ngIf="router.url === '/home'" class="welcome-placeholder">
-        <h2>Bienvenido, {{ usuarioActivo?.nombre  'a OctolabWeb' }}</h2>
+        <h2>Bienvenido, {{ usuarioActivo?.nombre || 'a OctolabWeb' }}</h2>
         <p>Selecciona una sección en el menú superior para comenzar.</p>
         <div class="logo-watermark">O</div>
       </div>
