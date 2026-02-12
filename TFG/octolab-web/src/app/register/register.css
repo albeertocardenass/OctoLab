@@ -22,7 +22,7 @@ form input {
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Importante para que no se salgan del cuadro */
+  box-sizing: border-box;
 }
 
 button {
