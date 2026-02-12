@@ -10,8 +10,8 @@ import { CommonModule } from '@angular/common';
 })
 export class TemarioComponent {
   modulos = [
-    { titulo: 'Introducción a Angular', lecciones: 5 },
-    { titulo: 'Arquitectura Standalone', lecciones: 8 },
-    { titulo: 'Navegación y Rutas Hijas', lecciones: 4 }
+    { titulo: 'Introducción a Octolab', lecciones: 5 },
+    { titulo: 'Fundamentos de la ciberseguridad', lecciones: 8 },
+    { titulo: 'Prácticas de Seguridad', lecciones: 10 }
   ];
 }

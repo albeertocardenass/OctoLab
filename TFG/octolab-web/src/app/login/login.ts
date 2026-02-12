@@ -24,12 +24,12 @@ export class LoginComponent {
       next: (response: any) => {
         console.log('Login exitoso:', response);
         localStorage.setItem('usuario', JSON.stringify(response.usuario));
-        this.router.navigate(['/home/inicio']);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         this.errorMessage = 'Email o contraseña incorrectos';
         console.error('Error en el login', error);
       }
     });
-  }
+  } 
 }
