@@ -1,13 +1,16 @@
 <div class="dashboard-container">
   <header class="top-bar">
-    <div class="logo" [routerLink]="['/home']" style="cursor: pointer;">
-      Octolab<span>Web</span>
+    <div class="logo" [routerLink]="['/home']" style="cursor: pointer">Octolab<span>Web</span></div>
+
+    <div class="header-right">
+      <button *ngIf="usuarioActivo?.rol === 'Admin'" class="admin-nav-btn">
+        <span class="icon">🛡️</span>
+        <span class="text">Panel Admin</span>
+      </button>
     </div>
 
     <div class="user-profile">
-      <button (click)="descargarAppPython()" style="margin-left: 10px;">
-        📥 Descargar App
-      </button>
+      <button (click)="descargarAppPython()" style="margin-left: 10px">📥 Descargar App</button>
       <div class="user-info">
         <span class="username">{{ usuarioActivo?.nombre || 'Usuario' }}</span>
         <span class="role">{{ usuarioActivo?.rol || 'Invitado' }}</span>
@@ -16,8 +19,16 @@
         {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
       </div>
 
-      <button (click)="logout()"
-        style="margin-left: 10px; cursor: pointer; border: none; background: none; font-size: 1.2rem;">
+      <button
+        (click)="logout()"
+        style="
+          margin-left: 10px;
+          cursor: pointer;
+          border: none;
+          background: none;
+          font-size: 1.2rem;
+        "
+      >
         🚪
       </button>
     </div>

@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
       const datos = localStorage.getItem('usuario');
       if (datos) {
         this.usuarioActivo = JSON.parse(datos);
+        this.usuarioActivo.rol = 'Admin';
       }
     }
   }

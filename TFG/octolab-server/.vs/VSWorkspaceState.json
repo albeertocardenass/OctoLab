@@ -4,10 +4,11 @@
     "\\OctoLab.Server",
     "\\OctoLab.Server\\Controllers",
     "\\OctoLab.Server\\Data",
+    "\\OctoLab.Server\\DTOs",
     "\\OctoLab.Server\\Migrations",
     "\\OctoLab.Server\\Models",
     "\\OctoLab.Server\\Models\\Entities"
   ],
-  "SelectedNode": "\\OctoLab.Server\\Program.cs",
+  "SelectedNode": "\\OctoLab.Server\\Controllers\\AuthController.cs",
   "PreviewInSolutionExplorer": false
 }

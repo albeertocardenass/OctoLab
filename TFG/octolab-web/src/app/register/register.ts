@@ -15,6 +15,7 @@ export class RegisterComponent {
   registerData = {
     nombre: '',
     apellido1: '',
+    apellido2: '',
     apodo: '',
     email: '',
     password: ''
