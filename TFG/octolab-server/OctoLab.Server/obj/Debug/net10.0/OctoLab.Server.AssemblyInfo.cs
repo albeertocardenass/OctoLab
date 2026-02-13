@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OctoLab.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24a86e5c557255b51eb1279c9574ef14c339bccd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0aa6de420c47acecb31ff7f290fc9bb86bd8b6bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("OctoLab.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OctoLab.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
