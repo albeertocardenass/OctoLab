@@ -1,45 +1,71 @@
-.inicio-container {
-  animation: fadeIn 0.5s ease-in-out;
+.config-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  animation: fadeIn 0.5s ease;
 }
-.form-group { 
-    margin-bottom: 1.5rem; 
-    display: flex; 
-    flex-direction: column; 
-    max-width: 400px; 
+
+.config-card {
+  background-color: var(--bg-tarjetas, white);
+  border-radius: 16px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 480px;
+  padding: 40px;
+  border: 1px solid var(--borde, #e2e8f0);
+  color: var(--texto-principal);
 }
-label { 
-    margin-bottom: 0.5rem; 
-    font-weight: 600; 
-    color: #475569; 
+
+.config-profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+
+.big-profile-circle {
+  width: 90px;
+  height: 90px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
+
+.badge { 
+  background-color: var(--bg-principal); 
+  color: var(--texto-secundario); 
+  padding: 5px 14px; 
+  border-radius: 6px; 
+  font-size: 0.75rem; 
+  font-weight: bold; 
+}
+
+.divider { height: 1px; background-color: var(--borde); margin: 25px 0; }
+
+.form-group label { color: var(--texto-principal); font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;}
+
 input { 
-    padding: 10px; 
-    border: 1px solid #cbd5e1; 
-    border-radius: 6px; 
+  width: 100%; 
+  padding: 12px; 
+  background-color: var(--bg-principal);
+  color: var(--texto-principal);
+  border: 1px solid var(--borde); 
+  border-radius: 10px; 
 }
-.btn-save { 
-    background: #1e293b; 
-    color: white; 
-    border: none; 
-    padding: 12px 24px; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    transition: 0.3s; 
+
+.btn-save {
+  width: 100%;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
 }
-.btn-save:hover { 
-    background: #334155; 
-}
-.fade-in { 
-    animation: fadeIn 0.5s ease-in-out;
- }
- 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+
+.success-msg { color: #10b981; text-align: center; margin-top: 15px; }
+.error-msg { color: #ef4444; text-align: center; margin-top: 15px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

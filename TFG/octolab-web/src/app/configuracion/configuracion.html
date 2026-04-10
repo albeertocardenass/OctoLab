@@ -1,24 +1,42 @@
-<div class="inicio-container">
-      <h2>⚙️ Configuración de Perfil</h2>
-      
+<div class="config-container fade-in">
+  <div class="config-card">
+    <div class="config-profile-header">
+      <div class="avatar-container">
+        <div class="big-profile-circle">
+          {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
+        </div>
+        <button class="btn-change-photo">Cambiar</button>
+      </div>
+      <h2>{{ usuarioActivo?.nombre }}</h2>
+      <span class="badge">{{ usuarioActivo?.rol }}</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="config-form">
       <div class="form-group">
         <label>Nombre de Usuario</label>
         <input type="text" [(ngModel)]="usuarioActivo.nombre">
       </div>
 
       <div class="form-group">
-        <label>Email de Notificaciones</label>
+        <label>Correo Electronico</label>
         <input type="email" [(ngModel)]="usuarioActivo.email">
       </div>
 
       <div class="form-group">
-        <label>Nueva Contraseña</label>
+        <label>Nueva Contrasena</label>
         <input type="password" [(ngModel)]="usuarioActivo.password" placeholder="Escribe para cambiarla">
+        <small class="help-text">Deja en blanco si no quieres cambiarla</small>
       </div>
 
-      <button class="btn-save" (click)="guardarCambios()">Guardar Cambios</button>
+      <button class="btn-save" (click)="guardarCambios()">
+        Guardar cambios
+      </button>
       
-      <p *ngIf="mensaje" [style.color]="error ? 'red' : 'green'" style="margin-top: 15px; font-weight: bold;">
+      <p *ngIf="mensaje" [class.error-msg]="error" [class.success-msg]="!error">
         {{ mensaje }}
       </p>
     </div>
+  </div>
+</div>

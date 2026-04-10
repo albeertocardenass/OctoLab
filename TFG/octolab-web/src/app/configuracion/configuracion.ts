@@ -31,23 +31,21 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   guardarCambios() {
-
+    // Asegúrate de que este puerto coincide con el de tu servidor
     const url = `http://localhost:5276/api/Usuarios/${this.usuarioActivo.id}`;
 
     this.http.put(url, this.usuarioActivo).subscribe({
-      next: (res: any) => {
+      next: () => {
         if (isPlatformBrowser(this.platformId)) {
-
           localStorage.setItem('usuario', JSON.stringify(this.usuarioActivo));
-          this.mensaje = '¡Datos actualizados! Recargando...';
+          this.mensaje = 'Datos actualizados con exito';
           this.error = false;
-
           setTimeout(() => window.location.reload(), 1500);
         }
       },
       error: (err) => {
         this.error = true;
-        this.mensaje = 'Error al conectar con la base de datos.';
+        this.mensaje = 'Error al conectar con el servidor';
         console.error(err);
       }
     });
