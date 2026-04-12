@@ -1,0 +1,83 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <div class="header-titles">
+      <h1>Panel de Control Administrativo</h1>
+      <p>Gestiona los usuarios y permisos de la plataforma.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-nav btn-home" routerLink="/home">
+        🏠 Vista Usuario
+      </button>
+      <button class="btn-nav btn-logout-secondary" (click)="logout()">
+        Cerrar Sesión
+      </button>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-title">Total Usuarios</span>
+      <span class="stat-value">{{ usuarios.length || 0 }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-title">Usuarios Activos (24h)</span>
+      <span class="stat-value" style="color: #10b981">{{ getUsuariosActivos() }}</span>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!usuarios || usuarios.length === 0">
+          <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+            No se encontraron usuarios. Por favor, asegúrate de haber registrado al menos uno.
+          </td>
+        </tr>
+
+        <tr *ngFor="let user of usuarios">
+          <td>
+            <div class="user-cell">
+              <div class="mini-avatar">{{ (user.nombre || user.Nombre)?.charAt(0) || '?' }}</div>
+              <div class="user-info">
+                <strong>{{ user.nombre || user.Nombre }}</strong>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email || user.Email }}</td>
+          <td>
+            <span class="badge" [ngClass]="(user.rol || user.Rol) === 'Admin' ? 'badge-admin' : 'badge-user'">
+              {{ user.rol || user.Rol }}
+            </span>
+          </td>
+          <td>
+             <div class="status-wrapper" [title]="'Última vez: ' + ((user.ultimaConexion || user.UltimaConexion) | date:'short')">
+                <span class="status-dot" [ngClass]="esActivo(user.ultimaConexion || user.UltimaConexion) ? 'online' : 'offline'"></span>
+                <span class="status-text">
+                  {{ esActivo(user.ultimaConexion || user.UltimaConexion) ? 'Activo' : 'Inactivo' }}
+                </span>
+             </div>
+          </td>
+          <td class="actions-cell">
+            <button class="btn-icon btn-toggle-admin" (click)="toggleAdminRole(user)">
+              {{ (user.rol || user.Rol) === 'Admin' ? 'Quitar Admin' : 'Hacer Admin' }}
+            </button>
+            
+            <button class="btn-icon delete" (click)="eliminarUsuario(user.id || user.Id)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

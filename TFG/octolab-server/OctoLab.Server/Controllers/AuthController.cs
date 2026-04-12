@@ -28,7 +28,6 @@ namespace OctoLab.Server.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(UsuarioRegister dto)
         {
-
             if (await _context.Usuarios.AnyAsync(u => u.Email == dto.Email))
             {
                 return BadRequest("El correo electrónico ya está registrado.");
@@ -42,7 +41,9 @@ namespace OctoLab.Server.Controllers
                 Email = dto.Email,
                 Password = dto.Password,
                 Apodo = dto.Apodo,
-                Rol = "Usuario"
+                Rol = "Usuario",
+                // Establecemos la fecha de registro como primera conexión
+                UltimaConexion = DateTime.Now
             };
 
             _context.Usuarios.Add(nuevoUsuario);
@@ -62,13 +63,24 @@ namespace OctoLab.Server.Controllers
                 return Unauthorized("Email o contraseña incorrectos.");
             }
 
+            // ACTUALIZACIÓN: Guardamos el momento exacto de la entrada
+            usuario.UltimaConexion = DateTime.Now;
+
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+
             return Ok(new
             {
                 mensaje = "Login correcto",
-                usuario = new { usuario.Nombre, usuario.Apodo, usuario.Id, usuario.Rol }
+                usuario = new
+                {
+                    usuario.Nombre,
+                    usuario.Apodo,
+                    usuario.Id,
+                    usuario.Rol,
+                    usuario.UltimaConexion // Lo enviamos también al frontend
+                }
             });
         }
     }
 }
-
-
