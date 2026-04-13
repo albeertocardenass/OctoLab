@@ -1,27 +1,26 @@
-<div class="inicio-container">
-  <div class="welcome-section">
-    <h1>¡Hola de nuevo, {{ usuarioActivo?.nombre || 'Usuario' }}!</h1>
-    <p>Bienvenido al panel central de OctolabWeb. Aquí tienes un resumen de lo que está pasando.</p>
+<div class="welcome-placeholder">
+  <h2>Bienvenido, {{ usuarioActivo?.nombre }}</h2>
+  <p>Últimas noticias de ciberseguridad</p>
+
+  <div *ngIf="cargandoNoticias" style="color: #888; margin-top: 1rem">
+    Cargando noticias...
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="data">
-        <span class="label">Progreso Total</span>
-        <span class="value">0%</span>
+  <div class="noticias-grid" *ngIf="!cargandoNoticias">
+    <a *ngFor="let noticia of noticias" [href]="noticia.enlace" target="_blank" class="noticia-card">
+      <img 
+        [src]="getImagenUrl(noticia.imagen)" 
+        class="noticia-img" 
+        (error)="$any($event.target).src = 'assets/default-news.png'" 
+      />
+      <div class="noticia-info">
+        <span class="noticia-fecha">{{ noticia.fecha | date: 'dd MMM yyyy' }}</span>
+        <h3>{{ noticia.titulo }}</h3>
       </div>
-    </div>
-    <div class="stat-card">
-      <div class="data">
-        <span class="label">Temas Vistos</span>
-        <span class="value">0 / 20</span>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="data">
-        <span class="label">Puntos Octo</span>
-        <span class="value">200</span>
-      </div>
-    </div>
+    </a>
+  </div>
+
+  <div *ngIf="!cargandoNoticias && noticias.length === 0" style="color: #888; margin-top: 1rem">
+    No se pudieron cargar las noticias. Inténtalo más tarde.
   </div>
 </div>

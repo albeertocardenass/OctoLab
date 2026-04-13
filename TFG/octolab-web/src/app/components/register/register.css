@@ -2,40 +2,103 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vw;
   height: 100vh;
-  background-color: #f0f2f5;
+  background-color: #f4f7f6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
 }
 
 .login-container {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
   text-align: center;
 }
 
-form input {
+input {
+  display: block;
   width: 100%;
-  padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px;
   box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
 button {
   width: 100%;
-  padding: 10px;
-  background-color: #4f46e5;
+  padding: 12px;
+  background: #4f46e5;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  margin-top: 10px;
+  font-weight: bold;
+  margin-top: 8px;
+  transition: background 0.2s;
 }
 
 button:hover {
-  background-color: #4338ca;
+  background: #4338ca;
+}
+
+/* Botón secundario (Invitado) */
+button[type="button"] {
+  width: 60%;
+  padding: 7px 12px;
+  background: transparent;
+  color: #4f46e5;
+  border: 1.5px solid #4f46e5;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer;
+  margin: 8px auto 0;
+  display: block;
+}
+
+/* ✅ Arreglo del Ojito */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 10px 0; /* Mismo margen que los otros inputs */
+}
+
+.password-wrapper input {
+  margin: 0; /* Quitamos el margen del input interno para que no choque */
+  padding-right: 45px;
+}
+
+/* Selector ultra-específico para anular el botón[type="button"] general */
+button.toggle-password {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: auto !important; /* Anula el 60% */
+  height: auto !important;
+  padding: 0 !important; /* Anula el padding */
+  margin: 0 !important;
+  background: none !important; /* Anula el fondo transparente */
+  border: none !important; /* Anula el borde azul */
+  color: #888 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+button.toggle-password:hover {
+  background: none !important;
+  color: #4f46e5 !important;
+}
+
+button.toggle-password svg {
+  display: block;
 }

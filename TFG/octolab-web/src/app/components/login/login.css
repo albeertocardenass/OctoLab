@@ -29,6 +29,17 @@ input {
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+input:hover {
+  border-color: #a5b4fc;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 button {
@@ -40,4 +51,81 @@ button {
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  margin-top: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Botón secundario (Invitado) */
+button[type="button"] {
+  width: 60%;
+  padding: 7px 12px;
+  background: transparent;
+  color: #4f46e5;
+  border: 1.5px solid #4f46e5;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer;
+  margin: 8px auto 0;
+  display: block;
+  transition: background 0.2s, color 0.2s;
+}
+
+button[type="button"]:hover {
+  background: #f0efff;
+  transform: translateY(-1px);
+}
+
+button[type="button"]:active {
+  transform: translateY(0);
+}
+
+/* ✅ Ojito */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.password-wrapper input {
+  margin: 0;
+  padding-right: 45px;
+}
+
+button.toggle-password {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: none !important;
+  border: none !important;
+  color: #888 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: color 0.2s !important;
+}
+
+button.toggle-password:hover {
+  background: none !important;
+  color: #4f46e5 !important;
+  transform: translateY(-50%) !important;
+}
+
+button.toggle-password svg {
+  display: block;
 }

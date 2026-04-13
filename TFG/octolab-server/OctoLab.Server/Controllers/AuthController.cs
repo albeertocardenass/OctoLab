@@ -42,8 +42,6 @@ namespace OctoLab.Server.Controllers
                 Password = dto.Password,
                 Apodo = dto.Apodo,
                 Rol = "Usuario",
-                // Establecemos la fecha de registro como primera conexión
-                UltimaConexion = DateTime.Now
             };
 
             _context.Usuarios.Add(nuevoUsuario);
@@ -63,7 +61,6 @@ namespace OctoLab.Server.Controllers
                 return Unauthorized("Email o contraseña incorrectos.");
             }
 
-            // ACTUALIZACIÓN: Guardamos el momento exacto de la entrada
             usuario.UltimaConexion = DateTime.Now;
 
             _context.Usuarios.Update(usuario);
@@ -78,7 +75,24 @@ namespace OctoLab.Server.Controllers
                     usuario.Apodo,
                     usuario.Id,
                     usuario.Rol,
-                    usuario.UltimaConexion // Lo enviamos también al frontend
+                    usuario.UltimaConexion
+                }
+            });
+        }
+
+        [HttpPost("invitado")]
+        public ActionResult LoginInvitado()
+        {
+            return Ok(new
+            {
+                mensaje = "Acceso como invitado",
+                usuario = new
+                {
+                    Nombre = "Invitado",
+                    Apodo = "Invitado",
+                    Id = 0,
+                    Rol = "Invitado",
+                    UltimaConexion = DateTime.Now
                 }
             });
         }

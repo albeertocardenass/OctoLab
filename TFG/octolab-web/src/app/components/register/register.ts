@@ -25,7 +25,7 @@ export class RegisterComponent {
   constructor(private http: HttpClient, public router: Router) {}
 
   onRegister() {
-    const url = 'http://localhost:5276/api/Auth/register'; 
+    const url = '/api/Auth/register'; 
 
     this.http.post(url, this.registerData).subscribe({
       next: () => {
@@ -37,5 +37,11 @@ export class RegisterComponent {
         console.error(err);
       }
     });
+  }
+
+  mostrarPassword: boolean = false;
+
+  toggleMostrarPassword() {
+    this.mostrarPassword = !this.mostrarPassword;
   }
 }

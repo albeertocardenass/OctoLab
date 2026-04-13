@@ -1,36 +1,47 @@
-import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './inicio.html',
-  styleUrl: './inicio.css',
+  styleUrls: ['./inicio.css']
 })
 export class InicioComponent implements OnInit {
-  
-  // 1. Inyectamos la dependencia de plataforma de forma moderna
+  private readonly http = inject(HttpClient);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly platformId = inject(PLATFORM_ID);
-  
-  usuarioActivo: any = null;
 
-  // 2. Constructor limpio
-  constructor() {}
+  noticias: any[] = [];
+  cargandoNoticias = true;
+  usuarioActivo: any = null;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      // 3. Usamos 'usuario_activo' para ser consistentes con Login y Home
       const datos = localStorage.getItem('usuario_activo');
+      if (datos) this.usuarioActivo = JSON.parse(datos);
       
-      if (datos) {
-        try {
-          this.usuarioActivo = JSON.parse(datos);
-          console.log('Usuario cargado en Inicio:', this.usuarioActivo);
-        } catch (error) {
-          console.error('Error al leer los datos de inicio:', error);
-        }
-      }
+      this.cargarNoticias();
     }
+  }
+
+  cargarNoticias() {
+    this.http.get<any[]>('/api/Noticias').subscribe({
+      next: (res) => {
+        this.noticias = res;
+        this.cargandoNoticias = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.cargandoNoticias = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  getImagenUrl(url: string): string {
+    return `/api/Noticias/imagen?url=${encodeURIComponent(url)}`;
   }
 }

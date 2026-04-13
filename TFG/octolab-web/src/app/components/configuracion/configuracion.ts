@@ -41,7 +41,7 @@ export class ConfiguracionComponent implements OnInit {
   guardarCambios() {
     // Usamos el ID dinámico (soportando id o Id según tu server .NET)
     const idUsuario = this.usuarioActivo.id || this.usuarioActivo.Id;
-    const url = `http://localhost:5276/api/Usuarios/${idUsuario}`;
+    const url = `/api/Usuarios/${idUsuario}`;
 
     this.http.put(url, this.usuarioActivo).subscribe({
       next: () => {

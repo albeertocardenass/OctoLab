@@ -17,24 +17,46 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, public router: Router) {}
 
-onLogin() {
-  const url = 'http://localhost:5276/api/Auth/login';
+  onLogin() {
+    const url = '/api/Auth/login';
 
-  this.http.post(url, this.loginData).subscribe({
-    next: (response: any) => {
-      console.log('Login exitoso:', response);
+    this.http.post(url, this.loginData).subscribe({
+      next: (response: any) => {
+        console.log('Login exitoso:', response);
+        localStorage.setItem('usuario_activo', JSON.stringify(response.usuario));
 
-      localStorage.setItem('usuario_activo', JSON.stringify(response.usuario));
-
-      if (response.usuario.rol === 'Admin') {
-        this.router.navigate(['/admin']);
-      } else {
-        this.router.navigate(['/home']);
+        if (response.usuario.rol === 'Admin') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/home/inicio']);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = 'Email o contraseña incorrectos';
+        console.error('Error en el login', error);
       }
-    },
-    error: (error) => {
-      this.errorMessage = 'Email o contraseña incorrectos';
-      console.error('Error en el login', error);
-    }});
+    });
+  }
+
+  entrarComoInvitado() {
+    const url = '/api/Auth/invitado';
+
+    this.http.post(url, {}).subscribe({
+      next: (response: any) => {
+        console.log('Acceso como invitado:', response);
+        localStorage.setItem('usuario_activo', JSON.stringify(response.usuario));
+        this.router.navigate(['/home/inicio']);
+      },
+      error: (error) => {
+        this.errorMessage = 'No se pudo acceder como invitado';
+        console.error('Error al entrar como invitado', error);
+      }
+    });
+  }
+
+  mostrarPassword: boolean = false;
+
+  toggleMostrarPassword() {
+    this.mostrarPassword = !this.mostrarPassword;
   }
 }
