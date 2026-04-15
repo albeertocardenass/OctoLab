@@ -14,4 +14,12 @@ export class TemarioComponent {
     { titulo: 'Fundamentos de la ciberseguridad', lecciones: 8 },
     { titulo: 'Prácticas de Seguridad', lecciones: 10 }
   ];
+
+  usuarioActivo() {
+    if (typeof window !== 'undefined') {
+      const datos = localStorage.getItem('usuario_activo');
+      return datos ? JSON.parse(datos) : null;
+    }
+    return null;
+  }
 }

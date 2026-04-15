@@ -21,7 +21,6 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       
-      // 2. Ruta de inicio (donde estará el contenido principal de la home)
       { 
         path: 'inicio', 
         loadComponent: () => import('./components/inicio/inicio').then(m => m.InicioComponent) 
@@ -30,6 +29,7 @@ export const routes: Routes = [
       { path: 'temario', loadComponent: () => import('./components/temario/temario').then(m => m.TemarioComponent) },
       { path: 'comunidad', loadComponent: () => import('./components/comunidad/comunidad').then(m => m.ComunidadComponent) },
       { path: 'donaciones', loadComponent: () => import('./components/donation/donation').then(m => m.DonationComponent) },
+      { path: 'sobre-nosotros', loadComponent: () => import('./components/sobre-nosotros/sobre-nosotros').then(m => m.SobreNosotrosComponent) },
       { 
         path: 'configuracion', 
         loadComponent: () => import('./components/configuracion/configuracion').then(m => m.ConfiguracionComponent),

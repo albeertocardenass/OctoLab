@@ -1,3 +1,29 @@
+<div class="inicio-container">
+  <div class="welcome-section">
+    <h1>¡Hola de nuevo, {{ usuarioActivo()?.nombre || 'Usuario' }}!</h1>
+    <p>Bienvenido al panel central de OctolabWeb. Aquí tienes un resumen de lo que está pasando.</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="data">
+        <span class="label">Progreso Total</span>
+        <span class="value">0%</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="data">
+        <span class="label">Temas Vistos</span>
+        <span class="value">0 / 20</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="data">
+        <span class="label">Puntos Octo</span>
+        <span class="value">0</span>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="fade-in">
   <h2>Temario del Curso</h2>
   <p>Explora los módulos de aprendizaje disponibles en Octolab.</p>

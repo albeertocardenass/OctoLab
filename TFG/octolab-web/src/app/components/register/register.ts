@@ -44,4 +44,7 @@ export class RegisterComponent {
   toggleMostrarPassword() {
     this.mostrarPassword = !this.mostrarPassword;
   }
+
+  confirmarPassword = '';
+  mostrarConfirmar = false;
 }
