@@ -3,28 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\controllers\\noticiascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\controllers\\noticiascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\dtos\\usuarioregister.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\dtos\\usuarioregister.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\migrations\\appdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\migrations\\appdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\models\\entities\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\models\\entities\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\controllers\\noticiascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\controllers\\noticiascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|c:\\users\\alberto c\u00E1rdenas\\documents\\github\\octolab\\tfg\\octolab-server\\octolab.server\\dtos\\usuariologin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B08DB72-44BB-91D7-BA22-8DCDAF3C755D}|octolab-server\\OctoLab.Server\\OctoLab.Server.csproj|solutionrelative:octolab-server\\octolab.server\\dtos\\usuariologin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -52,7 +64,7 @@
         },
         {
           "DockedWidth": 445,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -63,20 +75,16 @@
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "NoticiasController.cs",
-              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
-              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
-              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
-              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "UsuarioRegister.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\DTOs\\UsuarioRegister.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\DTOs\\UsuarioRegister.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\DTOs\\UsuarioRegister.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\UsuarioRegister.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-13T09:25:27.969Z",
+              "WhenOpened": "2026-04-16T09:07:17.501Z",
               "EditorCaption": ""
             },
             {
@@ -87,37 +95,40 @@
               "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Program.cs",
               "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Program.cs",
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T10:41:46.788Z"
+              "WhenOpened": "2026-04-12T10:41:46.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABAAAAAgMzMzMzMlwCgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T11:25:50.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContextModelSnapshot.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Migrations\\AppDbContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Migrations\\AppDbContextModelSnapshot.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Migrations\\AppDbContextModelSnapshot.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Migrations\\AppDbContextModelSnapshot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-16T09:18:21.672Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
-              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
-              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
-              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T10:37:59.322Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T10:45:53.697Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Data\\AppDbContext.cs",
@@ -125,19 +136,60 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Data\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T11:44:45.087Z"
+              "WhenOpened": "2026-04-12T11:44:45.087Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAuwGMAAAABAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAqwB0AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T11:25:50.359Z"
+              "WhenOpened": "2026-04-12T10:37:59.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NoticiasController.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
+              "ViewState": "AgIAABoAAAAAzczMzMwEwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T09:25:27.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UsuariosController.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
+              "ViewState": "AgIAABkAAADAzMzMzMwowDAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:45:53.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UsuarioLogin.cs",
+              "DocumentMoniker": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\DTOs\\UsuarioLogin.cs",
+              "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\DTOs\\UsuarioLogin.cs",
+              "ToolTip": "C:\\Users\\Alberto C\u00E1rdenas\\Documents\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\DTOs\\UsuarioLogin.cs",
+              "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\UsuarioLogin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-16T09:20:31.418Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",

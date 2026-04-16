@@ -27,6 +27,6 @@ namespace OctoLab.Server.Models.Entities
 
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
 
-        public DateTime? UltimaConexion { get; set; } = null;
+        public DateTime UltimaConexion { get; set; } = DateTime.Now;
     }
 }

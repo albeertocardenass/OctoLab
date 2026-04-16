@@ -24,13 +24,17 @@ namespace OctoLab.Server.Controllers
         {
             return await _context.Usuarios.ToListAsync();
         }
-
         [HttpPost("register")]
         public async Task<ActionResult> Register(UsuarioRegister dto)
         {
             if (await _context.Usuarios.AnyAsync(u => u.Email == dto.Email))
             {
-                return BadRequest("El correo electrónico ya está registrado.");
+                return BadRequest(new { field = "email", message = "El correo electrónico ya está registrado." });
+            }
+
+            if (await _context.Usuarios.AnyAsync(u => u.Apodo == dto.Apodo))
+            {
+                return BadRequest(new { field = "apodo", message = "El apodo ya está en uso." });
             }
 
             var nuevoUsuario = new Usuario

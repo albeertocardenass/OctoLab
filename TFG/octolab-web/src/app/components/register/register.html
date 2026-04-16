@@ -1,11 +1,13 @@
 ﻿<div class="login-screen">
   <div class="login-container">
     <h2>Crear Cuenta</h2>
-    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-      <input type="text" name="nombre" [(ngModel)]="registerData.nombre" placeholder="Nombre" required>
-      <input type="text" name="apellido1" [(ngModel)]="registerData.apellido1" placeholder="Primer Apellido" required>
-      <input type="text" name="apodo" [(ngModel)]="registerData.apodo" placeholder="Apodo (Nick)" required>
-      <input type="email" name="email" [(ngModel)]="registerData.email" placeholder="Correo Electrónico" required>
+<form (ngSubmit)="onRegister()" #registerForm="ngForm">
+  <input type="text" name="nombre" [(ngModel)]="registerData.nombre" placeholder="Nombre" required>
+  <input type="text" name="apellido1" [(ngModel)]="registerData.apellido1" placeholder="Primer Apellido" required>
+  <input type="text" name="apellido2" [(ngModel)]="registerData.apellido2" placeholder="Segundo Apellido">
+  <input type="text" name="apodo" [(ngModel)]="registerData.apodo" placeholder="Apodo (Nick)" required>
+  <input type="email" name="email" [(ngModel)]="registerData.email" placeholder="Correo Electrónico" required>
+
 
       <div class="password-wrapper">
         <input
@@ -29,7 +31,6 @@
         </button>
       </div>
 
-      <!-- ✅ Confirmar contraseña -->
       <div class="password-wrapper">
         <input
           [type]="mostrarConfirmar ? 'text' : 'password'"
