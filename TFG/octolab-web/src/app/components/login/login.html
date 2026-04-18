@@ -1,62 +1,37 @@
-<div class="login-wrapper">
-  <div class="login-card">
-    
-    <div class="login-header">
-      <h2>Iniciar Sesión</h2>
-    </div>
-
-    <div class="alert-error" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
-
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+<div class="login-screen">
+  <div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form (ngSubmit)="onLogin()">
+      <input type="email" name="email" [(ngModel)]="loginData.email" placeholder="Email" required />
       
-      <div class="form-group">
-        <input 
-          type="email" 
-          name="email" 
-          [(ngModel)]="loginData.email" 
-          placeholder="Correo Electrónico"
-          required>
+      <div class="password-wrapper">
+        <input
+          [type]="mostrarPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="loginData.password"
+          placeholder="Contraseña"
+          required
+        />
+        <button type="button" class="toggle-password" (click)="mostrarPassword = !mostrarPassword">
+          <svg *ngIf="!mostrarPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg *ngIf="mostrarPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+          </svg>
+        </button>
       </div>
 
-      <div class="form-group">
-        <div class="password-wrapper">
-          <input 
-            [type]="mostrarPassword ? 'text' : 'password'" 
-            name="password" 
-            [(ngModel)]="loginData.password" 
-            placeholder="Contraseña"
-            required>
-          
-          <button type="button" class="btn-eye" (click)="toggleMostrarPassword()" tabindex="-1">
-            <span class="eye-icon">{{ mostrarPassword ? 'Ocultar' : 'Ver' }}</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="remember-me">
-        <label>
-          <input type="checkbox" name="recuerdame" [(ngModel)]="recuerdame">
-          Recuérdame en este equipo
-        </label>
-      </div>
-
-      <button type="submit" class="btn-primary" [disabled]="!loginForm.form.valid">
-        Entrar
-      </button>
-
+      <button type="submit">Entrar</button>
+      <button type="button" (click)="entrarComoInvitado()">Entrar como Invitado</button>
+      <p style="color: red" *ngIf="errorMessage">{{ errorMessage }}</p>
     </form>
 
-    <div class="guest-section">
-      <button type="button" class="btn-guest" (click)="entrarComoInvitado()">
-        Entrar como Invitado
-      </button>
-    </div>
-
-    <div class="login-footer">
-      <p>¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
-    </div>
-
-  </div>
+    <p style="margin-top: 24px;">
+  ¿No tienes cuenta?
+  <a routerLink="/register" style="cursor:pointer; color: blue;">Regístrate aquí</a>
+</p>
 </div>
