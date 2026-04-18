@@ -1,1 +1,4 @@
 TFG/octolab-server/OctoLab.Server/obj/project.nuget.cache
+TFG/octolab-server/OctoLab.Server/octolab.db
+TFG/octolab-server/OctoLab.Server/octolab.db-shm
+TFG/octolab-server/OctoLab.Server/octolab.db-wal

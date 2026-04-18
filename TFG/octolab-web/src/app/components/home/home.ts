@@ -5,9 +5,9 @@ import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Ya no necesita HttpClientModule aquí porque no pide noticias
-  templateUrl: './home.html', 
-  styleUrls: ['./home.css'] 
+  imports: [CommonModule, RouterModule],
+  templateUrl: './home.html',
+  styleUrls: ['./home.css']
 })
 export class HomeComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
@@ -20,8 +20,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      const datos = localStorage.getItem('usuario_activo'); 
-      
+      const datos = localStorage.getItem('usuario') || sessionStorage.getItem('usuario'); // ✅
+
       if (datos) {
         try {
           this.usuarioActivo = JSON.parse(datos);
@@ -65,8 +65,10 @@ export class HomeComponent implements OnInit {
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('usuario_activo');
+      localStorage.removeItem('usuario'); // ✅
       localStorage.removeItem('token');
+      sessionStorage.removeItem('usuario'); // ✅ también sessionStorage
+      sessionStorage.removeItem('token');
     }
     this.router.navigate(['/login']);
   }

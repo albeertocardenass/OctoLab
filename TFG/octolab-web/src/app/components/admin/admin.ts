@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { AdminService } from '../../services/admin.service'; 
+import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -14,7 +14,7 @@ import { AdminService } from '../../services/admin.service';
   styleUrls: ['./admin.css']
 })
 export class AdminPanelComponent implements OnInit {
-  
+
   private readonly platformId = inject(PLATFORM_ID);
   private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
@@ -23,11 +23,11 @@ export class AdminPanelComponent implements OnInit {
 
   usuarios: any[] = [];
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const storedUser = localStorage.getItem('usuario_activo');
+      const storedUser = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
       if (!storedUser) {
         this.router.navigate(['/login']);
         return;
@@ -35,7 +35,7 @@ export class AdminPanelComponent implements OnInit {
 
       const user = JSON.parse(storedUser);
       const userRol = user.rol || user.Rol;
-      
+
       if (userRol !== 'Admin') {
         this.router.navigate(['/home']);
         return;
@@ -59,7 +59,7 @@ export class AdminPanelComponent implements OnInit {
   getUsuariosActivos(): number {
     if (this.usuarios.length === 0) return 0;
     const ahora = new Date();
-    const limiteActivo = 24 * 60 * 60 * 1000; 
+    const limiteActivo = 24 * 60 * 60 * 1000;
     return this.usuarios.filter(u => {
       const fechaConexion = new Date(u.ultimaConexion || u.UltimaConexion);
       const diferencia = ahora.getTime() - fechaConexion.getTime();

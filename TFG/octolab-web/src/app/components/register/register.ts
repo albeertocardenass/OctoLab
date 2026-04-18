@@ -1,17 +1,21 @@
-﻿import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { API_BASE } from '../../services/api.config';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, HttpClientModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './register.html',
   styleUrl: '../login/login.css',
 })
 export class RegisterComponent {
+  private http = inject(HttpClient);
+  public router = inject(Router);
+
   registerData = {
     nombre: '',
     apellido1: '',
@@ -26,25 +30,13 @@ export class RegisterComponent {
   mostrarConfirmar = false;
   confirmarPassword = '';
 
-  constructor(
-    private http: HttpClient,
-    public router: Router,
-  ) {}
-
   onRegister() {
-    console.log('Submit ejecutado');
-
     if (this.registerData.password !== this.confirmarPassword) {
       this.errorMessage = 'Las contraseñas no coinciden.';
       return;
     }
 
-    const url = 'http://localhost:5276/api/Auth/register';
-
-    console.log('Enviando a:', url);
-    console.log('Datos:', this.registerData);
-
-    this.http.post(url, this.registerData).subscribe({
+    this.http.post(`${API_BASE}/api/Auth/register`, this.registerData).subscribe({
       next: (res) => {
         console.log('Respuesta OK:', res);
         alert('¡Usuario registrado con éxito!');

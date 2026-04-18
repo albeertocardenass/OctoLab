@@ -1,23 +1,233 @@
-.inicio-container {
-  animation: fadeIn 0.5s ease-in-out;
+.comunidad-wrapper {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px;
 }
-.forum-preview {
-  margin-top: 2rem;
+
+.header-comunidad {
+  text-align: center;
+  margin-bottom: 30px;
 }
-.post {
-  padding: 1rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
+
+/* CAJA DE PUBLICACIÓN */
+.crear-post-card {
+  background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
 }
-.tag {
-  background: #fee2e2;
+
+.crear-post-card textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  color: #374151;
+}
+
+.crear-post-card textarea:focus {
+  border-color: #9ca3af;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.btn-publicar {
+  background: #d1d5db;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-publicar:not(:disabled) {
+  background: #4f46e5;
+}
+
+/* TARJETAS DE LOS POSTS */
+.post-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.autor-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background: #9ca3af;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.avatar-small {
+  width: 30px;
+  height: 30px;
+  font-size: 0.9rem;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.autor-name {
+  font-weight: bold;
+  color: #111827;
+  font-size: 0.95rem;
+}
+
+.fecha {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.btn-delete-x {
+  background: none;
+  border: none;
+  color: #111827;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.btn-delete-x:hover {
   color: #ef4444;
-  padding: 2px 8px;
+}
+
+.post-body {
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-left: 2px;
+  white-space: pre-wrap;
+}
+
+/* FOOTER DEL POST */
+.post-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.btn-responder {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px 8px;
   border-radius: 4px;
-  font-size: 0.8rem;
-  margin-left: 10px;
+  transition: 0.2s;
+}
+
+.btn-responder:hover {
+  background: #f3f4f6;
+  color: #4f46e5;
+}
+
+/* CAJA DE RESPUESTA */
+.respuesta-box {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+.respuesta-box textarea {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  color: #374151;
+}
+
+.respuesta-box textarea:focus {
+  border-color: #9ca3af;
+}
+
+.respuesta-box .btn-publicar {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* HILO DE RESPUESTAS */
+.respuestas-lista {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid #e5e7eb;
+}
+
+.respuesta-card {
+  padding: 10px 0 10px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  position: relative;
+}
+
+.respuesta-card:last-child {
+  border-bottom: none;
+}
+
+/* Línea conectora horizontal */
+.respuesta-card::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 20px;
+  width: 12px;
+  height: 2px;
+  background: #e5e7eb;
+}
+
+.no-messages {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
 }
 
 @keyframes fadeIn {
@@ -25,9 +235,9 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
-
 }

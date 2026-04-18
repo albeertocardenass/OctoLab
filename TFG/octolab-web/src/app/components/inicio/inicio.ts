@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { API_BASE } from '../../services/api.config';
 
 @Component({
   selector: 'app-inicio',
@@ -20,15 +21,15 @@ export class InicioComponent implements OnInit {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      const datos = localStorage.getItem('usuario_activo');
+      const datos = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
       if (datos) this.usuarioActivo = JSON.parse(datos);
-      
+
       this.cargarNoticias();
     }
   }
 
   cargarNoticias() {
-    this.http.get<any[]>('/api/Noticias').subscribe({
+    this.http.get<any[]>(`${API_BASE}/api/Noticias`).subscribe({
       next: (res) => {
         this.noticias = res;
         this.cargandoNoticias = false;
@@ -42,6 +43,6 @@ export class InicioComponent implements OnInit {
   }
 
   getImagenUrl(url: string): string {
-    return `/api/Noticias/imagen?url=${encodeURIComponent(url)}`;
+    return `${API_BASE}/api/Noticias/imagen?url=${encodeURIComponent(url)}`;
   }
 }

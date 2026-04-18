@@ -6,9 +6,8 @@ export class AuthService {
   private currentUser: any = null;
 
   constructor() {
-    // Al cargar el servicio, verificamos si hay una sesión guardada
     if (typeof window !== 'undefined') {
-      const savedUser = localStorage.getItem('usuario_activo');
+      const savedUser = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
       if (savedUser) {
         this.currentUser = JSON.parse(savedUser);
         this.loggedIn = true;
@@ -16,11 +15,18 @@ export class AuthService {
     }
   }
 
-  // Este método lo llamarás desde el onLogin() de tu LoginComponent
-  setUser(user: any) {
+  setUser(user: any, token: string, rememberMe: boolean) {
     this.currentUser = user;
     this.loggedIn = true;
-    localStorage.setItem('usuario_activo', JSON.stringify(user));
+    
+    const userData = JSON.stringify(user);
+    if (rememberMe) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('usuario', userData);
+    } else {
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('usuario', userData);
+    }
   }
 
   getNombreUsuario(): string {
@@ -42,7 +48,9 @@ export class AuthService {
   logout() {
     this.loggedIn = false;
     this.currentUser = null;
-    localStorage.removeItem('usuario_activo');
-    localStorage.removeItem('usuario'); // Limpieza extra por si acaso
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('usuario');
+    sessionStorage.removeItem('token');
   }
 }

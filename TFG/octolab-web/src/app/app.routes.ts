@@ -17,24 +17,35 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard], 
     children: [
-      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-      
       { 
         path: 'inicio', 
         loadComponent: () => import('./components/inicio/inicio').then(m => m.InicioComponent) 
       },
-      
-      { path: 'temario', loadComponent: () => import('./components/temario/temario').then(m => m.TemarioComponent) },
-      { path: 'comunidad', loadComponent: () => import('./components/comunidad/comunidad').then(m => m.ComunidadComponent) },
-      { path: 'donaciones', loadComponent: () => import('./components/donation/donation').then(m => m.DonationComponent) },
-      { path: 'sobre-nosotros', loadComponent: () => import('./components/sobre-nosotros/sobre-nosotros').then(m => m.SobreNosotrosComponent) },
+      { 
+        path: 'temario', 
+        loadComponent: () => import('./components/temario/temario').then(m => m.TemarioComponent) 
+      },
+      { 
+        path: 'comunidad', 
+        loadComponent: () => import('./components/comunidad/comunidad').then(m => m.ComunidadComponent) 
+      },
+      { 
+        path: 'donaciones', 
+        loadComponent: () => import('./components/donation/donation').then(m => m.DonationComponent) 
+      },
+      { 
+        path: 'sobre-nosotros', 
+        loadComponent: () => import('./components/sobre-nosotros/sobre-nosotros').then(m => m.SobreNosotrosComponent) 
+      },
       { 
         path: 'configuracion', 
         loadComponent: () => import('./components/configuracion/configuracion').then(m => m.ConfiguracionComponent),
         canActivate: [usuarioGuard]
       },
+      { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]
-  }
+  },
+  { path: '**', redirectTo: 'login' } 
 ];

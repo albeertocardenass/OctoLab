@@ -1,15 +1,74 @@
-<div class="inicio-container">
-  <h2>Comunidad OctoLab</h2>
-  <p>Pregunta y conecta con otros Sharks y comparte tu progreso</p>
-  <div class="forum-preview">
-    <div class="post">
-      <p><strong>Alberto Cárdenas:</strong> "¿Es suficiente con usar un ORM (como Prisma, Sequelize o Entity Framework)
-        para estar 100% protegido contra SQL Injection, o existen escenarios donde todavía podríamos ser vulnerables?"
-      </p>
+<div class="comunidad-wrapper fade-in">
+  <div class="header-comunidad">
+    <h2>Comunidad OctoLab</h2>
+    <p>Pregunta y conecta con otros Sharks y comparte tu progreso</p>
+  </div>
+
+  <div class="crear-post-card">
+    <textarea [(ngModel)]="nuevaPublicacion" placeholder="¿Qué estás pensando?" rows="3">
+    </textarea>
+    <div class="post-actions">
+      <button class="btn-publicar" (click)="publicar()">Publicar</button>
     </div>
-    <div class="post">
-      <p><strong>Juan Alberto:</strong>"¿Cuál es la diferencia real entre un 'Exploit' y un 'Payload' en Metasploit?
-        Siempre los confundo."
+  </div>
+
+  <div class="posts-list">
+    <div class="post-card" *ngFor="let post of publicacionesVisibles">
+
+      <div class="post-header">
+        <div class="autor-info">
+          <div class="avatar-circle">
+            {{ post.autorApodo ? post.autorApodo.charAt(0).toUpperCase() : 'U' }}
+          </div>
+          <div class="meta">
+            <span class="autor-name">{{ post.autorApodo || 'Usuario' }}</span>
+            <span class="fecha">{{ post.fecha | date:'M/d/yy, h:mm a' }}</span>
+          </div>
+        </div>
+        <button *ngIf="usuarioActivo?.id === post.usuarioId || usuarioActivo?.rol === 'Admin'" class="btn-delete-x"
+          (click)="borrar(post.id)">✕</button>
+      </div>
+
+      <div class="post-body">{{ post.contenido }}</div>
+
+      <!-- Respuestas siempre visibles -->
+      <div *ngIf="post.respuestas?.length > 0" class="respuestas-lista">
+        <div class="respuesta-card" *ngFor="let respuesta of post.respuestas">
+          <div class="post-header">
+            <div class="autor-info">
+              <div class="avatar-circle avatar-small">
+                {{ respuesta.autorApodo ? respuesta.autorApodo.charAt(0).toUpperCase() : 'U' }}
+              </div>
+              <div class="meta">
+                <span class="autor-name">{{ respuesta.autorApodo || 'Usuario' }}</span>
+                <span class="fecha">{{ respuesta.fecha | date:'M/d/yy, h:mm a' }}</span>
+              </div>
+            </div>
+            <button *ngIf="usuarioActivo?.id === respuesta.usuarioId || usuarioActivo?.rol === 'Admin'"
+              class="btn-delete-x" (click)="borrar(respuesta.id)">✕</button>
+          </div>
+          <div class="post-body">{{ respuesta.contenido }}</div>
+        </div>
+      </div>
+
+      <!-- Botón y caja de responder -->
+      <div class="post-footer">
+        <button class="btn-responder" (click)="toggleResponder(post.id)">
+          💬 Responder
+          <span *ngIf="post.respuestas?.length > 0">({{ post.respuestas.length }})</span>
+        </button>
+      </div>
+
+      <div *ngIf="respondiendo === post.id" class="respuesta-box">
+        <textarea [(ngModel)]="textoRespuesta" placeholder="Escribe tu respuesta..." rows="2">
+        </textarea>
+        <button class="btn-publicar" (click)="responder(post.id)">Enviar</button>
+      </div>
+
+    </div>
+
+    <div *ngIf="publicaciones.length === 0" class="no-messages">
+      <p>Aún no hay mensajes. ¡Sé el primero en publicar algo!</p>
     </div>
   </div>
 </div>

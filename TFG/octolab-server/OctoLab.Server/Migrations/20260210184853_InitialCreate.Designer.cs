@@ -10,7 +10,7 @@ using OctoLab.Server.Data;
 
 namespace OctoLab.Server.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(MyDbContext))]
     [Migration("20260210184853_InitialCreate")]
     partial class InitialCreate
     {

@@ -19,11 +19,12 @@
     <div class="stat-card">
       <div class="data">
         <span class="label">Puntos Octo</span>
-        <span class="value">0</span>
+        <span class="value">{{ usuarioActivo()?.puntos ?? 0 }}</span>
       </div>
     </div>
   </div>
 </div>
+
 <div class="fade-in">
   <h2>Temario del Curso</h2>
   <p>Explora los módulos de aprendizaje disponibles en Octolab.</p>

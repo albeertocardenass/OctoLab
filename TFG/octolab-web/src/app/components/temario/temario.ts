@@ -17,7 +17,7 @@ export class TemarioComponent {
 
   usuarioActivo() {
     if (typeof window !== 'undefined') {
-      const datos = localStorage.getItem('usuario_activo');
+      const datos = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
       return datos ? JSON.parse(datos) : null;
     }
     return null;
