@@ -1,0 +1,72 @@
+<div class="sobre-wrapper fade-in">
+
+    <!-- HERO -->
+    <div class="hero-section">
+        <div class="hero-badge">¿Quiénes somos?</div>
+        <h1 class="hero-title">Detrás de <span class="brand">OctoLab</span></h1>
+        <p class="hero-sub">
+            Dos estudiantes con una idea clara: la ciberseguridad no debería ser
+            un mundo cerrado. OctoLab nació para abrirlo.
+        </p>
+    </div>
+
+    <!-- ORIGEN -->
+    <div class="origen-section">
+        <div class="origen-card">
+            <div class="origen-icon">💡</div>
+            <div class="origen-text">
+                <h2>El origen</h2>
+                <p>
+                    OctoLab empezó como un proyecto de fin de grado y se convirtió en algo más.
+                    Vimos que aprender ciberseguridad era difícil, caro o aburrido — y decidimos
+                    cambiar eso. Creamos una plataforma donde cualquiera puede empezar desde cero,
+                    aprender a su ritmo y enfrentarse a retos reales.
+                </p>
+                <p>
+                    El pulpo como mascota no es casualidad — es el animal más inteligente del océano,
+                    capaz de adaptarse a cualquier entorno. Exactamente lo que queremos que seas tú
+                    después de pasar por OctoLab.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EQUIPO -->
+    <div class="equipo-section">
+        <h2 class="equipo-titulo">El equipo</h2>
+        <p class="equipo-sub">Pequeño en número, grande en caos organizado.</p>
+
+        <div class="equipo-grid">
+            <div class="miembro-card" *ngFor="let miembro of equipo">
+                <div class="miembro-avatar">{{ miembro.emoji }}</div>
+                <div class="miembro-alias">{{ miembro.alias }}</div>
+                <div class="miembro-nombre">{{ miembro.nombre }}</div>
+                <p class="miembro-desc">{{ miembro.descripcion }}</p>
+                <div class="miembro-tag">Desarrollador Full Stack</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VALORES -->
+    <div class="valores-section">
+        <h2>Lo que nos mueve</h2>
+        <div class="valores-grid">
+            <div class="valor-card">
+                <span class="valor-icon">🔓</span>
+                <h3>Accesibilidad</h3>
+                <p>La ciberseguridad es para todos, no solo para los que llevan años en el sector.</p>
+            </div>
+            <div class="valor-card">
+                <span class="valor-icon">🧪</span>
+                <h3>Aprendizaje práctico</h3>
+                <p>Teoría está bien, pero nada supera enfrentarte a un ataque real en un entorno seguro.</p>
+            </div>
+            <div class="valor-card">
+                <span class="valor-icon">🤝</span>
+                <h3>Comunidad</h3>
+                <p>Aprender solo es más lento. Por eso OctoLab tiene una comunidad donde compartir dudas y avances.</p>
+            </div>
+        </div>
+    </div>
+
+</div>

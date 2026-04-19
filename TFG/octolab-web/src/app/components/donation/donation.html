@@ -1,10 +1,40 @@
 <div class="inicio-container">
- <div class="donation-container"> 
-  <h2>Apoya el Proyecto</h2>
-  <p>OctolabWeb es gratuito gracias a personas como tú.</p>
-  <div class="options">
-    <button class="btn-tier">(5€)</button>
-    <button class="btn-tier">(15€)</button>
-    <button class="btn-tier">(50€)</button>
+  <div class="donation-container">
+    <h2>Apoya el Proyecto</h2>
+    <p>OctolabWeb es gratuito gracias a personas como tú.</p>
+
+    <div *ngIf="!mensajeExito">
+      <div class="options">
+        <button class="btn-tier" [class.selected]="cantidadFinal === 5 && !cantidadPersonalizada"
+          (click)="seleccionarCantidad(5)">5€</button>
+        <button class="btn-tier" [class.selected]="cantidadFinal === 15 && !cantidadPersonalizada"
+          (click)="seleccionarCantidad(15)">15€</button>
+        <button class="btn-tier" [class.selected]="cantidadFinal === 50 && !cantidadPersonalizada"
+          (click)="seleccionarCantidad(50)">50€</button>
+      </div>
+
+      <div class="custom-amount">
+        <label>O introduce una cantidad personalizada:</label>
+        <div class="input-euro">
+          <input type="tel" inputmode="numeric" pattern="[0-9]*" [(ngModel)]="cantidadPersonalizada"
+            placeholder="Ej: 20" min="1" />
+          <span>€</span>
+        </div>
+      </div>
+
+      <div class="resumen">
+        Vas a donar: <strong>{{ cantidadFinal }}€</strong>
+      </div>
+
+      <button class="btn-donar" (click)="iniciarPago()" [disabled]="pagando">
+        {{ pagando ? 'Procesando...' : 'Continuar al pago' }}
+      </button>
+
+      <p class="error" *ngIf="mensajeError">{{ mensajeError }}</p>
+    </div>
+
+    <div class="exito" *ngIf="mensajeExito">
+      {{ mensajeExito }}
+    </div>
   </div>
 </div>

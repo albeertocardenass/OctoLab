@@ -9,8 +9,8 @@ namespace OctoLab.Server.Data;
 
 public class Seeder
 {
-    private const int FAKE_USERS_COUNT = 5;  // ← era 30
-    private const int POSTS_COUNT = 10;      // ← era 50
+    private const int FAKE_USERS_COUNT = 5;
+    private const int POSTS_COUNT = 10;
     private readonly MyDbContext _context;
 
     public Seeder(MyDbContext context)
@@ -31,27 +31,56 @@ public class Seeder
     {
         if (!await _context.Usuarios.AnyAsync(u => u.Rol == "Admin"))
         {
-            var admin = new Usuario
+            var admins = new List<Usuario>
             {
-                Nombre = "Paco",
-                Apellido1 = "Jefe",
-                Apellido2 = "Supremo",
-                Email = "paco@prueba.com",
-                Apodo = "AdminPaco",
-                Password = EncriptarNativo("1234"),
-                Rol = "Admin",
-                Avatar = "default-avatar.jpg",
-                Descripcion = "Administrador principal de Octolab",
-                Puntos = 999
+                new Usuario
+                {
+                    Nombre = "Paco",
+                    Apellido1 = "Jefe",
+                    Apellido2 = "Supremo",
+                    Email = "paco@prueba.com",
+                    Apodo = "AdminPaco",
+                    Password = EncriptarNativo("1234"),
+                    Rol = "Admin",
+                    Avatar = "default-avatar.jpg",
+                    Descripcion = "Administrador principal de Octolab",
+                    Puntos = 999
+                },
+                new Usuario
+                {
+                    Nombre = "Juan Alberto",
+                    Apellido1 = "Campaña",
+                    Apellido2 = "Espejo",
+                    Email = "jace123@octolab.com",
+                    Apodo = "Jace",
+                    Password = EncriptarNativo("123456"),
+                    Rol = "Admin",
+                    Avatar = "default-avatar.jpg",
+                    Descripcion = "Co-fundador de OctoLab",
+                    Puntos = 999
+                },
+                new Usuario
+                {
+                    Nombre = "Alberto",
+                    Apellido1 = "Cárdenas",
+                    Apellido2 = "Palomo",
+                    Email = "cardenasboy123@octolab.com",
+                    Apodo = "CardenasBoy",
+                    Password = EncriptarNativo("123456"),
+                    Rol = "Admin",
+                    Avatar = "default-avatar.jpg",
+                    Descripcion = "Co-fundador de OctoLab",
+                    Puntos = 999
+                }
             };
 
-            _context.Usuarios.Add(admin);
+            await _context.Usuarios.AddRangeAsync(admins);
         }
     }
 
     private async Task SeedFakeUsersAsync()
     {
-        if (await _context.Usuarios.CountAsync() <= 1)
+        if (await _context.Usuarios.CountAsync() <= 3)
         {
             var passwordHasheada = EncriptarNativo("1234");
 

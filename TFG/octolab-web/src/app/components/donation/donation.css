@@ -1,41 +1,185 @@
 .inicio-container {
-  animation: fadeIn 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
 }
+
 .donation-container {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
-  padding: 3rem;
 }
-.heart {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+
+.donation-container h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 8px;
 }
+
+.donation-container p {
+  color: #6b7280;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+/* BOTONES DE CANTIDAD */
 .options {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 12px;
+  margin-bottom: 24px;
 }
+
 .btn-tier {
   border: 2px solid #4f46e5;
-  background: white;
+  background: transparent;
   color: #4f46e5;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: bold;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s;
 }
+
 .btn-tier:hover {
+  background: #ede9fe;
+}
+
+.btn-tier.selected {
   background: #4f46e5;
   color: white;
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
+/* CANTIDAD PERSONALIZADA */
+.custom-amount {
+  margin-bottom: 20px;
+}
+
+.custom-amount label {
+  display: block;
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.input-euro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.input-euro input {
+  width: 140px;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+  color: #111827;
+}
+
+.input-euro input:focus {
+  border-color: #4f46e5;
+}
+
+.input-euro span {
+  font-size: 1.1rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+/* RESUMEN */
+.resumen {
+  margin: 16px 0 24px;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.resumen strong {
+  color: #4f46e5;
+  font-size: 1.2rem;
+}
+
+/* BOTÓN PRINCIPAL */
+.btn-donar {
+  width: 100%;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+.btn-donar:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+.btn-donar:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+/* BOTÓN CANCELAR */
+.btn-cancelar {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #6b7280;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+.btn-cancelar:hover {
+  background: #f9fafb;
+}
+
+/* STRIPE ELEMENT */
+ngx-stripe-payment {
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* MENSAJES */
+.error {
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.exito {
+  margin-top: 24px;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.checkout-activo {
+  max-width: 750px;
+  padding: 20px;
+}
+
+ngx-stripe-embedded-checkout {
+  display: block;
+  margin-bottom: 16px;
 }

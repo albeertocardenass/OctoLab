@@ -27,4 +27,4 @@ namespace OctoLab.Server.Data
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
-}
+}
