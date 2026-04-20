@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using OctoLab.Server.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OctoLab.Server.Controllers
 {
@@ -28,7 +29,23 @@ namespace OctoLab.Server.Controllers
         {
             return await _context.Usuarios.AsNoTracking().ToListAsync();
         }
-        
+
+        [HttpPost("ping")]
+        [Authorize]
+        public async Task<IActionResult> Ping()
+        {
+            var userIdClaim = User.FindFirst("Id")?.Value;
+            if (userIdClaim == null) return Unauthorized();
+
+            var usuario = await _context.Usuarios.FindAsync(long.Parse(userIdClaim));
+            if (usuario == null) return NotFound();
+
+            usuario.UltimaConexion = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UsuarioLogin dto)
         {
@@ -40,16 +57,18 @@ namespace OctoLab.Server.Controllers
                 return Unauthorized(new { mensaje = "Email o contraseña incorrectos" });
             }
 
-            var keyStr = "Esta_Es_Una_Clave_Super_Secreta_De_Octolab_2024_🦈";
+            usuario.UltimaConexion = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-             {
-            new Claim(ClaimTypes.Name, usuario.Nombre ?? ""),
-            new Claim(ClaimTypes.Role, usuario.Rol ?? "Usuario"),
-            new Claim("Id", usuario.Id.ToString())  // ← mayúscula, igual que PublicacionesController
-             };
+            {
+                new Claim(ClaimTypes.Name, usuario.Nombre ?? ""),
+                new Claim(ClaimTypes.Role, usuario.Rol ?? "Usuario"),
+                new Claim("Id", usuario.Id.ToString())
+            };
 
             var tokenDescriptor = new JwtSecurityToken(
                 claims: claims,
