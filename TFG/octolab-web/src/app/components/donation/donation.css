@@ -5,8 +5,8 @@
 }
 
 .donation-container {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-tarjetas, #ffffff);
+  border: 1px solid var(--borde, #e5e7eb);
   border-radius: 16px;
   padding: 40px;
   max-width: 520px;
@@ -18,17 +18,16 @@
 .donation-container h2 {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #111827;
+  color: var(--texto-principal, #111827);
   margin-bottom: 8px;
 }
 
 .donation-container p {
-  color: #6b7280;
+  color: var(--texto-secundario, #6b7280);
   margin-bottom: 28px;
   font-size: 0.95rem;
 }
 
-/* BOTONES DE CANTIDAD */
 .options {
   display: flex;
   justify-content: center;
@@ -57,7 +56,6 @@
   color: white;
 }
 
-/* CANTIDAD PERSONALIZADA */
 .custom-amount {
   margin-bottom: 20px;
 }
@@ -65,7 +63,7 @@
 .custom-amount label {
   display: block;
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--texto-secundario, #6b7280);
   margin-bottom: 8px;
 }
 
@@ -79,12 +77,13 @@
 .input-euro input {
   width: 140px;
   padding: 10px 14px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--borde, #d1d5db);
   border-radius: 8px;
   font-size: 1rem;
   text-align: center;
   outline: none;
-  color: #111827;
+  color: var(--texto-principal, #111827);
+  background: var(--bg-tarjetas, #ffffff);
 }
 
 .input-euro input:focus {
@@ -93,15 +92,14 @@
 
 .input-euro span {
   font-size: 1.1rem;
-  color: #374151;
+  color: var(--texto-principal, #374151);
   font-weight: 600;
 }
 
-/* RESUMEN */
 .resumen {
   margin: 16px 0 24px;
   font-size: 1rem;
-  color: #374151;
+  color: var(--texto-principal, #374151);
 }
 
 .resumen strong {
@@ -109,7 +107,6 @@
   font-size: 1.2rem;
 }
 
-/* BOTÓN PRINCIPAL */
 .btn-donar {
   width: 100%;
   background: #4f46e5;
@@ -133,12 +130,11 @@
   cursor: not-allowed;
 }
 
-/* BOTÓN CANCELAR */
 .btn-cancelar {
   width: 100%;
   background: transparent;
-  border: 1px solid #d1d5db;
-  color: #6b7280;
+  border: 1px solid var(--borde, #d1d5db);
+  color: var(--texto-secundario, #6b7280);
   padding: 12px;
   border-radius: 10px;
   font-size: 0.95rem;
@@ -148,16 +144,9 @@
 }
 
 .btn-cancelar:hover {
-  background: #f9fafb;
+  background: var(--bg-principal, #f9fafb);
 }
 
-/* STRIPE ELEMENT */
-ngx-stripe-payment {
-  display: block;
-  margin-bottom: 20px;
-}
-
-/* MENSAJES */
 .error {
   color: #ef4444;
   font-size: 0.9rem;
@@ -177,9 +166,4 @@ ngx-stripe-payment {
 .checkout-activo {
   max-width: 750px;
   padding: 20px;
-}
-
-ngx-stripe-embedded-checkout {
-  display: block;
-  margin-bottom: 16px;
 }

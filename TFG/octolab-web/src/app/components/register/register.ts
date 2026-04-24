@@ -10,7 +10,7 @@ import { API_BASE } from '../../services/api.config';
   standalone: true,
   imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: '../login/login.css',
+  styleUrl: './register.css',
 })
 export class RegisterComponent {
   private http = inject(HttpClient);

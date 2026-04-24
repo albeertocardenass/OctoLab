@@ -1,104 +1,260 @@
-﻿.login-screen {
+﻿.register-screen {
   display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #f4f7f6;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
 }
 
-.login-container {
+.register-left {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 60px;
   background: #ffffff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+  justify-content: center;
+  overflow-y: auto;
 }
 
-input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 8px;
-  transition: background 0.2s;
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
-button:hover {
-  background: #4338ca;
-}
-
-/* Botón secundario (Invitado) */
-button[type="button"] {
-  width: 60%;
-  padding: 7px 12px;
-  background: transparent;
+.brand-accent {
   color: #4f46e5;
-  border: 1.5px solid #4f46e5;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: normal;
-  cursor: pointer;
-  margin: 8px auto 0;
-  display: block;
 }
 
-/* ✅ Arreglo del Ojito */
+.register-form-area {
+  max-width: 560px;
+}
+
+.register-sub {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.register-form-area h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 28px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+  padding: 11px 16px;
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #111827;
+  background: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
 .password-wrapper {
   position: relative;
-  width: 100%;
-  margin: 10px 0; /* Mismo margen que los otros inputs */
 }
 
 .password-wrapper input {
-  margin: 0; /* Quitamos el margen del input interno para que no choque */
-  padding-right: 45px;
+  padding-right: 60px;
 }
 
-/* Selector ultra-específico para anular el botón[type="button"] general */
-button.toggle-password {
+.toggle-password {
   position: absolute !important;
-  right: 12px !important;
+  right: 10px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  width: auto !important; /* Anula el 60% */
+  width: auto !important;
   height: auto !important;
-  padding: 0 !important; /* Anula el padding */
+  padding: 0 4px !important;
   margin: 0 !important;
-  background: none !important; /* Anula el fondo transparente */
-  border: none !important; /* Anula el borde azul */
-  color: #888 !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+  background: none !important;
+  border: none !important;
+  color: #9ca3af !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  cursor: pointer;
 }
 
-button.toggle-password:hover {
+.toggle-password:hover {
   background: none !important;
   color: #4f46e5 !important;
+  transform: translateY(-50%) !important;
 }
 
-button.toggle-password svg {
-  display: block;
+.error-msg {
+  color: #ef4444;
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+.login-link a {
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.register-right {
+  width: 45%;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4f46e5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-right::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+}
+
+.register-right::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  bottom: -80px;
+  left: -80px;
+}
+
+.right-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+}
+
+.right-content h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.right-content p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 40px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  backdrop-filter: blur(4px);
+}
+
+@media (max-width: 768px) {
+  .register-screen {
+    flex-direction: column;
+  }
+  .register-left {
+    width: 100%;
+    padding: 30px 24px;
+    height: 100vh;
+  }
+  .register-right {
+    display: none;
+  }
 }

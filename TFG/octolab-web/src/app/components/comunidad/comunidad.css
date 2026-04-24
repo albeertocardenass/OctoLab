@@ -9,19 +9,26 @@
   margin-bottom: 30px;
 }
 
-/* CAJA DE PUBLICACIÓN */
+.header-comunidad h2 {
+  color: var(--texto-principal, #111827);
+}
+
+.header-comunidad p {
+  color: var(--texto-secundario, #6b7280);
+}
+
 .crear-post-card {
-  background: #ffffff;
+  background: var(--bg-tarjetas, #ffffff);
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--borde, #e5e7eb);
 }
 
 .crear-post-card textarea {
   width: 100%;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--borde, #d1d5db);
   border-radius: 8px;
   padding: 12px;
   font-size: 1rem;
@@ -29,7 +36,8 @@
   resize: none;
   box-sizing: border-box;
   outline: none;
-  color: #374151;
+  color: var(--texto-principal, #374151);
+  background: var(--bg-tarjetas, #ffffff);
 }
 
 .crear-post-card textarea:focus {
@@ -57,14 +65,13 @@
   background: #4f46e5;
 }
 
-/* TARJETAS DE LOS POSTS */
 .post-card {
-  background: #ffffff;
+  background: var(--bg-tarjetas, #ffffff);
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--borde, #e5e7eb);
 }
 
 .post-header {
@@ -107,20 +114,20 @@
 
 .autor-name {
   font-weight: bold;
-  color: #111827;
+  color: var(--texto-principal, #111827);
   font-size: 0.95rem;
 }
 
 .fecha {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--texto-secundario, #6b7280);
   margin-top: 2px;
 }
 
 .btn-delete-x {
   background: none;
   border: none;
-  color: #111827;
+  color: var(--texto-principal, #111827);
   font-size: 1.1rem;
   cursor: pointer;
   padding: 0 5px;
@@ -131,24 +138,23 @@
 }
 
 .post-body {
-  color: #374151;
+  color: var(--texto-principal, #374151);
   font-size: 0.95rem;
   line-height: 1.5;
   margin-left: 2px;
   white-space: pre-wrap;
 }
 
-/* FOOTER DEL POST */
 .post-footer {
   margin-top: 10px;
   padding-top: 8px;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--borde, #f3f4f6);
 }
 
 .btn-responder {
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--texto-secundario, #6b7280);
   font-size: 0.85rem;
   cursor: pointer;
   padding: 4px 8px;
@@ -157,11 +163,10 @@
 }
 
 .btn-responder:hover {
-  background: #f3f4f6;
+  background: var(--bg-principal, #f3f4f6);
   color: #4f46e5;
 }
 
-/* CAJA DE RESPUESTA */
 .respuesta-box {
   margin-top: 10px;
   display: flex;
@@ -172,14 +177,15 @@
 
 .respuesta-box textarea {
   flex: 1;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--borde, #d1d5db);
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 0.9rem;
   font-family: inherit;
   resize: none;
   outline: none;
-  color: #374151;
+  color: var(--texto-principal, #374151);
+  background: var(--bg-tarjetas, #ffffff);
 }
 
 .respuesta-box textarea:focus {
@@ -192,16 +198,15 @@
   white-space: nowrap;
 }
 
-/* HILO DE RESPUESTAS */
 .respuestas-lista {
   margin-top: 10px;
   padding-left: 20px;
-  border-left: 2px solid #e5e7eb;
+  border-left: 2px solid var(--borde, #e5e7eb);
 }
 
 .respuesta-card {
   padding: 10px 0 10px 12px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--borde, #f3f4f6);
   position: relative;
 }
 
@@ -209,7 +214,6 @@
   border-bottom: none;
 }
 
-/* Línea conectora horizontal */
 .respuesta-card::before {
   content: '';
   position: absolute;
@@ -217,12 +221,12 @@
   top: 20px;
   width: 12px;
   height: 2px;
-  background: #e5e7eb;
+  background: var(--borde, #e5e7eb);
 }
 
 .no-messages {
   text-align: center;
-  color: #6b7280;
+  color: var(--texto-secundario, #6b7280);
   padding: 20px;
 }
 
@@ -231,13 +235,6 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

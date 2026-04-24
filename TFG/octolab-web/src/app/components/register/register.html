@@ -1,67 +1,92 @@
-<div class="login-screen">
-  <div class="login-container">
-    <h2>Crear Cuenta</h2>
-<form (ngSubmit)="onRegister()" #registerForm="ngForm">
-  <input type="text" name="nombre" [(ngModel)]="registerData.nombre" placeholder="Nombre" required>
-  <input type="text" name="apellido1" [(ngModel)]="registerData.apellido1" placeholder="Primer Apellido" required>
-  <input type="text" name="apellido2" [(ngModel)]="registerData.apellido2" placeholder="Segundo Apellido">
-  <input type="text" name="apodo" [(ngModel)]="registerData.apodo" placeholder="Apodo (Nick)" required>
-  <input type="email" name="email" [(ngModel)]="registerData.email" placeholder="Correo Electrónico" required>
+<div class="register-screen">
+  <div class="register-left">
+    <div class="login-brand">
+      <img src="octolabweblogo.ico" alt="OctoLab" class="brand-logo" />
+      <span class="brand-name">Octo<span class="brand-accent">Lab</span></span>
+    </div>
 
+    <div class="register-form-area">
+      <p class="register-sub">Empieza tu aventura</p>
+      <h2>Crea tu cuenta en OctoLab</h2>
 
-      <div class="password-wrapper">
-        <input
-          [type]="mostrarPassword ? 'text' : 'password'"
-          name="password"
-          [(ngModel)]="registerData.password"
-          placeholder="Contraseña"
-          required
-          minlength="6"
-        />
-        <button type="button" class="toggle-password" (click)="mostrarPassword = !mostrarPassword">
-          <svg *ngIf="!mostrarPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-          <svg *ngIf="mostrarPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-            <line x1="1" y1="1" x2="23" y2="23"/>
-          </svg>
+      <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+        <div class="form-row">
+          <div class="input-group">
+            <label>Nombre</label>
+            <input type="text" name="nombre" [(ngModel)]="registerData.nombre" placeholder="Nombre" required />
+          </div>
+          <div class="input-group">
+            <label>Primer Apellido</label>
+            <input type="text" name="apellido1" [(ngModel)]="registerData.apellido1" placeholder="Primer apellido" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label>Segundo Apellido</label>
+            <input type="text" name="apellido2" [(ngModel)]="registerData.apellido2" placeholder="Segundo apellido" />
+          </div>
+          <div class="input-group">
+            <label>Apodo (Nick)</label>
+            <input type="text" name="apodo" [(ngModel)]="registerData.apodo" placeholder="Apodo" required />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Correo Electrónico</label>
+          <input type="email" name="email" [(ngModel)]="registerData.email" placeholder="Correo electrónico" required />
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label>Contraseña</label>
+            <div class="password-wrapper">
+              <input [type]="mostrarPassword ? 'text' : 'password'" name="password"
+                [(ngModel)]="registerData.password" placeholder="••••••••" required minlength="6" />
+              <button type="button" class="toggle-password" (click)="mostrarPassword = !mostrarPassword">
+                {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+              </button>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Confirmar Contraseña</label>
+            <div class="password-wrapper">
+              <input [type]="mostrarConfirmar ? 'text' : 'password'" name="confirmarPassword"
+                [(ngModel)]="confirmarPassword" placeholder="••••••••" required />
+              <button type="button" class="toggle-password" (click)="mostrarConfirmar = !mostrarConfirmar">
+                {{ mostrarConfirmar ? 'Ocultar' : 'Ver' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="error-msg" *ngIf="confirmarPassword && registerData.password !== confirmarPassword">
+          Las contraseñas no coinciden
+        </p>
+        <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <button type="submit" class="btn-primary"
+          [disabled]="registerForm.invalid || registerData.password !== confirmarPassword">
+          Crear cuenta
         </button>
-      </div>
+      </form>
 
-      <div class="password-wrapper">
-        <input
-          [type]="mostrarConfirmar ? 'text' : 'password'"
-          name="confirmarPassword"
-          [(ngModel)]="confirmarPassword"
-          placeholder="Confirmar Contraseña"
-          required
-        />
-        <button type="button" class="toggle-password" (click)="mostrarConfirmar = !mostrarConfirmar">
-          <svg *ngIf="!mostrarConfirmar" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-          <svg *ngIf="mostrarConfirmar" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-            <line x1="1" y1="1" x2="23" y2="23"/>
-          </svg>
-        </button>
-      </div>
-      <p style="color: red; font-size: 0.85rem; margin: 4px 0 0;" 
-         *ngIf="confirmarPassword && registerData.password !== confirmarPassword">
-        Las contraseñas no coinciden
+      <p class="login-link">
+        ¿Ya tienes cuenta? <a (click)="router.navigate(['/login'])">Inicia sesión</a>
       </p>
+    </div>
+  </div>
 
-      <button type="submit" [disabled]="registerForm.invalid || registerData.password !== confirmarPassword">
-        Registrarse
-      </button>
-      <p style="color: red;" *ngIf="errorMessage">{{errorMessage}}</p>
-
-      <p>¿Ya tienes cuenta? <a (click)="router.navigate(['/login'])" style="cursor:pointer; color: blue;">Inicia sesión</a></p>
-    </form>
+  <div class="register-right">
+    <div class="right-content">
+      <h2>Únete a la comunidad OctoLab</h2>
+      <p>Miles de estudiantes ya están aprendiendo ciberseguridad de forma práctica y divertida.</p>
+      <div class="features">
+        <div class="feature">🔐 Módulos de ciberseguridad</div>
+        <div class="feature">🏆 Sistema de puntos y logros</div>
+        <div class="feature">🤝 Comunidad activa</div>
+        <div class="feature">⚔️ Ataques y retos prácticos</div>
+      </div>
+    </div>
   </div>
 </div>
