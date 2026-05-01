@@ -65,7 +65,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ← Stripe
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 var app = builder.Build();

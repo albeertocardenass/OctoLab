@@ -1,9 +1,12 @@
-.inicio-container, .fade-in {
+/* ── Contenedores principales ──────────────────────────────────────────── */
+.inicio-container,
+.fade-in {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem 0;
 }
 
+/* ── Welcome ────────────────────────────────────────────────────────────── */
 .welcome-section {
   margin-bottom: 2rem;
 }
@@ -12,6 +15,11 @@
   font-size: 2rem;
   color: var(--texto-principal);
   margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.welcome-section h1 .highlight {
+  color: var(--primary);
 }
 
 .welcome-section p {
@@ -19,6 +27,7 @@
   font-size: 1.1rem;
 }
 
+/* ── Stats grid ─────────────────────────────────────────────────────────── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -32,11 +41,19 @@
   border-radius: 16px;
   border: 1px solid var(--borde);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  display: block;
 }
 
 .stat-card .data {
@@ -55,12 +72,41 @@
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--primary);
+  line-height: 1;
 }
 
-/* Sección de Temario (Módulos) */
+.stat-card .value small {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* Barra de progreso dentro de la stat card de progreso */
+.progress-bar-track {
+  margin-top: 1rem;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--borde);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--primary);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Section header ─────────────────────────────────────────────────────── */
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
 .fade-in h2 {
   color: var(--texto-principal);
   margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .fade-in p {
@@ -68,6 +114,7 @@
   margin-bottom: 1.5rem;
 }
 
+/* ── List container & module cards ─────────────────────────────────────── */
 .list-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -77,47 +124,191 @@
 .module-card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   background-color: var(--bg-tarjetas);
   padding: 1.25rem;
   border-radius: 12px;
   border: 1px solid var(--borde);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.module-card.locked-card {
+  opacity: 0.75;
+}
+
+.module-card.unlocked-card {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+/* Estado cargando: pulso sutil */
+.module-card.loading-card {
+  animation: pulseCard 1.4s ease-in-out infinite;
+}
+
+@keyframes pulseCard {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+/* ── Contenido del módulo ───────────────────────────────────────────────── */
+.module-content {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.module-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: filter 0.3s ease;
+}
+
+.module-icon.grayscale {
+  filter: grayscale(1) opacity(0.5);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
 }
 
 .module-card .info h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--texto-principal);
-  margin: 0;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .module-card .info p {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   color: var(--texto-secundario);
-  margin: 4px 0 0 0;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
 }
 
+/* ── Badges ─────────────────────────────────────────────────────────────── */
+.badges-container {
+  margin-bottom: 0.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-unlocked {
+  background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.badge-cost {
+  background-color: color-mix(in srgb, var(--texto-secundario) 10%, transparent);
+  color: var(--texto-secundario);
+  border: 1px solid var(--borde);
+}
+
+.badge-loading {
+  background-color: color-mix(in srgb, orange 15%, transparent);
+  color: #c07000;
+  border: 1px solid color-mix(in srgb, orange 30%, transparent);
+}
+
+/* ── Botones ─────────────────────────────────────────────────────────────── */
 .btn-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background-color: transparent;
   color: var(--primary);
   border: 1.5px solid var(--primary);
-  padding: 8px 16px;
+  padding: 7px 14px;
   border-radius: 8px;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
 }
 
-.btn-open:hover {
+.btn-open:hover:not(:disabled) {
   background-color: var(--primary);
   color: white;
+  transform: scale(1.03);
 }
 
-/* Animación suave al cargar */
+.btn-open:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-open.btn-disabled,
+.btn-open:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: var(--texto-secundario);
+  color: var(--texto-secundario);
+}
+
+.btn-open.btn-loading {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* ── Spinner ─────────────────────────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Fade-in animation ──────────────────────────────────────────────────── */
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .welcome-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .stat-card .value {
+    font-size: 1.4rem;
+  }
+
+  .list-container {
+    grid-template-columns: 1fr;
+  }
+
+  .module-card {
+    flex-direction: column;
+  }
 }

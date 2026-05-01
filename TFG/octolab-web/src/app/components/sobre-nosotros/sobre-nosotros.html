@@ -1,72 +1,93 @@
 <div class="sobre-wrapper fade-in">
+  <div class="bg-glow"></div>
 
-    <!-- HERO -->
-    <div class="hero-section">
-        <div class="hero-badge">¿Quiénes somos?</div>
-        <h1 class="hero-title">Detrás de <span class="brand">OctoLab</span></h1>
-        <p class="hero-sub">
-            Dos estudiantes con una idea clara: la ciberseguridad no debería ser
-            un mundo cerrado. OctoLab nació para abrirlo.
-        </p>
-    </div>
+  <!-- HERO: El Propósito -->
+  <section class="hero-section">
+    <div class="hero-badge">Proyecto Fin de Grado 2026</div>
+    <h1 class="hero-title">Seguridad para el <span class="brand">100%</span> de la red</h1>
+    <p class="hero-sub">
+      OctoLab no es solo una plataforma de cursos; es un ecosistema diseñado para cerrar la brecha 
+      entre la curiosidad y la maestría técnica en ciberseguridad.
+    </p>
+  </section>
 
-    <!-- ORIGEN -->
-    <div class="origen-section">
-        <div class="origen-card">
-            <div class="origen-icon">💡</div>
-            <div class="origen-text">
-                <h2>El origen</h2>
-                <p>
-                    OctoLab empezó como un proyecto de fin de grado y se convirtió en algo más.
-                    Vimos que aprender ciberseguridad era difícil, caro o aburrido — y decidimos
-                    cambiar eso. Creamos una plataforma donde cualquiera puede empezar desde cero,
-                    aprender a su ritmo y enfrentarse a retos reales.
-                </p>
-                <p>
-                    El pulpo como mascota no es casualidad — es el animal más inteligente del océano,
-                    capaz de adaptarse a cualquier entorno. Exactamente lo que queremos que seas tú
-                    después de pasar por OctoLab.
-                </p>
-            </div>
+  <!-- TIMELINE: Hitos del Desarrollo -->
+  <section class="timeline-section">
+    <h2 class="section-title">El Camino del Pulpo</h2>
+    <div class="timeline-container">
+      <div class="timeline-item">
+        <div class="time-dot"></div>
+        <div class="time-content">
+          <h3>La Idea</h3>
+          <p>Nace la necesidad de crear un entorno de aprendizaje gamificado tras detectar la falta de recursos prácticos accesibles.</p>
         </div>
-    </div>
-
-    <!-- EQUIPO -->
-    <div class="equipo-section">
-        <h2 class="equipo-titulo">El equipo</h2>
-        <p class="equipo-sub">Pequeño en número, grande en caos organizado.</p>
-
-        <div class="equipo-grid">
-            <div class="miembro-card" *ngFor="let miembro of equipo">
-                <div class="miembro-avatar">{{ miembro.emoji }}</div>
-                <div class="miembro-alias">{{ miembro.alias }}</div>
-                <div class="miembro-nombre">{{ miembro.nombre }}</div>
-                <p class="miembro-desc">{{ miembro.descripcion }}</p>
-                <div class="miembro-tag">Desarrollador Full Stack</div>
-            </div>
+      </div>
+      <div class="timeline-item">
+        <div class="time-dot"></div>
+        <div class="time-content">
+          <h3>Arquitectura</h3>
+          <p>Diseño de un backend robusto en .NET y una interfaz reactiva en Angular capaz de gestionar progresos en tiempo real.</p>
         </div>
-    </div>
-
-    <!-- VALORES -->
-    <div class="valores-section">
-        <h2>Lo que nos mueve</h2>
-        <div class="valores-grid">
-            <div class="valor-card">
-                <span class="valor-icon">🔓</span>
-                <h3>Accesibilidad</h3>
-                <p>La ciberseguridad es para todos, no solo para los que llevan años en el sector.</p>
-            </div>
-            <div class="valor-card">
-                <span class="valor-icon">🧪</span>
-                <h3>Aprendizaje práctico</h3>
-                <p>Teoría está bien, pero nada supera enfrentarte a un ataque real en un entorno seguro.</p>
-            </div>
-            <div class="valor-card">
-                <span class="valor-icon">🤝</span>
-                <h3>Comunidad</h3>
-                <p>Aprender solo es más lento. Por eso OctoLab tiene una comunidad donde compartir dudas y avances.</p>
-            </div>
+      </div>
+      <div class="timeline-item">
+        <div class="time-dot"></div>
+        <div class="time-content">
+          <h3>Lanzamiento</h3>
+          <p>Despliegue de los 12 módulos fundamentales que cubren desde criptografía hasta hacking ético.</p>
         </div>
+      </div>
     </div>
+  </section>
 
+  <!-- STACK TECNOLÓGICO: Lo que hay bajo el capó -->
+  <section class="tech-stack-section">
+    <h2 class="section-title">Nuestra Forja</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">⚡</div>
+        <h4>Frontend</h4>
+        <p>Angular 18+, TypeScript y animaciones fluidas para una UX inmersiva.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🛡️</div>
+        <h4>Backend</h4>
+        <p>.NET Web API con seguridad JWT y Entity Framework Core.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🗄️</div>
+        <h4>Persistencia</h4>
+        <p>SQLite para un manejo de datos ligero, rápido y portable.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section class="equipo-section">
+    <h2 class="equipo-titulo">El Equipo Detrás del Código</h2>
+    <div class="equipo-grid">
+      <div class="miembro-card" *ngFor="let miembro of equipo">
+        <div class="miembro-avatar">{{ miembro.emoji }}</div>
+        <span class="miembro-alias">@{{ miembro.alias }}</span>
+        <h3 class="miembro-nombre">{{ miembro.nombre }}</h3>
+        <p class="miembro-desc">{{ miembro.descripcion }}</p>
+        <div class="miembro-tag">Full Stack Developer</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="valores-section">
+    <div class="valores-grid">
+      <div class="valor-card">
+        <span class="valor-icon">🔓</span>
+        <h3>Transparencia</h3>
+        <p>En seguridad, la oscuridad no es defensa. Promovemos el conocimiento abierto.</p>
+      </div>
+      <div class="valor-card">
+        <span class="valor-icon">🧪</span>
+        <h3>Práctica Real</h3>
+        <p>Menos diapositivas, más consolas. Aprender haciendo es nuestra ley.</p>
+      </div>
+    </div>
+  </section>
 </div>

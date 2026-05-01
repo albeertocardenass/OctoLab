@@ -1,40 +1,98 @@
 <div class="inicio-container">
   <div class="welcome-section">
-    <h1>¡Hola de nuevo, {{ usuarioActivo()?.nombre || 'Usuario' }}!</h1>
-    <p>Bienvenido al panel central de OctolabWeb. Aquí tienes un resumen de lo que está pasando.</p>
+    <h1>¡Hola de nuevo, <span class="highlight">{{ usuario?.nombre || 'Usuario' }}</span>!</h1>
+    <p>Bienvenido al panel central de OctolabWeb. Administra tus puntos Octo para desbloquear nuevos conocimientos.</p>
   </div>
+
   <div class="stats-grid">
     <div class="stat-card">
+      <div class="stat-icon">📈</div>
       <div class="data">
         <span class="label">Progreso Total</span>
-        <span class="value">0%</span>
+        <span class="value">{{ progresoPorcentaje | number:'1.0-0' }}%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" [style.width.%]="progresoPorcentaje"></div>
       </div>
     </div>
+
     <div class="stat-card">
+      <div class="stat-icon">📚</div>
       <div class="data">
-        <span class="label">Temas Vistos</span>
-        <span class="value">0 / 20</span>
+        <span class="label">Temas Desbloqueados</span>
+        <span class="value">{{ obtenerTemasVistos() }} / {{ modulos.length }}</span>
       </div>
     </div>
+
     <div class="stat-card">
+      <div class="stat-icon">🪙</div>
       <div class="data">
         <span class="label">Puntos Octo</span>
-        <span class="value">{{ usuarioActivo()?.puntos ?? 0 }}</span>
+        <span class="value">{{ usuario?.puntos ?? 0 }} <small>pts</small></span>
       </div>
     </div>
   </div>
 </div>
 
 <div class="fade-in">
-  <h2>Temario del Curso</h2>
-  <p>Explora los módulos de aprendizaje disponibles en Octolab.</p>
+  <div class="section-header">
+    <h2>Temario del Curso</h2>
+    <p>Explora los módulos y desbloquea temas usando tus Puntos Octo.</p>
+  </div>
+
   <div class="list-container">
-    <div class="module-card" *ngFor="let mod of modulos">
-      <div class="info">
-        <h3>{{ mod.titulo }}</h3>
-        <p>{{ mod.lecciones }} lecciones</p>
+    <div
+      class="module-card"
+      *ngFor="let mod of modulos"
+      [class.unlocked-card]="estaDesbloqueado(mod.id)"
+      [class.locked-card]="!estaDesbloqueado(mod.id)"
+      [class.loading-card]="estaDesbloqueando(mod.id)">
+
+      <div class="module-content">
+        <span class="module-icon" [class.grayscale]="!estaDesbloqueado(mod.id)">
+          {{ mod.icono }}
+        </span>
+
+        <div class="info">
+          <h3>{{ mod.titulo }}</h3>
+          <p>{{ mod.descripcion }}</p>
+
+          <div class="badges-container">
+            <span class="badge badge-unlocked" *ngIf="estaDesbloqueado(mod.id)">
+              ✅ Contenido Disponible
+            </span>
+            <span class="badge badge-cost" *ngIf="!estaDesbloqueado(mod.id) && !estaDesbloqueando(mod.id)">
+              🪙 Costo: {{ mod.costo }} pts
+            </span>
+            <span class="badge badge-loading" *ngIf="estaDesbloqueando(mod.id)">
+              ⏳ Desbloqueando…
+            </span>
+          </div>
+
+          <button
+            class="btn-open"
+            [class.btn-unlocked]="estaDesbloqueado(mod.id)"
+            [class.btn-locked]="!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) >= mod.costo"
+            [class.btn-disabled]="!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) < mod.costo"
+            [class.btn-loading]="estaDesbloqueando(mod.id)"
+            [disabled]="(!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) < mod.costo) || estaDesbloqueando(mod.id)"
+            (click)="desbloquearOAbrir(mod)">
+
+            <ng-container *ngIf="estaDesbloqueando(mod.id)">
+              <span class="spinner"></span> Procesando…
+            </ng-container>
+
+            <ng-container *ngIf="!estaDesbloqueando(mod.id)">
+              <ng-container *ngIf="estaDesbloqueado(mod.id)">
+                ▶ Abrir Tema
+              </ng-container>
+              <ng-container *ngIf="!estaDesbloqueado(mod.id)">
+                {{ (usuario?.puntos ?? 0) < mod.costo ? '🔒 Puntos Insuficientes' : '🔓 Desbloquear' }}
+              </ng-container>
+            </ng-container>
+          </button>
+        </div>
       </div>
-      <button class="btn-open">Abrir</button>
     </div>
   </div>
 </div>

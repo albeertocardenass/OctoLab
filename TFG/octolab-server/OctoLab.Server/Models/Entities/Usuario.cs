@@ -15,8 +15,9 @@ namespace OctoLab.Server.Models.Entities
         public string Avatar { get; set; } = "default-avatar.png";
         public string? Descripcion { get; set; }
         public string Rol { get; set; } = "Usuario";
-        public int Puntos { get; set; } = 0; // ← nuevo
+        public int Puntos { get; set; } = 0;
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
         public DateTime UltimaConexion { get; set; } = DateTime.Now;
+        public string ModulosDesbloqueados { get; set; } = "";
     }
 }

@@ -2,6 +2,7 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { API_BASE } from './api.config';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -22,10 +23,15 @@ export class AuthService {
     }
   }
 
+  // Método auxiliar para obtener los headers con el token (reemplaza a tu getHeaders ausente)
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  }
+
   setUser(user: any, token: string, rememberMe: boolean) {
     this.currentUser = user;
     this.loggedIn = true;
-
     const userData = JSON.stringify(user);
     if (rememberMe) {
       localStorage.setItem('token', token);
@@ -34,19 +40,13 @@ export class AuthService {
       sessionStorage.setItem('token', token);
       sessionStorage.setItem('usuario', userData);
     }
-
     this.iniciarPing();
   }
 
   private iniciarPing() {
     if (!isPlatformBrowser(this.platformId)) return;
-    
     this.detenerPing();
-    
-    // Ping inmediato al login
     this.enviarPing();
-    
-    // Ping cada 2 minutos
     this.pingInterval = setInterval(() => {
       this.enviarPing();
     }, 2 * 60 * 1000);
@@ -55,9 +55,7 @@ export class AuthService {
   private enviarPing() {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) return;
-
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-    this.http.post(`${API_BASE}/api/Usuarios/ping`, {}, { headers }).subscribe();
+    this.http.post(`${API_BASE}/api/Usuarios/ping`, {}, { headers: this.getAuthHeaders() }).subscribe();
   }
 
   private detenerPing() {
@@ -71,6 +69,10 @@ export class AuthService {
     return this.currentUser?.nombre || 'Usuario';
   }
 
+  getUsuarioActual() {
+    return this.currentUser;
+  }
+
   getRol(): string {
     return this.currentUser?.rol || 'Invitado';
   }
@@ -81,6 +83,23 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this.getRol() === 'Admin';
+  }
+
+  actualizarPuntos(nuevosPuntos: number): Observable<any> {
+    // Usamos API_BASE y el método de headers corregido
+    const url = `${API_BASE}/api/Usuarios/actualizar-puntos`; 
+    const body = { puntos: nuevosPuntos };
+    return this.http.put<any>(url, body, { headers: this.getAuthHeaders() });
+  }
+
+  actualizarUsuarioLocal(usuarioActualizado: any) {
+    this.currentUser = usuarioActualizado;
+    const userData = JSON.stringify(usuarioActualizado);
+    if (localStorage.getItem('usuario')) {
+      localStorage.setItem('usuario', userData);
+    } else {
+      sessionStorage.setItem('usuario', userData);
+    }
   }
 
   logout() {

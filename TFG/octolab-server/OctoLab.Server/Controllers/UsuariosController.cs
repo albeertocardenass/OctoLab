@@ -124,5 +124,24 @@ namespace OctoLab.Server.Controllers
                 return Convert.ToBase64String(bytes);
             }
         }
+
+        [HttpPut("actualizar-puntos")]
+        [Authorize]
+        public async Task<IActionResult> ActualizarPuntos([FromBody] PuntosUpdateDto dto)
+        {
+            var userIdClaim = User.FindFirst("Id")?.Value;
+
+            if (userIdClaim == null) return Unauthorized(new { mensaje = "No se encontró el ID en el token" });
+
+            var userId = long.Parse(userIdClaim); // Usamos long porque en GetUsuarios usas long id
+
+            var usuario = await _context.Usuarios.FindAsync(userId);
+            if (usuario == null) return NotFound();
+
+            usuario.Puntos = dto.Puntos;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Puntos actualizados correctamente" });
+        }
     }
 }
