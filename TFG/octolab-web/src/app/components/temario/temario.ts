@@ -16,19 +16,15 @@ interface Modulo {
   imports: [CommonModule, DecimalPipe],
   templateUrl: './temario.html',
   styleUrl: './temario.css',
-  changeDetection: ChangeDetectionStrategy.OnPush   // ← detección explícita
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemarioComponent implements OnInit {
   private authService = inject(AuthService);
   private zone = inject(NgZone);
-  private cdr = inject(ChangeDetectorRef);           // ← forzamos actualización manual
+  private cdr = inject(ChangeDetectorRef);
 
   usuario: any = null;
-
-  // Set para lookup O(1) en lugar de .some() con iteración
   modulosDesbloqueadosSet = new Set<number>();
-
-  // Tracks módulos en proceso de desbloqueo para evitar doble clic
   desbloqueando = new Set<number>();
 
   modulos: Modulo[] = [
@@ -53,7 +49,6 @@ export class TemarioComponent implements OnInit {
       if (!this.usuario.modulosDesbloqueados) {
         this.usuario.modulosDesbloqueados = [];
       }
-      // Construimos el Set inicial para lookups rápidos
       this.sincronizarSet();
     }
   }
@@ -81,13 +76,11 @@ export class TemarioComponent implements OnInit {
   }
 
   desbloquearOAbrir(mod: Modulo): void {
-    // Si ya está desbloqueado → abrir directamente
     if (this.estaDesbloqueado(mod.id)) {
       alert(`Abriendo: ${mod.titulo}`);
       return;
     }
 
-    // Evitar solicitudes duplicadas mientras se procesa
     if (this.estaDesbloqueando(mod.id)) return;
 
     if (!this.usuario || this.usuario.puntos < mod.costo) {
@@ -97,7 +90,6 @@ export class TemarioComponent implements OnInit {
 
     const nuevosPuntos = this.usuario.puntos - mod.costo;
 
-    // ── Actualización optimista ANTES de la petición ──────────────────────
     this.desbloqueando.add(mod.id);
     this.modulosDesbloqueadosSet.add(mod.id);
     this.usuario = {
@@ -106,21 +98,19 @@ export class TemarioComponent implements OnInit {
       modulosDesbloqueados: [...this.usuario.modulosDesbloqueados, mod.id]
     };
     this.authService.actualizarUsuarioLocal(this.usuario);
-    this.cdr.detectChanges();                        // ← fuerza render inmediato
-    // ──────────────────────────────────────────────────────────────────────
+    this.cdr.detectChanges();
 
-    this.authService.actualizarPuntos(nuevosPuntos).subscribe({
+    const modulosArray = Array.from(this.modulosDesbloqueadosSet);
+    this.authService.actualizarProgreso(nuevosPuntos, modulosArray).subscribe({
       next: () => {
         this.zone.run(() => {
           this.desbloqueando.delete(mod.id);
-          this.cdr.detectChanges();                  // ← actualiza spinner/botón al terminar
+          this.cdr.detectChanges();
           console.log(`Módulo ${mod.id} desbloqueado correctamente.`);
         });
       },
       error: (err) => {
         console.error(err);
-
-        // Rollback si falla el servidor
         this.zone.run(() => {
           this.desbloqueando.delete(mod.id);
           this.modulosDesbloqueadosSet.delete(mod.id);
@@ -132,7 +122,7 @@ export class TemarioComponent implements OnInit {
             )
           };
           this.authService.actualizarUsuarioLocal(this.usuario);
-          this.cdr.detectChanges();                  // ← actualiza la UI en rollback
+          this.cdr.detectChanges();
           alert('Error de conexión. No se pudo desbloquear el módulo.');
         });
       }

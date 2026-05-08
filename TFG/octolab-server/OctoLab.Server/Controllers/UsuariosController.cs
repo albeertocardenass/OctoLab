@@ -6,6 +6,7 @@ using OctoLab.Server.Models.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Linq;
 using OctoLab.Server.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
@@ -89,7 +90,10 @@ namespace OctoLab.Server.Controllers
                     rol = usuario.Rol,
                     apodo = usuario.Apodo,
                     avatar = usuario.Avatar,
-                    puntos = usuario.Puntos
+                    puntos = usuario.Puntos,
+                    modulosDesbloqueados = string.IsNullOrEmpty(usuario.ModulosDesbloqueados)
+                        ? new List<int>()
+                        : usuario.ModulosDesbloqueados.Split(',').Select(int.Parse).ToList()
                 }
             });
         }
@@ -116,25 +120,14 @@ namespace OctoLab.Server.Controllers
             return Ok();
         }
 
-        private static string EncriptarNativo(string password)
-        {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
-            {
-                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(bytes);
-            }
-        }
-
         [HttpPut("actualizar-puntos")]
         [Authorize]
         public async Task<IActionResult> ActualizarPuntos([FromBody] PuntosUpdateDto dto)
         {
             var userIdClaim = User.FindFirst("Id")?.Value;
-
             if (userIdClaim == null) return Unauthorized(new { mensaje = "No se encontró el ID en el token" });
 
-            var userId = long.Parse(userIdClaim); // Usamos long porque en GetUsuarios usas long id
-
+            var userId = long.Parse(userIdClaim);
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null) return NotFound();
 
@@ -142,6 +135,35 @@ namespace OctoLab.Server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Puntos actualizados correctamente" });
+        }
+
+        [HttpPut("actualizar-progreso")]
+        [Authorize]
+        public async Task<IActionResult> ActualizarProgreso([FromBody] ProgresoUpdateDto dto)
+        {
+            var userIdClaim = User.FindFirst("Id")?.Value;
+            if (userIdClaim == null) return Unauthorized();
+
+            var userId = long.Parse(userIdClaim);
+            var usuario = await _context.Usuarios.FindAsync(userId);
+            if (usuario == null) return NotFound();
+
+            usuario.Puntos = dto.Puntos;
+            usuario.ModulosDesbloqueados = dto.ModulosDesbloqueados != null && dto.ModulosDesbloqueados.Any()
+                ? string.Join(",", dto.ModulosDesbloqueados)
+                : "";
+
+            await _context.SaveChangesAsync();
+            return Ok(new { mensaje = "Progreso actualizado correctamente" });
+        }
+
+        private static string EncriptarNativo(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(bytes);
+            }
         }
     }
 }

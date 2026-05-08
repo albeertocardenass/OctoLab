@@ -23,7 +23,6 @@ export class AuthService {
     }
   }
 
-  // Método auxiliar para obtener los headers con el token (reemplaza a tu getHeaders ausente)
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
@@ -86,9 +85,14 @@ export class AuthService {
   }
 
   actualizarPuntos(nuevosPuntos: number): Observable<any> {
-    // Usamos API_BASE y el método de headers corregido
-    const url = `${API_BASE}/api/Usuarios/actualizar-puntos`; 
+    const url = `${API_BASE}/api/Usuarios/actualizar-puntos`;
     const body = { puntos: nuevosPuntos };
+    return this.http.put<any>(url, body, { headers: this.getAuthHeaders() });
+  }
+
+  actualizarProgreso(nuevosPuntos: number, modulosDesbloqueados: number[]): Observable<any> {
+    const url = `${API_BASE}/api/Usuarios/actualizar-progreso`;
+    const body = { puntos: nuevosPuntos, modulosDesbloqueados };
     return this.http.put<any>(url, body, { headers: this.getAuthHeaders() });
   }
 

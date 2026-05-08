@@ -36,8 +36,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<MyDbContext>(options =>
 {
-    var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "octolab.db");
-    options.UseSqlite($"Data Source={dbPath}");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 builder.Services.AddScoped<Seeder>();
