@@ -136,8 +136,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\ProgresoUpdateDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T10:08:31.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-04T10:08:31.456Z"
             },
             {
               "$type": "Document",
@@ -149,8 +148,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\UsuariosController.cs",
               "ViewState": "AgIAAHIAAAAAAAAAAAAUwIkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T09:54:27.78Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-04T09:54:27.78Z"
             },
             {
               "$type": "Document",
@@ -162,8 +160,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\PuntosUpdateDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-01T15:02:40.78Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-01T15:02:40.78Z"
             },
             {
               "$type": "Document",
@@ -175,8 +172,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\PublicacionesController.cs",
               "ViewState": "AgIAAFIAAAAAAAAAAAAswEYAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T08:33:20.435Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T08:33:20.435Z"
             },
             {
               "$type": "Document",
@@ -188,8 +184,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Program.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAAAqwGQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T10:41:46.788Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T10:41:46.788Z"
             },
             {
               "$type": "Document",
@@ -201,8 +196,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Models\\Entities\\Usuario.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T10:37:59.322Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T10:37:59.322Z"
             },
             {
               "$type": "Document",
@@ -214,8 +208,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Data\\Seeder.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T10:42:14.609Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T10:42:14.609Z"
             },
             {
               "$type": "Document",
@@ -227,8 +220,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\PublicacionCrearDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T08:28:25.713Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T08:28:25.713Z"
             },
             {
               "$type": "Document",
@@ -240,8 +232,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Models\\Entities\\Publicacion.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T08:22:55.244Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T08:22:55.244Z"
             },
             {
               "$type": "Document",
@@ -253,8 +244,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\RolUpdateDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T10:22:01.499Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-18T10:22:01.499Z"
             },
             {
               "$type": "Document",
@@ -266,8 +256,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\UsuarioRegister.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T09:07:17.501Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T09:07:17.501Z"
             },
             {
               "$type": "Document",
@@ -277,7 +266,7 @@
               "RelativeDocumentMoniker": "octolab-server\\OctoLab.Server\\appsettings.json",
               "ToolTip": "C:\\Users\\Juan Alberto\\OneDrive\\Documentos\\GitHub\\OctoLab\\TFG\\octolab-server\\OctoLab.Server\\appsettings.json",
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-04-18T10:25:01.774Z",
               "EditorCaption": ""
@@ -292,8 +281,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAACBjwC4AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T11:25:50.359Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T11:25:50.359Z"
             },
             {
               "$type": "Document",
@@ -305,8 +293,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Migrations\\AppDbContextModelSnapshot.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAxwBcAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T09:18:21.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T09:18:21.672Z"
             },
             {
               "$type": "Document",
@@ -318,8 +305,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\PagosController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T11:33:52.845Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-19T11:33:52.845Z"
             },
             {
               "$type": "Document",
@@ -331,8 +317,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Data\\MyDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T11:44:45.087Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T11:44:45.087Z"
             },
             {
               "$type": "Document",
@@ -344,8 +329,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\Controllers\\NoticiasController.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAswB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-13T09:25:27.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-13T09:25:27.969Z"
             },
             {
               "$type": "Document",
@@ -357,8 +341,7 @@
               "RelativeToolTip": "octolab-server\\OctoLab.Server\\DTOs\\UsuarioLogin.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T09:20:31.418Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T09:20:31.418Z"
             }
           ]
         }
