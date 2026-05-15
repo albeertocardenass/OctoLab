@@ -88,6 +88,13 @@
   font-weight: bold;
 }
 
+.avatar-img {
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  flex-shrink: 0;
+}
+
 .user-info-text {
   display: flex;
   flex-direction: column;

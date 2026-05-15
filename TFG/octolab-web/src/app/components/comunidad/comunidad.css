@@ -107,6 +107,13 @@
   font-size: 0.9rem;
 }
 
+.avatar-img {
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  flex-shrink: 0;
+}
+
 .meta {
   display: flex;
   flex-direction: column;

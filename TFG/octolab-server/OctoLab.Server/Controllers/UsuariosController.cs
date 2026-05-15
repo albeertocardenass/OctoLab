@@ -98,6 +98,57 @@ namespace OctoLab.Server.Controllers
             });
         }
 
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUsuario(long id, [FromBody] UsuarioUpdateDto dto)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
+            if (!string.IsNullOrWhiteSpace(dto.Nombre)) usuario.Nombre = dto.Nombre;
+            if (!string.IsNullOrWhiteSpace(dto.Email)) usuario.Email = dto.Email;
+            if (!string.IsNullOrWhiteSpace(dto.Apodo)) usuario.Apodo = dto.Apodo;
+            if (!string.IsNullOrWhiteSpace(dto.Password)) usuario.Password = EncriptarNativo(dto.Password);
+
+            await _context.SaveChangesAsync();
+            return Ok(new { mensaje = "Usuario actualizado correctamente" });
+        }
+
+        [HttpPost("{id}/avatar")]
+        [Authorize]
+        public async Task<IActionResult> SubirAvatar(long id, [FromBody] AvatarDto dto)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
+            var avatarUrl = await GuardarImagenAvatar(dto.ImagenBase64);
+            if (avatarUrl == null) return BadRequest(new { mensaje = "Imagen inválida" });
+
+            usuario.Avatar = avatarUrl;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { avatarUrl });
+        }
+
+        private async Task<string?> GuardarImagenAvatar(string? base64)
+        {
+            if (string.IsNullOrEmpty(base64) || !base64.Contains("base64,")) return null;
+
+            var base64Data = base64.Substring(base64.IndexOf(",") + 1);
+            var imageBytes = Convert.FromBase64String(base64Data);
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "avatars");
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+            var fileName = Guid.NewGuid().ToString() + ".jpg";
+            var filePath = Path.Combine(folderPath, fileName);
+
+            await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+
+            var request = HttpContext.Request;
+            return $"{request.Scheme}://{request.Host}/avatars/{fileName}";
+        }
+
         [HttpPut("cambiar-rol")]
         public async Task<IActionResult> CambiarRol([FromBody] RolUpdateDto dto)
         {

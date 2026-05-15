@@ -2,16 +2,27 @@
   <div class="config-card">
     <div class="config-profile-header">
       <div class="avatar-container">
-        <div class="big-profile-circle">
-          {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
+        <div class="avatar-wrapper">
+          @if (avatarSrc && !avatarError) {
+            <img [src]="avatarSrc" class="big-profile-img" alt="Avatar" (error)="onAvatarImgError()">
+          } @else {
+            <div class="big-profile-circle">
+              {{ usuarioActivo?.nombre?.charAt(0)?.toUpperCase() || 'U' }}
+            </div>
+          }
+          @if (subiendoAvatar) {
+            <div class="avatar-loading">Subiendo...</div>
+          }
         </div>
-        <button class="btn-change-photo">Cambiar</button>
+        <label class="btn-change-photo" for="avatarInput">
+          {{ subiendoAvatar ? 'Subiendo...' : 'Cambiar foto' }}
+        </label>
+        <input id="avatarInput" type="file" accept="image/*" style="display:none"
+               (change)="seleccionarImagen($event)">
       </div>
       <h2>{{ usuarioActivo?.nombre }}</h2>
       <span class="badge">{{ usuarioActivo?.rol }}</span>
     </div>
-
-    <div class="divider"></div>
 
     <div class="config-form">
       <div class="form-group">
@@ -33,10 +44,10 @@
       <button class="btn-save" (click)="guardarCambios()">
         Guardar cambios
       </button>
-      
-      <p *ngIf="mensaje" [class.error-msg]="error" [class.success-msg]="!error">
-        {{ mensaje }}
-      </p>
+
+      @if (mensaje) {
+        <p [class.error-msg]="error" [class.success-msg]="!error">{{ mensaje }}</p>
+      }
     </div>
   </div>
 </div>

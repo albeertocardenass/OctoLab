@@ -1,9 +1,18 @@
-<div class="inicio-container">
+<div class="donation-wrapper fade-in">
   <div class="donation-container">
-    <h2>Apoya el Proyecto</h2>
-    <p>OctolabWeb es gratuito gracias a personas como tú.</p>
 
-    <div *ngIf="!mensajeExito">
+    @if (mensajeExito) {
+      <div class="estado-card exito">
+        <div class="estado-icon">✓</div>
+        <h3>¡Gracias por tu apoyo!</h3>
+        <p>{{ mensajeExito }}</p>
+      </div>
+    } @else {
+      <div class="donation-header">
+        <h2>Apoya el Proyecto</h2>
+        <p>OctolabWeb es gratuito gracias a personas como tú.</p>
+      </div>
+
       <div class="options">
         <button class="btn-tier" [class.selected]="cantidadFinal === 5 && !cantidadPersonalizada"
           (click)="seleccionarCantidad(5)">5€</button>
@@ -14,27 +23,27 @@
       </div>
 
       <div class="custom-amount">
-        <label>O introduce una cantidad personalizada:</label>
+        <label>O introduce una cantidad personalizada</label>
         <div class="input-euro">
-          <input type="tel" inputmode="numeric" pattern="[0-9]*" [(ngModel)]="cantidadPersonalizada"
-            placeholder="Ej: 20" min="1" />
-          <span>€</span>
+          <span class="euro-prefix">€</span>
+          <input type="tel" inputmode="numeric" pattern="[0-9]*"
+                 [(ngModel)]="cantidadPersonalizada"
+                 placeholder="0" min="1" />
         </div>
       </div>
 
       <div class="resumen">
-        Vas a donar: <strong>{{ cantidadFinal }}€</strong>
+        Total: <strong>{{ cantidadFinal }}€</strong>
       </div>
 
       <button class="btn-donar" (click)="iniciarPago()" [disabled]="pagando">
-        {{ pagando ? 'Procesando...' : 'Continuar al pago' }}
+        {{ pagando ? 'Procesando...' : 'Continuar al pago →' }}
       </button>
 
-      <p class="error" *ngIf="mensajeError">{{ mensajeError }}</p>
-    </div>
+      @if (mensajeError) {
+        <p class="error">{{ mensajeError }}</p>
+      }
+    }
 
-    <div class="exito" *ngIf="mensajeExito">
-      {{ mensajeExito }}
-    </div>
   </div>
 </div>

@@ -18,7 +18,7 @@ export class DonationComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
 
-  cantidad: number = 5;
+  cantidad: number = 0;
   cantidadPersonalizada: number | null = null;
   pagando: boolean = false;
   mensajeExito: string = '';

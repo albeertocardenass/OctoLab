@@ -127,6 +127,24 @@ export class ComunidadComponent implements OnInit {
     }
   }
 
+  onKeydownPublicar(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.publicar();
+    }
+  }
+
+  onKeydownResponder(event: KeyboardEvent, postId: number) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.responder(postId);
+    }
+  }
+
+  esImagenReal(url: string): boolean {
+    return !!url && url.startsWith('http');
+  }
+
   get publicacionesVisibles() {
     return this.publicaciones.slice(0, this.cantidadVisible);
   }

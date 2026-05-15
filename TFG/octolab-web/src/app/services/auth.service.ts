@@ -2,12 +2,14 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { API_BASE } from './api.config';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private loggedIn = false;
   private currentUser: any = null;
+  private usuarioSubject = new BehaviorSubject<any>(null);
+  usuario$ = this.usuarioSubject.asObservable();
   private pingInterval: any = null;
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
@@ -18,6 +20,7 @@ export class AuthService {
       if (savedUser) {
         this.currentUser = JSON.parse(savedUser);
         this.loggedIn = true;
+        this.usuarioSubject.next(this.currentUser);
         this.iniciarPing();
       }
     }
@@ -31,6 +34,7 @@ export class AuthService {
   setUser(user: any, token: string, rememberMe: boolean) {
     this.currentUser = user;
     this.loggedIn = true;
+    this.usuarioSubject.next(user);
     const userData = JSON.stringify(user);
     if (rememberMe) {
       localStorage.setItem('token', token);
@@ -97,7 +101,8 @@ export class AuthService {
   }
 
   actualizarUsuarioLocal(usuarioActualizado: any) {
-    this.currentUser = usuarioActualizado;
+    this.currentUser = { ...usuarioActualizado };
+    this.usuarioSubject.next({ ...usuarioActualizado });
     const userData = JSON.stringify(usuarioActualizado);
     if (localStorage.getItem('usuario')) {
       localStorage.setItem('usuario', userData);

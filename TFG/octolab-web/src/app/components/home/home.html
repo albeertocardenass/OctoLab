@@ -10,13 +10,12 @@
       <button class="btn-download-modern" (click)="descargarAppPython()">Descargar App</button>
     </div>
 
-<div class="right-section" style="display: flex; align-items: center; gap: 12px">
-<button
-  *ngIf="usuarioActivo?.rol === 'Invitado'"
-  class="btn-login-nav"
-  (click)="router.navigate(['/login'])">
-  <span class="username">Iniciar sesión</span>
-</button>
+    <div class="right-section" style="display: flex; align-items: center; gap: 12px">
+      @if (usuarioActivo?.rol === 'Invitado') {
+        <button class="btn-login-nav" (click)="router.navigate(['/login'])">
+          <span class="username">Iniciar sesión</span>
+        </button>
+      }
 
       <div class="profile-wrapper">
         <div class="user-profile-trigger" (click)="toggleMenu($event)">
@@ -24,44 +23,52 @@
             <span class="username">{{ usuarioActivo?.nombre || 'Usuario' }}</span>
             <span class="role">{{ usuarioActivo?.rol || 'Invitado' }}</span>
           </div>
-          <div class="profile-circle-header">
-            {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
-          </div>
-        </div>
-
-        <div class="dropdown-menu" *ngIf="isMenuOpen" (click)="$event.stopPropagation()">
-          <div class="dropdown-header">
-            <div class="large-avatar-circle">
+          @if (usuarioActivo?.avatar?.startsWith('http')) {
+            <img class="profile-circle-header avatar-img" [src]="usuarioActivo.avatar" alt="avatar">
+          } @else {
+            <div class="profile-circle-header">
               {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
             </div>
-            <div class="header-user-data">
-              <strong class="user-full-name">{{ usuarioActivo?.nombre }}</strong>
-              <small class="user-email-text">{{ usuarioActivo?.email }}</small>
+          }
+        </div>
+
+        @if (isMenuOpen) {
+          <div class="dropdown-menu" (click)="$event.stopPropagation()">
+            <div class="dropdown-header">
+              @if (usuarioActivo?.avatar?.startsWith('http')) {
+                <img class="large-avatar-circle avatar-img" [src]="usuarioActivo.avatar" alt="avatar">
+              } @else {
+                <div class="large-avatar-circle">
+                  {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
+                </div>
+              }
+              <div class="header-user-data">
+                <strong class="user-full-name">{{ usuarioActivo?.nombre }}</strong>
+                <small class="user-email-text">{{ usuarioActivo?.email }}</small>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-links">
+              <button (click)="toggleTheme()">Tema {{ isDarkMode ? 'Claro' : 'Oscuro' }}</button>
+              @if (usuarioActivo?.rol !== 'Invitado') {
+                <button routerLink="configuracion" (click)="isMenuOpen = false">
+                  Configuracion de cuenta
+                </button>
+              }
+              <div class="dropdown-divider"></div>
+              <button class="logout-btn" (click)="logout()">Cerrar sesion</button>
             </div>
           </div>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-links">
-            <button (click)="toggleTheme()">Tema {{ isDarkMode ? 'Claro' : 'Oscuro' }}</button>
-            <button
-              *ngIf="usuarioActivo?.rol !== 'Invitado'"
-              routerLink="configuracion"
-              (click)="isMenuOpen = false"
-            >
-              Configuracion de cuenta
-            </button>
-            <div class="dropdown-divider"></div>
-            <button class="logout-btn" (click)="logout()">Cerrar sesion</button>
-          </div>
-        </div>
+        }
       </div>
     </div>
   </header>
 
   <main class="content-wrapper">
     <nav class="tab-bar">
-      <a *ngIf="usuarioActivo?.rol === 'Admin'" routerLink="/admin" class="tab-item admin-tab"
-        >Panel Admin</a
-      >
+      @if (usuarioActivo?.rol === 'Admin') {
+        <a routerLink="/admin" class="tab-item admin-tab">Panel Admin</a>
+      }
       <a routerLink="inicio" routerLinkActive="active" class="tab-item">Inicio</a>
       <a routerLink="temario" routerLinkActive="active" class="tab-item">Temario</a>
       <a routerLink="comunidad" routerLinkActive="active" class="tab-item">Comunidad</a>

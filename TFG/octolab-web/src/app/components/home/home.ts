@@ -1,6 +1,8 @@
-import { Component, OnInit, inject, PLATFORM_ID, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,27 +11,37 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly authService = inject(AuthService);
   public readonly router = inject(Router);
 
   usuarioActivo: any = null;
   isMenuOpen: boolean = false;
   isDarkMode: boolean = false;
+  private sub: Subscription | null = null;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      const datos = localStorage.getItem('usuario') || sessionStorage.getItem('usuario'); // ✅
+      this.sub = this.authService.usuario$.subscribe(usuario => {
+        if (usuario) {
+          this.usuarioActivo = { ...usuario };
+          this.cdr.detectChanges();
+        }
+      });
 
-      if (datos) {
-        try {
-          this.usuarioActivo = JSON.parse(datos);
-        } catch (e) {
+      if (!this.usuarioActivo) {
+        const datos = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
+        if (datos) {
+          try {
+            this.usuarioActivo = JSON.parse(datos);
+          } catch {
+            this.router.navigate(['/login']);
+          }
+        } else {
           this.router.navigate(['/login']);
         }
-      } else {
-        this.router.navigate(['/login']);
       }
 
       const temaGuardado = localStorage.getItem('tema');
@@ -38,6 +50,10 @@ export class HomeComponent implements OnInit {
         document.body.classList.add('dark-theme');
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
   toggleMenu(event: Event) {
@@ -65,9 +81,9 @@ export class HomeComponent implements OnInit {
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('usuario'); // ✅
+      localStorage.removeItem('usuario');
       localStorage.removeItem('token');
-      sessionStorage.removeItem('usuario'); // ✅ también sessionStorage
+      sessionStorage.removeItem('usuario');
       sessionStorage.removeItem('token');
     }
     this.router.navigate(['/login']);

@@ -5,7 +5,8 @@
   </div>
 
   <div class="crear-post-card">
-    <textarea [(ngModel)]="nuevaPublicacion" placeholder="¿Qué estás pensando?" rows="3">
+    <textarea [(ngModel)]="nuevaPublicacion" placeholder="¿Qué estás pensando?" rows="3"
+              (keydown)="onKeydownPublicar($event)">
     </textarea>
     <div class="post-actions">
       <button class="btn-publicar" (click)="publicar()">Publicar</button>
@@ -13,62 +14,83 @@
   </div>
 
   <div class="posts-list">
-    <div class="post-card" *ngFor="let post of publicacionesVisibles">
+    @for (post of publicacionesVisibles; track post.id) {
+      <div class="post-card">
 
-      <div class="post-header">
-        <div class="autor-info">
-          <div class="avatar-circle">
-            {{ post.autorApodo ? post.autorApodo.charAt(0).toUpperCase() : 'U' }}
-          </div>
-          <div class="meta">
-            <span class="autor-name">{{ post.autorApodo || 'Usuario' }}</span>
-            <span class="fecha">{{ post.fecha | date:'M/d/yy, h:mm a' }}</span>
-          </div>
-        </div>
-        <button *ngIf="usuarioActivo?.id === post.usuarioId || usuarioActivo?.rol === 'Admin'" class="btn-delete-x"
-          (click)="borrar(post.id)">✕</button>
-      </div>
-
-      <div class="post-body">{{ post.contenido }}</div>
-
-      <!-- Respuestas siempre visibles -->
-      <div *ngIf="post.respuestas?.length > 0" class="respuestas-lista">
-        <div class="respuesta-card" *ngFor="let respuesta of post.respuestas">
-          <div class="post-header">
-            <div class="autor-info">
-              <div class="avatar-circle avatar-small">
-                {{ respuesta.autorApodo ? respuesta.autorApodo.charAt(0).toUpperCase() : 'U' }}
+        <div class="post-header">
+          <div class="autor-info">
+            @if (esImagenReal(post.autorAvatar)) {
+              <img class="avatar-circle avatar-img" [src]="post.autorAvatar" [alt]="post.autorApodo">
+            } @else {
+              <div class="avatar-circle">
+                {{ post.autorApodo ? post.autorApodo.charAt(0).toUpperCase() : 'U' }}
               </div>
-              <div class="meta">
-                <span class="autor-name">{{ respuesta.autorApodo || 'Usuario' }}</span>
-                <span class="fecha">{{ respuesta.fecha | date:'M/d/yy, h:mm a' }}</span>
-              </div>
+            }
+            <div class="meta">
+              <span class="autor-name">{{ post.autorApodo || 'Usuario' }}</span>
+              <span class="fecha">{{ post.fecha | date:'M/d/yy, h:mm a' }}</span>
             </div>
-            <button *ngIf="usuarioActivo?.id === respuesta.usuarioId || usuarioActivo?.rol === 'Admin'"
-              class="btn-delete-x" (click)="borrar(respuesta.id)">✕</button>
           </div>
-          <div class="post-body">{{ respuesta.contenido }}</div>
+          @if (usuarioActivo?.id === post.usuarioId || usuarioActivo?.rol === 'Admin') {
+            <button class="btn-delete-x" (click)="borrar(post.id)">✕</button>
+          }
         </div>
+
+        <div class="post-body">{{ post.contenido }}</div>
+
+        @if (post.respuestas?.length > 0) {
+          <div class="respuestas-lista">
+            @for (respuesta of post.respuestas; track respuesta.id) {
+              <div class="respuesta-card">
+                <div class="post-header">
+                  <div class="autor-info">
+                    @if (esImagenReal(respuesta.autorAvatar)) {
+                      <img class="avatar-circle avatar-small avatar-img" [src]="respuesta.autorAvatar" [alt]="respuesta.autorApodo">
+                    } @else {
+                      <div class="avatar-circle avatar-small">
+                        {{ respuesta.autorApodo ? respuesta.autorApodo.charAt(0).toUpperCase() : 'U' }}
+                      </div>
+                    }
+                    <div class="meta">
+                      <span class="autor-name">{{ respuesta.autorApodo || 'Usuario' }}</span>
+                      <span class="fecha">{{ respuesta.fecha | date:'M/d/yy, h:mm a' }}</span>
+                    </div>
+                  </div>
+                  @if (usuarioActivo?.id === respuesta.usuarioId || usuarioActivo?.rol === 'Admin') {
+                    <button class="btn-delete-x" (click)="borrar(respuesta.id)">✕</button>
+                  }
+                </div>
+                <div class="post-body">{{ respuesta.contenido }}</div>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="post-footer">
+          <button class="btn-responder" (click)="toggleResponder(post.id)">
+            💬 Responder
+            @if (post.respuestas?.length > 0) {
+              <span>({{ post.respuestas.length }})</span>
+            }
+          </button>
+        </div>
+
+        @if (respondiendo === post.id) {
+          <div class="respuesta-box">
+            <textarea [(ngModel)]="textoRespuesta" placeholder="Escribe tu respuesta..." rows="2"
+                      (keydown)="onKeydownResponder($event, post.id)">
+            </textarea>
+            <button class="btn-publicar" (click)="responder(post.id)">Enviar</button>
+          </div>
+        }
+
       </div>
+    }
 
-      <!-- Botón y caja de responder -->
-      <div class="post-footer">
-        <button class="btn-responder" (click)="toggleResponder(post.id)">
-          💬 Responder
-          <span *ngIf="post.respuestas?.length > 0">({{ post.respuestas.length }})</span>
-        </button>
+    @if (publicaciones.length === 0) {
+      <div class="no-messages">
+        <p>Aún no hay mensajes. ¡Sé el primero en publicar algo!</p>
       </div>
-
-      <div *ngIf="respondiendo === post.id" class="respuesta-box">
-        <textarea [(ngModel)]="textoRespuesta" placeholder="Escribe tu respuesta..." rows="2">
-        </textarea>
-        <button class="btn-publicar" (click)="responder(post.id)">Enviar</button>
-      </div>
-
-    </div>
-
-    <div *ngIf="publicaciones.length === 0" class="no-messages">
-      <p>Aún no hay mensajes. ¡Sé el primero en publicar algo!</p>
-    </div>
+    }
   </div>
 </div>
