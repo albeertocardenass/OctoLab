@@ -208,7 +208,6 @@ input[type="password"]:focus {
   text-decoration: underline;
 }
 
-/* LADO DERECHO */
 .login-right {
   width: 50%;
   background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4f46e5 100%);

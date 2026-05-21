@@ -9,6 +9,6 @@ public class Publicacion
     public string? Imagen { get; set; }
     public DateTime Fecha { get; set; } = DateTime.Now;
     public long UsuarioId { get; set; }
-    public long? PublicacionPadreId { get; set; } // ← nuevo
+    public long? PublicacionPadreId { get; set; } 
     public Usuario? Usuario { get; set; }
 }

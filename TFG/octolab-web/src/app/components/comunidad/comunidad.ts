@@ -77,7 +77,7 @@ export class ComunidadComponent implements OnInit {
           userData.puntos = (userData.puntos || 0) + res.puntosGanados;
           storage.setItem('usuario', JSON.stringify(userData));
           this.usuarioActivo = userData;
-          alert(`🎉 ¡Primera publicación! +${res.puntosGanados} Puntos Octo`);
+          alert(` ¡Primera publicación! +${res.puntosGanados} Puntos Octo`);
         }
 
         this.cargarComunidad();
