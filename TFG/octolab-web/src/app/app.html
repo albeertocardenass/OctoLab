@@ -1,3 +1,11 @@
+<div class="login-transition-overlay" [class.active]="transition.isActive$ | async" aria-hidden="true">
+  <div class="transition-logo">
+    <img src="octolabweblogo.ico" alt="OctoLab" class="transition-icon" />
+    <span class="transition-brand">Octo<span>Lab</span></span>
+    <span class="transition-tagline">Iniciando sesión…</span>
+  </div>
+</div>
+
 <div class="contenedor-principal">
   <router-outlet></router-outlet>
 </div>

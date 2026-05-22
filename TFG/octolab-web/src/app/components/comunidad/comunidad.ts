@@ -1,8 +1,9 @@
-import { Component, OnInit, HostListener, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, HostListener, PLATFORM_ID, inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PublicacionService } from '../../services/publicaciones.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-comunidad',
@@ -13,9 +14,11 @@ import { PublicacionService } from '../../services/publicaciones.service';
 })
 export class ComunidadComponent implements OnInit {
   private pubService = inject(PublicacionService);
+  private authService = inject(AuthService);
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private zone = inject(NgZone);
 
   usuarioActivo: any = null;
   nuevaPublicacion: string = '';
@@ -27,7 +30,9 @@ export class ComunidadComponent implements OnInit {
 
   ngOnInit() {
     this.cargarDatosSeguros();
-    this.cargarComunidad();
+    if (isPlatformBrowser(this.platformId)) {
+      this.cargarComunidad();
+    }
   }
 
   cargarDatosSeguros() {
@@ -42,16 +47,18 @@ export class ComunidadComponent implements OnInit {
   cargarComunidad() {
     this.pubService.obtenerPublicaciones().subscribe({
       next: (data) => {
-        this.publicaciones = data
-          .filter(p => !p.publicacionPadreId)
-          .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
-          .map(p => ({
-            ...p,
-            respuestas: data
-              .filter(r => r.publicacionPadreId === p.id)
-              .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
-          }));
-        this.cdr.detectChanges();
+        this.zone.run(() => {
+          this.publicaciones = data
+            .filter(p => !p.publicacionPadreId)
+            .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+            .map(p => ({
+              ...p,
+              respuestas: data
+                .filter(r => r.publicacionPadreId === p.id)
+                .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
+            }));
+          this.cdr.detectChanges();
+        });
       },
       error: (err) => console.error('Error al cargar publicaciones', err)
     });
@@ -71,13 +78,13 @@ export class ComunidadComponent implements OnInit {
         this.nuevaPublicacion = '';
 
         if (res.puntosGanados > 0) {
-          const enLocal = !!localStorage.getItem('usuario');
-          const storage = enLocal ? localStorage : sessionStorage;
-          const userData = JSON.parse(storage.getItem('usuario')!);
-          userData.puntos = (userData.puntos || 0) + res.puntosGanados;
-          storage.setItem('usuario', JSON.stringify(userData));
-          this.usuarioActivo = userData;
-          alert(`🎉 ¡Primera publicación! +${res.puntosGanados} Puntos Octo`);
+          const usuarioActualizado = {
+            ...this.authService.getUsuarioActual(),
+            puntos: (this.authService.getUsuarioActual()?.puntos || 0) + res.puntosGanados
+          };
+          this.authService.actualizarUsuarioLocal(usuarioActualizado);
+          this.usuarioActivo = usuarioActualizado;
+          alert(`¡Primera publicación! +${res.puntosGanados} Puntos Octo`);
         }
 
         this.cargarComunidad();

@@ -6,7 +6,7 @@
 
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-icon">📈</div>
+      <div class="stat-icon">▲</div>
       <div class="data">
         <span class="label">Progreso Total</span>
         <span class="value">{{ progresoPorcentaje | number:'1.0-0' }}%</span>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">📚</div>
+      <div class="stat-icon">◈</div>
       <div class="data">
         <span class="label">Temas Desbloqueados</span>
         <span class="value">{{ obtenerTemasVistos() }} / {{ modulos.length }}</span>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">🪙</div>
+      <div class="stat-icon">◆</div>
       <div class="data">
         <span class="label">Puntos Octo</span>
         <span class="value">{{ usuario?.puntos ?? 0 }} <small>pts</small></span>
@@ -59,13 +59,13 @@
 
           <div class="badges-container">
             <span class="badge badge-unlocked" *ngIf="estaDesbloqueado(mod.id)">
-              ✅ Contenido Disponible
+              ✓ Contenido Disponible
             </span>
             <span class="badge badge-cost" *ngIf="!estaDesbloqueado(mod.id) && !estaDesbloqueando(mod.id)">
-              🪙 Costo: {{ mod.costo }} pts
+              Costo: {{ mod.costo }} pts
             </span>
             <span class="badge badge-loading" *ngIf="estaDesbloqueando(mod.id)">
-              ⏳ Desbloqueando…
+              Procesando…
             </span>
           </div>
 
@@ -87,7 +87,7 @@
                 ▶ Abrir Tema
               </ng-container>
               <ng-container *ngIf="!estaDesbloqueado(mod.id)">
-                {{ (usuario?.puntos ?? 0) < mod.costo ? '🔒 Puntos Insuficientes' : '🔓 Desbloquear' }}
+                {{ (usuario?.puntos ?? 0) < mod.costo ? 'Puntos Insuficientes' : 'Desbloquear' }}
               </ng-container>
             </ng-container>
           </button>

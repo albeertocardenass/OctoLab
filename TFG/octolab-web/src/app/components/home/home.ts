@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, HostListener, Change
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,12 +16,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly authService = inject(AuthService);
+  readonly themeService = inject(ThemeService);
   public readonly router = inject(Router);
 
   usuarioActivo: any = null;
   isMenuOpen: boolean = false;
-  isDarkMode: boolean = false;
   private sub: Subscription | null = null;
+
+  get isDarkMode(): boolean {
+    return this.themeService.isDarkMode;
+  }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -44,11 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }
 
-      const temaGuardado = localStorage.getItem('tema');
-      this.isDarkMode = temaGuardado === 'dark';
-      if (this.isDarkMode) {
-        document.body.classList.add('dark-theme');
-      }
+      this.themeService.init();
     }
   }
 
@@ -67,16 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.isDarkMode) {
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('tema', 'dark');
-      } else {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('tema', 'light');
-      }
-    }
+    this.themeService.toggle();
   }
 
   logout() {

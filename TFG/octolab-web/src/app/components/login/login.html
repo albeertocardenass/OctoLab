@@ -32,7 +32,7 @@
         </div>
 
 
-        <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+        @if (errorMessage) { <p class="error-msg">{{ errorMessage }}</p> }
 
         <button type="submit" class="btn-primary">Entrar</button>
         <button type="button" class="btn-guest" (click)="entrarComoInvitado()">Entrar como Invitado</button>

@@ -28,18 +28,18 @@ export class TemarioComponent implements OnInit {
   desbloqueando = new Set<number>();
 
   modulos: Modulo[] = [
-    { id: 1,  costo: 20, icono: '🔐', titulo: 'Fundamentos de Ciberseguridad',      descripcion: 'Protección de sistemas, Tríada CIA e importancia en la era digital.' },
-    { id: 2,  costo: 30, icono: '🖥️', titulo: 'Seguridad en Sistemas Operativos',   descripcion: 'Actualizaciones, parches, antivirus y gestión del menor privilegio.' },
-    { id: 3,  costo: 30, icono: '🌐', titulo: 'Redes y Seguridad de Redes',          descripcion: 'Protocolos TCP/IP, Firewalls, VPN, segmentación y Wi-Fi seguro.' },
-    { id: 4,  costo: 50, icono: '🕵️‍♂️', titulo: 'Ethical Hacking / Pentesting',   descripcion: 'Evaluación de resiliencia, simulacros y uso de Kali Linux o Metasploit.' },
-    { id: 5,  costo: 40, icono: '🔍', titulo: 'Análisis de Vulnerabilidades',        descripcion: 'Amenazas, vulnerabilidades, cálculo de riesgos y medidas de mitigación.' },
-    { id: 6,  costo: 30, icono: '🧠', titulo: 'Ingeniería Social',                   descripcion: 'Phishing, Vishing, Baiting y tácticas de manipulación psicológica.' },
-    { id: 7,  costo: 40, icono: '🛡️', titulo: 'Seguridad Web',                      descripcion: 'Prevención de SQL Injection, XSS, CSRF y validación de entradas.' },
-    { id: 8,  costo: 30, icono: '📱', titulo: 'Seguridad en Dispositivos Móviles',   descripcion: 'Protección contra robo, malware, biometría y políticas BYOD/MDM.' },
-    { id: 9,  costo: 50, icono: '🔑', titulo: 'Criptografía Básica',                 descripcion: 'Cifrado en reposo y tránsito, E2EE y certificados digitales (CA).' },
-    { id: 10, costo: 40, icono: '☁️', titulo: 'Seguridad en la Nube',               descripcion: 'Modelos SaaS, PaaS, IaaS, riesgos asociados y gobernanza IAM/SLA.' },
-    { id: 11, costo: 40, icono: '🚨', titulo: 'Respuesta ante Incidentes',           descripcion: 'Fases de respuesta, contención, recuperación y Regla de Backup 3-2-1.' },
-    { id: 12, costo: 20, icono: '⚖️', titulo: 'Legalidad y Ética',                  descripcion: 'Cumplimiento del GDPR, principios éticos y diferencias de seguridad.' }
+    { id: 1,  costo: 180, icono: '01', titulo: 'Fundamentos de Ciberseguridad',      descripcion: 'Protección de sistemas, Tríada CIA e importancia en la era digital.' },
+    { id: 2,  costo: 250, icono: '02', titulo: 'Seguridad en Sistemas Operativos',   descripcion: 'Actualizaciones, parches, antivirus y gestión del menor privilegio.' },
+    { id: 3,  costo: 250, icono: '03', titulo: 'Redes y Seguridad de Redes',          descripcion: 'Protocolos TCP/IP, Firewalls, VPN, segmentación y Wi-Fi seguro.' },
+    { id: 4,  costo: 380, icono: '04', titulo: 'Ethical Hacking / Pentesting',        descripcion: 'Evaluación de resiliencia, simulacros y uso de Kali Linux o Metasploit.' },
+    { id: 5,  costo: 320, icono: '05', titulo: 'Análisis de Vulnerabilidades',        descripcion: 'Amenazas, vulnerabilidades, cálculo de riesgos y medidas de mitigación.' },
+    { id: 6,  costo: 290, icono: '06', titulo: 'Ingeniería Social',                   descripcion: 'Phishing, Vishing, Baiting y tácticas de manipulación psicológica.' },
+    { id: 7,  costo: 340, icono: '07', titulo: 'Seguridad Web',                       descripcion: 'Prevención de SQL Injection, XSS, CSRF y validación de entradas.' },
+    { id: 8,  costo: 290, icono: '08', titulo: 'Seguridad en Dispositivos Móviles',   descripcion: 'Protección contra robo, malware, biometría y políticas BYOD/MDM.' },
+    { id: 9,  costo: 380, icono: '09', titulo: 'Criptografía Básica',                 descripcion: 'Cifrado en reposo y tránsito, E2EE y certificados digitales (CA).' },
+    { id: 10, costo: 320, icono: '10', titulo: 'Seguridad en la Nube',               descripcion: 'Modelos SaaS, PaaS, IaaS, riesgos asociados y gobernanza IAM/SLA.' },
+    { id: 11, costo: 320, icono: '11', titulo: 'Respuesta ante Incidentes',           descripcion: 'Fases de respuesta, contención, recuperación y Regla de Backup 3-2-1.' },
+    { id: 12, costo: 260, icono: '12', titulo: 'Legalidad y Ética',                  descripcion: 'Cumplimiento del GDPR, principios éticos y diferencias de seguridad.' }
   ];
 
   ngOnInit(): void {

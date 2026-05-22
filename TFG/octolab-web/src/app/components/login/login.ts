@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { TransitionService } from '../../services/transition.service';
 import { API_BASE } from '../../services/api.config';
 
 @Component({
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
   private authService = inject(AuthService);
+  private transitionService = inject(TransitionService);
 
   loginData = { email: '', password: '' };
   recuerdame = false;
@@ -47,7 +49,13 @@ export class LoginComponent implements OnInit {
           const rol = usuario.rol || usuario.Rol;
           const destino = rol === 'Admin' ? '/admin' : this.returnUrl;
 
-          this.router.navigateByUrl(destino);
+          this.transitionService.show();
+          // Navigate after overlay is fully visible (0.5s fade-in + brief hold)
+          setTimeout(() => {
+            this.router.navigateByUrl(destino);
+            // Hide overlay after destination component has rendered and faded in
+            setTimeout(() => this.transitionService.hide(), 700);
+          }, 1800);
         }
       },
       error: (err) => {
@@ -61,7 +69,11 @@ export class LoginComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const usuarioInvitado = { rol: 'Invitado', nombre: 'Invitado', apodo: 'Invitado' };
       this.authService.setUser(usuarioInvitado, 'token-invitado', false);
-      this.router.navigateByUrl('/home/inicio');
+      this.transitionService.show();
+      setTimeout(() => {
+        this.router.navigateByUrl('/home/inicio');
+        setTimeout(() => this.transitionService.hide(), 700);
+      }, 1200);
     }
   }
 

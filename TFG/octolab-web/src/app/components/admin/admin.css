@@ -1,4 +1,4 @@
-:root {
+:host {
   --bg-principal: #f8fafc;
   --bg-tarjetas: #ffffff;
   --texto-principal: #1e293b;
@@ -6,7 +6,7 @@
   --borde: #e2e8f0;
 }
 
-body.dark-theme {
+:host-context(body.dark-theme) {
   --bg-principal: #0f172a;
   --bg-tarjetas: #1e293b;
   --texto-principal: #f1f5f9;
@@ -217,6 +217,26 @@ body.dark-theme {
 .btn-home:hover {
   background-color: #4338ca;
   transform: translateY(-2px);
+}
+
+.btn-theme-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--borde, #e2e8f0);
+  background-color: var(--bg-tarjetas, #ffffff);
+  color: var(--texto-principal, #1e293b);
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-theme-icon:hover {
+  background-color: var(--borde, #e2e8f0);
+  transform: rotate(20deg);
 }
 
 .btn-logout-secondary {

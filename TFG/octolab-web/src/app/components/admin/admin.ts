@@ -1,10 +1,12 @@
-import { Component, OnInit, inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, ChangeDetectorRef, NgZone, afterNextRender } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { AdminService } from '../../services/admin.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -13,20 +15,35 @@ import { AdminService } from '../../services/admin.service';
   templateUrl: './admin.html',
   styleUrls: ['./admin.css']
 })
-export class AdminPanelComponent implements OnInit {
+export class AdminPanelComponent implements OnInit, OnDestroy {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly zone = inject(NgZone);
+  private readonly themeService = inject(ThemeService);
   public readonly authService = inject(AuthService);
 
   usuarios: any[] = [];
+  isDarkMode = false;
+  private themeSub: Subscription | null = null;
 
-  constructor() { }
+  constructor() {
+    afterNextRender(() => {
+      this.cargarUsuarios();
+    });
+  }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.themeService.init();
+
+      this.themeSub = this.themeService.isDarkMode$.subscribe(dark => {
+        this.isDarkMode = dark;
+        this.cdr.detectChanges();
+      });
+
       const storedUser = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
       if (!storedUser) {
         this.router.navigate(['/login']);
@@ -40,17 +57,24 @@ export class AdminPanelComponent implements OnInit {
         this.router.navigate(['/home']);
         return;
       }
-
-      this.cargarUsuarios();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.themeSub?.unsubscribe();
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
   }
 
   cargarUsuarios() {
     this.adminService.getUsuarios().subscribe({
       next: (res) => {
-        this.usuarios = res;
-        console.log('Usuarios cargados:', this.usuarios.length, this.usuarios);
-        this.cdr.detectChanges();
+        this.zone.run(() => {
+          this.usuarios = res;
+          this.cdr.detectChanges();
+        });
       },
       error: (err) => console.error('Error al conectar con la API:', err)
     });
@@ -62,8 +86,7 @@ export class AdminPanelComponent implements OnInit {
     const limiteActivo = 24 * 60 * 60 * 1000;
     return this.usuarios.filter(u => {
       const fechaConexion = new Date(u.ultimaConexion || u.UltimaConexion);
-      const diferencia = ahora.getTime() - fechaConexion.getTime();
-      return diferencia < limiteActivo;
+      return (ahora.getTime() - fechaConexion.getTime()) < limiteActivo;
     }).length;
   }
 
@@ -72,9 +95,7 @@ export class AdminPanelComponent implements OnInit {
     const currentRol = user.rol || user.Rol;
     const nuevoRol = currentRol === 'Admin' ? 'Usuario' : 'Admin';
     this.adminService.cambiarRol(id, nuevoRol).subscribe({
-      next: () => {
-        this.cargarUsuarios();
-      },
+      next: () => this.cargarUsuarios(),
       error: (err) => console.error('Error al cambiar rol', err)
     });
   }
@@ -101,9 +122,6 @@ export class AdminPanelComponent implements OnInit {
 
   esActivo(fecha: any): boolean {
     if (!fecha) return false;
-    const ahora = new Date().getTime();
-    const conexion = new Date(fecha).getTime();
-    const limite = 24 * 60 * 60 * 1000;
-    return (ahora - conexion) < limite;
+    return (new Date().getTime() - new Date(fecha).getTime()) < 24 * 60 * 60 * 1000;
   }
 }

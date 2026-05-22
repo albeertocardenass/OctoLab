@@ -1,12 +1,72 @@
-.login-container {
-  max-width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.contenedor-principal {
+  min-height: 100vh;
+}
+
+/* ── Login transition overlay (global, persists across navigation) ── */
+.login-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.login-transition-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.transition-logo {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
 }
-input, button { padding: 10px; }
-.error { color: red; font-size: 0.8em; }
+
+.login-transition-overlay.active .transition-logo {
+  animation: loginReveal 0.7s ease 0.3s forwards;
+}
+
+.transition-icon {
+  width: 88px;
+  height: 88px;
+}
+
+.login-transition-overlay.active .transition-icon {
+  animation: iconPulse 1.2s ease 0.8s infinite alternate;
+}
+
+.transition-brand {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.transition-brand span {
+  color: rgba(165, 180, 252, 0.9);
+}
+
+.transition-tagline {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: -8px;
+}
+
+@keyframes loginReveal {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes iconPulse {
+  from { transform: scale(1);    filter: drop-shadow(0 0 8px rgba(165,180,252,0.4)); }
+  to   { transform: scale(1.08); filter: drop-shadow(0 0 20px rgba(165,180,252,0.8)); }
+}

@@ -90,7 +90,7 @@ namespace OctoLab.Server.Controllers
                     rol = usuario.Rol,
                     apodo = usuario.Apodo,
                     avatar = usuario.Avatar,
-                    puntos = usuario.Puntos,
+                    puntos = usuario.Rol == "Admin" ? 999 : usuario.Puntos,
                     modulosDesbloqueados = string.IsNullOrEmpty(usuario.ModulosDesbloqueados)
                         ? new List<int>()
                         : usuario.ModulosDesbloqueados.Split(',').Select(int.Parse).ToList()
@@ -182,7 +182,7 @@ namespace OctoLab.Server.Controllers
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null) return NotFound();
 
-            usuario.Puntos = dto.Puntos;
+            usuario.Puntos = usuario.Rol == "Admin" ? 999 : dto.Puntos;
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Puntos actualizados correctamente" });
@@ -199,7 +199,7 @@ namespace OctoLab.Server.Controllers
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null) return NotFound();
 
-            usuario.Puntos = dto.Puntos;
+            usuario.Puntos = usuario.Rol == "Admin" ? 999 : dto.Puntos;
             usuario.ModulosDesbloqueados = dto.ModulosDesbloqueados != null && dto.ModulosDesbloqueados.Any()
                 ? string.Join(",", dto.ModulosDesbloqueados)
                 : "";
