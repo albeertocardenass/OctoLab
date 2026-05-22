@@ -15,7 +15,7 @@
   text-align: center;
 }
 
-/* ── Cabecera ── */
+
 .donation-header {
   margin-bottom: 32px;
 }
@@ -33,7 +33,6 @@
   margin: 0;
 }
 
-/* ── Botones de cantidad ── */
 .options {
   display: flex;
   justify-content: center;
@@ -63,7 +62,6 @@
   color: white;
 }
 
-/* ── Cantidad personalizada ── */
 .custom-amount {
   margin-bottom: 24px;
 }
@@ -118,7 +116,6 @@
   width: 0;
 }
 
-/* ── Resumen ── */
 .resumen {
   margin: 0 0 24px;
   font-size: 0.95rem;
@@ -135,7 +132,6 @@
   margin-left: 6px;
 }
 
-/* ── Botón principal ── */
 .btn-donar {
   width: 100%;
   background: #4f46e5;
@@ -164,7 +160,6 @@
   cursor: not-allowed;
 }
 
-/* ── Mensajes ── */
 .error {
   color: #ef4444;
   font-size: 0.88rem;
@@ -174,7 +169,6 @@
   padding: 10px;
 }
 
-/* ── Estado éxito ── */
 .estado-card {
   padding: 16px;
 }
