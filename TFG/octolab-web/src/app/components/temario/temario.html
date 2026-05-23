@@ -15,7 +15,6 @@
         <div class="progress-bar-fill" [style.width.%]="progresoPorcentaje"></div>
       </div>
     </div>
-
     <div class="stat-card">
       <div class="stat-icon">◈</div>
       <div class="data">
@@ -23,7 +22,6 @@
         <span class="value">{{ obtenerTemasVistos() }} / {{ modulos.length }}</span>
       </div>
     </div>
-
     <div class="stat-card">
       <div class="stat-icon">◆</div>
       <div class="data">
@@ -41,58 +39,49 @@
   </div>
 
   <div class="list-container">
-    <div
-      class="module-card"
-      *ngFor="let mod of modulos"
-      [class.unlocked-card]="estaDesbloqueado(mod.id)"
-      [class.locked-card]="!estaDesbloqueado(mod.id)"
-      [class.loading-card]="estaDesbloqueando(mod.id)">
+    @for (mod of modulos; track mod.id) {
+      <div
+        class="module-card"
+        [class.unlocked-card]="estaDesbloqueado(mod.id)"
+        [class.locked-card]="!estaDesbloqueado(mod.id)"
+        [class.loading-card]="estaDesbloqueando(mod.id)">
 
-      <div class="module-content">
-        <span class="module-icon" [class.grayscale]="!estaDesbloqueado(mod.id)">
-          {{ mod.icono }}
-        </span>
+        <div class="module-content">
+          <span class="module-icon" [class.grayscale]="!estaDesbloqueado(mod.id)">{{ mod.icono }}</span>
 
-        <div class="info">
-          <h3>{{ mod.titulo }}</h3>
-          <p>{{ mod.descripcion }}</p>
+          <div class="info">
+            <h3>{{ mod.titulo }}</h3>
+            <p>{{ mod.descripcion }}</p>
 
-          <div class="badges-container">
-            <span class="badge badge-unlocked" *ngIf="estaDesbloqueado(mod.id)">
-              ✓ Contenido Disponible
-            </span>
-            <span class="badge badge-cost" *ngIf="!estaDesbloqueado(mod.id) && !estaDesbloqueando(mod.id)">
-              Costo: {{ mod.costo }} pts
-            </span>
-            <span class="badge badge-loading" *ngIf="estaDesbloqueando(mod.id)">
-              Procesando…
-            </span>
-          </div>
+            <div class="badges-container">
+              @if (estaDesbloqueado(mod.id)) {
+                <span class="badge badge-unlocked">✓ Contenido Disponible</span>
+              } @else if (estaDesbloqueando(mod.id)) {
+                <span class="badge badge-loading">Procesando…</span>
+              } @else {
+                <span class="badge badge-cost">Costo: {{ mod.costo }} pts</span>
+              }
+            </div>
 
-          <button
-            class="btn-open"
-            [class.btn-unlocked]="estaDesbloqueado(mod.id)"
-            [class.btn-locked]="!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) >= mod.costo"
-            [class.btn-disabled]="!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) < mod.costo"
-            [class.btn-loading]="estaDesbloqueando(mod.id)"
-            [disabled]="(!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) < mod.costo) || estaDesbloqueando(mod.id)"
-            (click)="desbloquearOAbrir(mod)">
-
-            <ng-container *ngIf="estaDesbloqueando(mod.id)">
-              <span class="spinner"></span> Procesando…
-            </ng-container>
-
-            <ng-container *ngIf="!estaDesbloqueando(mod.id)">
-              <ng-container *ngIf="estaDesbloqueado(mod.id)">
+            <button
+              class="btn-open"
+              [class.btn-unlocked]="estaDesbloqueado(mod.id)"
+              [class.btn-locked]="!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) >= mod.costo"
+              [class.btn-disabled]="!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) < mod.costo"
+              [class.btn-loading]="estaDesbloqueando(mod.id)"
+              [disabled]="(!estaDesbloqueado(mod.id) && (usuario?.puntos ?? 0) < mod.costo) || estaDesbloqueando(mod.id)"
+              (click)="desbloquearOAbrir(mod)">
+              @if (estaDesbloqueando(mod.id)) {
+                <span class="spinner"></span> Procesando…
+              } @else if (estaDesbloqueado(mod.id)) {
                 ▶ Abrir Tema
-              </ng-container>
-              <ng-container *ngIf="!estaDesbloqueado(mod.id)">
+              } @else {
                 {{ (usuario?.puntos ?? 0) < mod.costo ? 'Puntos Insuficientes' : 'Desbloquear' }}
-              </ng-container>
-            </ng-container>
-          </button>
+              }
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

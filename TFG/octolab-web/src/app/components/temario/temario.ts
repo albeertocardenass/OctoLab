@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 interface Modulo {
@@ -20,12 +21,13 @@ interface Modulo {
 })
 export class TemarioComponent implements OnInit {
   private authService = inject(AuthService);
-  private zone = inject(NgZone);
-  private cdr = inject(ChangeDetectorRef);
+  private router      = inject(Router);
+  private zone        = inject(NgZone);
+  private cdr         = inject(ChangeDetectorRef);
 
   usuario: any = null;
   modulosDesbloqueadosSet = new Set<number>();
-  desbloqueando = new Set<number>();
+  desbloqueando           = new Set<number>();
 
   modulos: Modulo[] = [
     { id: 1,  costo: 180, icono: '01', titulo: 'Fundamentos de Ciberseguridad',      descripcion: 'Protección de sistemas, Tríada CIA e importancia en la era digital.' },
@@ -37,18 +39,15 @@ export class TemarioComponent implements OnInit {
     { id: 7,  costo: 340, icono: '07', titulo: 'Seguridad Web',                       descripcion: 'Prevención de SQL Injection, XSS, CSRF y validación de entradas.' },
     { id: 8,  costo: 290, icono: '08', titulo: 'Seguridad en Dispositivos Móviles',   descripcion: 'Protección contra robo, malware, biometría y políticas BYOD/MDM.' },
     { id: 9,  costo: 380, icono: '09', titulo: 'Criptografía Básica',                 descripcion: 'Cifrado en reposo y tránsito, E2EE y certificados digitales (CA).' },
-    { id: 10, costo: 320, icono: '10', titulo: 'Seguridad en la Nube',               descripcion: 'Modelos SaaS, PaaS, IaaS, riesgos asociados y gobernanza IAM/SLA.' },
-    { id: 11, costo: 320, icono: '11', titulo: 'Respuesta ante Incidentes',           descripcion: 'Fases de respuesta, contención, recuperación y Regla de Backup 3-2-1.' },
-    { id: 12, costo: 260, icono: '12', titulo: 'Legalidad y Ética',                  descripcion: 'Cumplimiento del GDPR, principios éticos y diferencias de seguridad.' }
+    { id: 10, costo: 320, icono: '10', titulo: 'Seguridad en la Nube',                descripcion: 'Modelos SaaS, PaaS, IaaS, riesgos asociados y gobernanza IAM/SLA.' },
+    { id: 11, costo: 320, icono: '11', titulo: 'Respuesta ante Incidentes',            descripcion: 'Fases de respuesta, contención, recuperación y Regla de Backup 3-2-1.' },
+    { id: 12, costo: 260, icono: '12', titulo: 'Legalidad y Ética',                   descripcion: 'Cumplimiento del GDPR, principios éticos y diferencias de seguridad.' }
   ];
 
   ngOnInit(): void {
     this.usuario = this.authService.getUsuarioActual();
-
     if (this.usuario) {
-      if (!this.usuario.modulosDesbloqueados) {
-        this.usuario.modulosDesbloqueados = [];
-      }
+      if (!this.usuario.modulosDesbloqueados) this.usuario.modulosDesbloqueados = [];
       this.sincronizarSet();
     }
   }
@@ -59,17 +58,9 @@ export class TemarioComponent implements OnInit {
     );
   }
 
-  estaDesbloqueado(id: number): boolean {
-    return this.modulosDesbloqueadosSet.has(id);
-  }
-
-  estaDesbloqueando(id: number): boolean {
-    return this.desbloqueando.has(id);
-  }
-
-  obtenerTemasVistos(): number {
-    return this.modulosDesbloqueadosSet.size;
-  }
+  estaDesbloqueado(id: number): boolean  { return this.modulosDesbloqueadosSet.has(id); }
+  estaDesbloqueando(id: number): boolean { return this.desbloqueando.has(id); }
+  obtenerTemasVistos(): number           { return this.modulosDesbloqueadosSet.size; }
 
   get progresoPorcentaje(): number {
     return (this.obtenerTemasVistos() / this.modulos.length) * 100;
@@ -77,7 +68,7 @@ export class TemarioComponent implements OnInit {
 
   desbloquearOAbrir(mod: Modulo): void {
     if (this.estaDesbloqueado(mod.id)) {
-      alert(`Abriendo: ${mod.titulo}`);
+      this.router.navigate(['/home/modulo', mod.id]);
       return;
     }
 
@@ -89,7 +80,6 @@ export class TemarioComponent implements OnInit {
     }
 
     const nuevosPuntos = this.usuario.puntos - mod.costo;
-
     this.desbloqueando.add(mod.id);
     this.modulosDesbloqueadosSet.add(mod.id);
     this.usuario = {
@@ -100,32 +90,22 @@ export class TemarioComponent implements OnInit {
     this.authService.actualizarUsuarioLocal(this.usuario);
     this.cdr.detectChanges();
 
-    const modulosArray = Array.from(this.modulosDesbloqueadosSet);
-    this.authService.actualizarProgreso(nuevosPuntos, modulosArray).subscribe({
-      next: () => {
-        this.zone.run(() => {
-          this.desbloqueando.delete(mod.id);
-          this.cdr.detectChanges();
-          console.log(`Módulo ${mod.id} desbloqueado correctamente.`);
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.zone.run(() => {
-          this.desbloqueando.delete(mod.id);
-          this.modulosDesbloqueadosSet.delete(mod.id);
-          this.usuario = {
-            ...this.usuario,
-            puntos: this.usuario.puntos + mod.costo,
-            modulosDesbloqueados: this.usuario.modulosDesbloqueados.filter(
-              (id: number) => Number(id) !== mod.id
-            )
-          };
-          this.authService.actualizarUsuarioLocal(this.usuario);
-          this.cdr.detectChanges();
-          alert('Error de conexión. No se pudo desbloquear el módulo.');
-        });
-      }
+    this.authService.actualizarProgreso(nuevosPuntos, Array.from(this.modulosDesbloqueadosSet)).subscribe({
+      next: () => this.zone.run(() => { this.desbloqueando.delete(mod.id); this.cdr.detectChanges(); }),
+      error: () => this.zone.run(() => {
+        this.desbloqueando.delete(mod.id);
+        this.modulosDesbloqueadosSet.delete(mod.id);
+        this.usuario = {
+          ...this.usuario,
+          puntos: this.usuario.puntos + mod.costo,
+          modulosDesbloqueados: this.usuario.modulosDesbloqueados.filter(
+            (id: number) => Number(id) !== mod.id
+          )
+        };
+        this.authService.actualizarUsuarioLocal(this.usuario);
+        this.cdr.detectChanges();
+        alert('Error de conexión. No se pudo desbloquear el módulo.');
+      })
     });
   }
 }

@@ -18,7 +18,8 @@
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: var(--bg-principal);
   color: var(--texto-principal);
   transition: background-color 0.3s ease;
@@ -208,10 +209,31 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .main-viewport {
   flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
+  overflow: auto;
   background-color: var(--bg-tarjetas);
+}
+
+/* router-outlet is a sibling flex item with no content — keep it invisible */
+.main-viewport router-outlet { display: none; }
+
+/* Sin padding ni scroll cuando se muestra la página de módulo */
+.main-viewport:has(app-modulo) {
+  padding: 0;
+  overflow: hidden;
 }
 
 .tab-item.admin-tab {

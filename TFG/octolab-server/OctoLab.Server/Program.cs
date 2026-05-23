@@ -92,10 +92,44 @@ static async Task InitDatabaseAsync(IServiceProvider serviceProvider)
     using MyDbContext dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
 
     await dbContext.Database.EnsureCreatedAsync();
+    await AplicarColumnasAusentesAsync(dbContext);
 
     if (!dbContext.Usuarios.Any())
     {
         var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
         await seeder.SeedAsync();
+    }
+}
+
+static async Task AplicarColumnasAusentesAsync(MyDbContext dbContext)
+{
+    var columnas = new[]
+    {
+        ("TemasCompletados",     "ALTER TABLE Usuarios ADD COLUMN TemasCompletados VARCHAR(1000) NOT NULL DEFAULT ''"),
+        ("ModulosDesbloqueados", "ALTER TABLE Usuarios ADD COLUMN ModulosDesbloqueados VARCHAR(1000) NOT NULL DEFAULT ''"),
+        ("Puntos",               "ALTER TABLE Usuarios ADD COLUMN Puntos INT NOT NULL DEFAULT 0"),
+        ("UltimaConexion",       "ALTER TABLE Usuarios ADD COLUMN UltimaConexion DATETIME(6) NOT NULL DEFAULT '0001-01-01 00:00:00'"),
+    };
+
+    var conn = dbContext.Database.GetDbConnection();
+    await conn.OpenAsync();
+    try
+    {
+        foreach (var (col, alterSql) in columnas)
+        {
+            using var check = conn.CreateCommand();
+            check.CommandText = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='Usuarios' AND COLUMN_NAME='{col}'";
+            var count = Convert.ToInt32(await check.ExecuteScalarAsync());
+            if (count == 0)
+            {
+                using var alter = conn.CreateCommand();
+                alter.CommandText = alterSql;
+                await alter.ExecuteNonQueryAsync();
+            }
+        }
+    }
+    finally
+    {
+        await conn.CloseAsync();
     }
 }

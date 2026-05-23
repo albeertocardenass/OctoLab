@@ -19,5 +19,6 @@ namespace OctoLab.Server.Models.Entities
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
         public DateTime UltimaConexion { get; set; } = DateTime.Now;
         public string ModulosDesbloqueados { get; set; } = "";
+        public string TemasCompletados { get; set; } = "";
     }
 }

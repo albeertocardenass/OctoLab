@@ -1,0 +1,83 @@
+<div class="modulo-page">
+
+  <!-- Cabecera compacta -->
+  <div class="modulo-header">
+    <button class="btn-volver" (click)="volver()">← Volver</button>
+    <h1 class="modulo-titulo">{{ moduloIdStr }} · {{ titulo }}</h1>
+    @if (totalPaginas > 0) {
+      <span class="pagina-badge">{{ paginaActual }} / {{ totalPaginas }}</span>
+    }
+  </div>
+
+  <!-- Área PDF -->
+  <div class="pdf-area" #pdfArea>
+
+    @if (cargando) {
+      <div class="pdf-estado">
+        <div class="spinner-grande"></div>
+        <p>Cargando tema…</p>
+      </div>
+    } @else if (errorMsg) {
+      <div class="pdf-estado pdf-error">
+        <span class="error-icon">⚠</span>
+        <p>{{ errorMsg }}</p>
+      </div>
+    } @else {
+      <button class="nav-zona nav-prev" (click)="anterior()" [disabled]="paginaActual <= 1 || renderizando" title="Anterior (←)">
+        <span class="nav-arrow">‹</span>
+      </button>
+
+      <div class="canvas-wrapper" #canvasWrapper>
+        <canvas #canvas [class.fade]="renderizando"></canvas>
+      </div>
+
+      <button class="nav-zona nav-next" (click)="siguiente()" [disabled]="paginaActual >= totalPaginas || renderizando" title="Siguiente (→)">
+        <span class="nav-arrow">›</span>
+      </button>
+    }
+  </div>
+
+  <!-- Barra inferior unificada -->
+  @if (!cargando && !errorMsg) {
+    <div class="bottom-bar">
+
+      <!-- Navegación izquierda -->
+      <div class="nav-controls">
+        <button class="nav-mini" (click)="anterior()" [disabled]="paginaActual <= 1 || renderizando">←</button>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="(paginaActual / totalPaginas) * 100"></div>
+        </div>
+        <button class="nav-mini" (click)="siguiente()" [disabled]="paginaActual >= totalPaginas || renderizando">→</button>
+        <span class="slide-label">{{ paginaActual }} / {{ totalPaginas }}</span>
+      </div>
+
+      <!-- Separador -->
+      <div class="bar-sep"></div>
+
+      <!-- Código hex -->
+      <form class="codigo-form" (ngSubmit)="submitCodigo()">
+        <span class="codigo-label">Código lab</span>
+        <input
+          class="codigo-input"
+          type="text"
+          [(ngModel)]="codigoInput"
+          name="codigo"
+          placeholder="A3F7B2C1D4E5F6A7"
+          maxlength="16"
+          autocomplete="off"
+          [disabled]="verificando" />
+        <button class="codigo-btn" type="submit" [disabled]="!codigoInput.trim() || verificando">
+          @if (verificando) { <span class="spinner-mini"></span> }
+          {{ verificando ? '…' : 'Verificar' }}
+        </button>
+        @if (mensajeCodigo) {
+          <span class="codigo-msg" [class.ok]="tipoMensaje==='ok'" [class.err]="tipoMensaje==='error'">
+            {{ mensajeCodigo }}
+          </span>
+        }
+      </form>
+
+    </div>
+  }
+
+</div>

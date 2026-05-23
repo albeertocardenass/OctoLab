@@ -81,11 +81,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 
-  descargarAppPython() {
+  descargarApp() {
     if (isPlatformBrowser(this.platformId)) {
       const link = document.createElement('a');
-      link.href = 'assets/OctoLab_v1.exe';
-      link.download = 'OctoLab_v1.exe';
+      link.href = 'assets/OctolabDesktop.exe';
+      link.download = 'OctolabDesktop.exe';
       link.click();
     }
   }

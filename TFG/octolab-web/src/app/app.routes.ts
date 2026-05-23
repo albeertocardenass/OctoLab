@@ -39,10 +39,14 @@ export const routes: Routes = [
         path: 'sobre-nosotros', 
         loadComponent: () => import('./components/sobre-nosotros/sobre-nosotros').then(m => m.SobreNosotrosComponent) 
       },
-      { 
-        path: 'configuracion', 
+      {
+        path: 'configuracion',
         loadComponent: () => import('./components/configuracion/configuracion').then(m => m.ConfiguracionComponent),
         canActivate: [usuarioGuard]
+      },
+      {
+        path: 'modulo/:id',
+        loadComponent: () => import('./components/modulo/modulo').then(m => m.ModuloComponent)
       },
       { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]

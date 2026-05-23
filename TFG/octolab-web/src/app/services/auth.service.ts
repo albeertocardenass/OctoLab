@@ -100,6 +100,20 @@ export class AuthService {
     return this.http.put<any>(url, body, { headers: this.getAuthHeaders() });
   }
 
+  verificarCodigo(temaId: number, codigo: string): Observable<any> {
+    return this.http.post(`${API_BASE}/api/Temario/verificar-codigo`,
+      { temaId, codigo },
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  getPdfModulo(moduloId: number): Observable<Blob> {
+    return this.http.get(`${API_BASE}/api/Temario/${moduloId}/pdf`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob'
+    });
+  }
+
   actualizarUsuarioLocal(usuarioActualizado: any) {
     this.currentUser = { ...usuarioActualizado };
     this.usuarioSubject.next({ ...usuarioActualizado });
