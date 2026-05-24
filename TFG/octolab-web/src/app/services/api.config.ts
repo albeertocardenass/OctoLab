@@ -1,1 +1,1 @@
-﻿export const API_BASE = 'http://localhost:5276';
+﻿export const API_BASE = 'http://3.237.238.236:5000';
