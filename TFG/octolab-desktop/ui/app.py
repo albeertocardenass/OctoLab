@@ -11,25 +11,7 @@ from ui.screens.temario_screen import TemarioScreen
 from ui.screens.config_screen import ConfigScreen
 from config import APP_NAME, THEME_FILE, IMAGES_DIR
 
-import os, json, ctypes, ctypes.wintypes
-
-def _work_area():
-    """Devuelve (x, y, ancho, alto) del área de trabajo en píxeles LÓGICOS (sin barra de tareas)."""
-    rect = ctypes.wintypes.RECT()
-    ctypes.windll.user32.SystemParametersInfoW(0x0030, 0, ctypes.byref(rect), 0)
-    # SystemParametersInfoW devuelve píxeles físicos; tkinter usa píxeles lógicos.
-    # Dividir por el factor DPI para que coincidan.
-    try:
-        dpi   = ctypes.windll.user32.GetDpiForSystem()
-        scale = dpi / 96.0
-    except Exception:
-        scale = 1.0
-    return (
-        int(rect.left                      / scale),
-        int(rect.top                       / scale),
-        int((rect.right  - rect.left)      / scale),
-        int((rect.bottom - rect.top)       / scale),
-    )
+import os, json
 
 class App(ctk.CTk):
     def __init__(self):
@@ -40,14 +22,8 @@ class App(ctk.CTk):
 
         super().__init__()
         self.title(APP_NAME)
-        self.minsize(900, 600)
-
-        # Centrar en el área de trabajo real (excluye barra de tareas)
-        ancho, alto = 1100, 700
-        wx, wy, ww, wh = _work_area()
-        x = wx + (ww - ancho) // 2
-        y = wy + (wh - alto)  // 2
-        self.geometry(f"{ancho}x{alto}+{x}+{y}")
+        self.geometry("1100x700")                      # tamaño inicial mientras carga
+        self.after(10, lambda: self.state("zoomed"))   # maximizar tras el primer frame
 
         # Icono de la ventana
         _ico = os.path.join(IMAGES_DIR, "octolab.ico")
