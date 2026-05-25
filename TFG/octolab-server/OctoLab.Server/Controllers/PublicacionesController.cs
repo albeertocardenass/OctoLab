@@ -49,12 +49,15 @@ public class PublicacionesController : ControllerBase
 
         var userId = long.Parse(userIdClaim);
 
-        var rutaImagen = await GuardarImagenPublicacion(dto.ImagenBase64);
+        // Guardar base64 directamente en BD (persiste con la DB, independiente del sistema de archivos)
+        var imagenBase64 = (string.IsNullOrEmpty(dto.ImagenBase64) || !dto.ImagenBase64.Contains("base64,"))
+            ? null
+            : dto.ImagenBase64;
 
         var nuevaPublicacion = new Publicacion
         {
             Contenido = dto.Contenido,
-            Imagen = rutaImagen,
+            Imagen = imagenBase64,
             UsuarioId = userId,
             Fecha = DateTime.Now,
             PublicacionPadreId = dto.PublicacionPadreId
@@ -81,26 +84,7 @@ public class PublicacionesController : ControllerBase
         return Ok(new { mensaje = "Publicado con éxito", puntosGanados });
     }
 
-    private async Task<string?> GuardarImagenPublicacion(string? base64)
-    {
-        if (string.IsNullOrEmpty(base64) || !base64.Contains("base64,")) return null;
-
-        var base64Data = base64.Substring(base64.IndexOf(",") + 1);
-        var imageBytes = Convert.FromBase64String(base64Data);
-
-        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "publicaciones");
-        if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
-
-        var fileName = Guid.NewGuid().ToString() + ".jpg";
-        var filePath = Path.Combine(folderPath, fileName);
-
-        await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
-
-        var request = HttpContext.Request;
-        return $"{request.Scheme}://{request.Host}/publicaciones/{fileName}";
-    }
-
-    [HttpDelete("{id}")]
+[HttpDelete("{id}")]
     [Authorize]
     public async Task<IActionResult> DeletePublicacion(long id)
     {

@@ -115,6 +115,7 @@ static async Task AplicarColumnasAusentesAsync(MyDbContext dbContext)
     await conn.OpenAsync();
     try
     {
+        // Añadir columnas ausentes
         foreach (var (col, alterSql) in columnas)
         {
             using var check = conn.CreateCommand();
@@ -125,6 +126,26 @@ static async Task AplicarColumnasAusentesAsync(MyDbContext dbContext)
                 using var alter = conn.CreateCommand();
                 alter.CommandText = alterSql;
                 await alter.ExecuteNonQueryAsync();
+            }
+        }
+
+        // Migrar columnas a LONGTEXT si aún son VARCHAR (para almacenar base64 en BD)
+        var columnasLongText = new[]
+        {
+            ("Usuarios",     "Avatar",  "ALTER TABLE Usuarios MODIFY COLUMN Avatar LONGTEXT NULL"),
+            ("Publicaciones","Imagen",  "ALTER TABLE Publicaciones MODIFY COLUMN Imagen LONGTEXT NULL"),
+        };
+
+        foreach (var (tabla, columna, alterSql) in columnasLongText)
+        {
+            using var checkType = conn.CreateCommand();
+            checkType.CommandText = $"SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='{tabla}' AND COLUMN_NAME='{columna}'";
+            var colType = (await checkType.ExecuteScalarAsync())?.ToString();
+            if (colType != null && colType.ToLower() != "longtext")
+            {
+                using var alterCol = conn.CreateCommand();
+                alterCol.CommandText = alterSql;
+                await alterCol.ExecuteNonQueryAsync();
             }
         }
     }

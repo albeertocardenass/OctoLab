@@ -57,6 +57,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
+  esAvatarValido(av: any): boolean {
+    return !!av && (av.startsWith('http') || av.startsWith('data:'));
+  }
+
   toggleMenu(event: Event) {
     event.stopPropagation();
     this.isMenuOpen = !this.isMenuOpen;

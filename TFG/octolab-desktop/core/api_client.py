@@ -12,22 +12,31 @@ class ApiClient:
         try:
             r = requests.post(API_LOGIN, json={"email": email, "password": password}, timeout=10)
             r.raise_for_status()
-            data = r.json()
-            self.token = data.get("token")
-            return {"ok": True, "data": data}
+            data     = r.json()
+            token    = data.get("token")
+            usuario  = data.get("usuario", {})
+            self.token = token
+            # Devolvemos token + campos del usuario juntos para facilitar el acceso
+            return {"ok": True, "token": token, "data": usuario}
         except requests.exceptions.ConnectionError:
             return {"ok": False, "error": "No se puede conectar al servidor."}
         except requests.exceptions.HTTPError as e:
-            return {"ok": False, "error": f"Credenciales incorrectas. ({e.response.status_code})"}
+            if e.response.status_code == 401:
+                return {"ok": False, "error": "Email o contraseña incorrectos."}
+            return {"ok": False, "error": f"Error del servidor ({e.response.status_code})."}
         except Exception as e:
             log.error(f"Login error: {e}")
             return {"ok": False, "error": str(e)}
+
+    def _auth_headers(self) -> dict:
+        return {"Authorization": f"Bearer {self.token}"} if self.token else {}
 
     def verificar_codigo(self, usuario_id: int, tema_id: int, codigo: str) -> dict:
         try:
             r = requests.post(
                 API_VERIFY_CODE,
                 json={"usuarioId": usuario_id, "temaId": tema_id, "codigo": codigo},
+                headers=self._auth_headers(),
                 timeout=10
             )
             r.raise_for_status()
@@ -38,7 +47,11 @@ class ApiClient:
 
     def get_progreso(self, usuario_id: int) -> dict:
         try:
-            r = requests.get(f"{API_PROGRESO}/{usuario_id}", timeout=10)
+            r = requests.get(
+                f"{API_PROGRESO}/{usuario_id}",
+                headers=self._auth_headers(),
+                timeout=10
+            )
             r.raise_for_status()
             return {"ok": True, "data": r.json()}
         except Exception as e:

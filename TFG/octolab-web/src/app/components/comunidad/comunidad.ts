@@ -149,7 +149,7 @@ export class ComunidadComponent implements OnInit {
   }
 
   esImagenReal(url: string): boolean {
-    return !!url && url.startsWith('http');
+    return !!url && (url.startsWith('http') || url.startsWith('data:'));
   }
 
   get publicacionesVisibles() {

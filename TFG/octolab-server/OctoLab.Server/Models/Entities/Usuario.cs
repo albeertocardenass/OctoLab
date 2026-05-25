@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OctoLab.Server.Models.Entities
 {
@@ -12,7 +13,9 @@ namespace OctoLab.Server.Models.Entities
         public required string Apodo { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
-        public string Avatar { get; set; } = "default-avatar.png";
+        // LONGTEXT para almacenar la imagen en base64 directamente en la BD
+        [Column(TypeName = "LONGTEXT")]
+        public string? Avatar { get; set; }
         public string? Descripcion { get; set; }
         public string Rol { get; set; } = "Usuario";
         public int Puntos { get; set; } = 0;

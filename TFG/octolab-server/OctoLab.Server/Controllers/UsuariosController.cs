@@ -121,32 +121,14 @@ namespace OctoLab.Server.Controllers
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null) return NotFound();
 
-            var avatarUrl = await GuardarImagenAvatar(dto.ImagenBase64);
-            if (avatarUrl == null) return BadRequest(new { mensaje = "Imagen inválida" });
+            if (string.IsNullOrEmpty(dto.ImagenBase64) || !dto.ImagenBase64.Contains("base64,"))
+                return BadRequest(new { mensaje = "Imagen inválida" });
 
-            usuario.Avatar = avatarUrl;
+            // Guardar base64 directamente en la BD (persiste con la DB, independiente del sistema de archivos)
+            usuario.Avatar = dto.ImagenBase64;
             await _context.SaveChangesAsync();
 
-            return Ok(new { avatarUrl });
-        }
-
-        private async Task<string?> GuardarImagenAvatar(string? base64)
-        {
-            if (string.IsNullOrEmpty(base64) || !base64.Contains("base64,")) return null;
-
-            var base64Data = base64.Substring(base64.IndexOf(",") + 1);
-            var imageBytes = Convert.FromBase64String(base64Data);
-
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "avatars");
-            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
-
-            var fileName = Guid.NewGuid().ToString() + ".jpg";
-            var filePath = Path.Combine(folderPath, fileName);
-
-            await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
-
-            var request = HttpContext.Request;
-            return $"{request.Scheme}://{request.Host}/avatars/{fileName}";
+            return Ok(new { avatarUrl = dto.ImagenBase64 });
         }
 
         [HttpPut("cambiar-rol")]

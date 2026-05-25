@@ -9,17 +9,50 @@ from ui.screens.home_screen import HomeScreen
 from ui.screens.labs_screen import LabsScreen
 from ui.screens.temario_screen import TemarioScreen
 from ui.screens.config_screen import ConfigScreen
-from config import APP_NAME
+from config import APP_NAME, THEME_FILE, IMAGES_DIR
+
+import os, json, ctypes, ctypes.wintypes
+
+def _work_area():
+    """Devuelve (x, y, ancho, alto) del área de trabajo en píxeles LÓGICOS (sin barra de tareas)."""
+    rect = ctypes.wintypes.RECT()
+    ctypes.windll.user32.SystemParametersInfoW(0x0030, 0, ctypes.byref(rect), 0)
+    # SystemParametersInfoW devuelve píxeles físicos; tkinter usa píxeles lógicos.
+    # Dividir por el factor DPI para que coincidan.
+    try:
+        dpi   = ctypes.windll.user32.GetDpiForSystem()
+        scale = dpi / 96.0
+    except Exception:
+        scale = 1.0
+    return (
+        int(rect.left                      / scale),
+        int(rect.top                       / scale),
+        int((rect.right  - rect.left)      / scale),
+        int((rect.bottom - rect.top)       / scale),
+    )
 
 class App(ctk.CTk):
     def __init__(self):
-        super().__init__()
-        ctk.set_appearance_mode("Dark")
+        # Cargar tema guardado antes de inicializar la ventana
+        tema = self._cargar_tema()
+        ctk.set_appearance_mode(tema)
         ctk.set_default_color_theme("blue")
 
+        super().__init__()
         self.title(APP_NAME)
-        self.geometry("1100x700")
         self.minsize(900, 600)
+
+        # Centrar en el área de trabajo real (excluye barra de tareas)
+        ancho, alto = 1100, 700
+        wx, wy, ww, wh = _work_area()
+        x = wx + (ww - ancho) // 2
+        y = wy + (wh - alto)  // 2
+        self.geometry(f"{ancho}x{alto}+{x}+{y}")
+
+        # Icono de la ventana
+        _ico = os.path.join(IMAGES_DIR, "octolab.ico")
+        if os.path.exists(_ico):
+            self.iconbitmap(_ico)
 
         self.auth   = AuthManager()
         self.api    = ApiClient()
@@ -30,6 +63,15 @@ class App(ctk.CTk):
 
         self._mostrar_login()
 
+    def _cargar_tema(self) -> str:
+        try:
+            if os.path.exists(THEME_FILE):
+                with open(THEME_FILE) as f:
+                    return json.load(f).get("tema", "Dark")
+        except Exception:
+            pass
+        return "Dark"
+
     # -- NAVEGACIÓN ------------------------------------------------
     def _limpiar(self):
         for w in self.winfo_children():
@@ -39,7 +81,9 @@ class App(ctk.CTk):
 
     def _mostrar_login(self):
         self._limpiar()
-        LoginScreen(self, on_login=self._hacer_login).pack(fill="both", expand=True)
+        LoginScreen(self,
+                    on_login=self._hacer_login,
+                    on_guest=self._hacer_login_invitado).pack(fill="both", expand=True)
 
     def _hacer_login(self, email: str, password: str, on_error):
         def tarea():
@@ -51,6 +95,19 @@ class App(ctk.CTk):
                 self.after(0, lambda: on_error(result["error"]))
         threading.Thread(target=tarea, daemon=True).start()
 
+    def _hacer_login_invitado(self):
+        invitado = {
+            "id": 0,
+            "nombre": "Invitado",
+            "apodo": "Invitado",
+            "email": "",
+            "rol": "Invitado",
+            "avatar": None,
+            "modulosDesbloqueados": [],
+        }
+        self.auth.guardar_sesion(invitado)
+        self._mostrar_dependencias()
+
     def _mostrar_dependencias(self):
         self._limpiar()
         DependencyScreen(self, self.docker, on_ready=self._mostrar_home).pack(fill="both", expand=True)
@@ -61,27 +118,37 @@ class App(ctk.CTk):
         self._cargar_pantalla("inicio")
 
     def _crear_layout(self):
-        self.navbar = ctk.CTkFrame(self, width=200, corner_radius=0)
+        self.navbar = ctk.CTkFrame(self, width=200, corner_radius=0,
+                                   fg_color=("gray88", "#0f172a"),
+                                   border_width=0)
         self.navbar.pack(side="left", fill="y")
         self.navbar.pack_propagate(False)
 
-        ctk.CTkLabel(self.navbar, text="OctolabWeb",
-                     font=ctk.CTkFont(size=18, weight="bold"),
-                     text_color="#4f46e5").pack(pady=(30, 30))
+        ctk.CTkLabel(
+            self.navbar, text="OctoLab",
+            font=ctk.CTkFont(size=18, weight="bold"),
+            text_color="#4f46e5"
+        ).pack(pady=(30, 30))
 
         tabs = [
-            ("🏠   Inicio",         "inicio"),
-            ("💻  Laboratorios",    "labs"),
-            ("📚  Temario",         "temario"),
-            ("⚙️   Configuración",  "config"),
+            ("Inicio",         "inicio"),
+            ("Laboratorios",   "labs"),
+            ("Temario",        "temario"),
+            ("Configuracion",  "config"),
         ]
+        self._nav_buttons = {}
         for label, key in tabs:
-            ctk.CTkButton(
+            btn = ctk.CTkButton(
                 self.navbar, text=label, anchor="w",
-                fg_color="transparent", hover_color="#1e293b",
+                fg_color="transparent",
+                hover_color=("gray75", "#1e293b"),
+                text_color=("gray15", "gray90"),
                 height=44, corner_radius=8,
+                font=ctk.CTkFont(size=13),
                 command=lambda k=key: self._cargar_pantalla(k)
-            ).pack(fill="x", padx=12, pady=3)
+            )
+            btn.pack(fill="x", padx=12, pady=3)
+            self._nav_buttons[key] = btn
 
         self.content = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.content.pack(side="left", fill="both", expand=True)
@@ -90,10 +157,21 @@ class App(ctk.CTk):
         for w in self.content.winfo_children():
             w.destroy()
 
+        # Resaltar pestaña activa
+        for k, btn in self._nav_buttons.items():
+            if k == key:
+                btn.configure(fg_color=("gray75", "#1e293b"),
+                               text_color=("#4f46e5", "#818cf8"),
+                               font=ctk.CTkFont(size=13, weight="bold"))
+            else:
+                btn.configure(fg_color="transparent",
+                               text_color=("gray15", "gray90"),
+                               font=ctk.CTkFont(size=13))
+
         usuario = self.auth.usuario or {}
 
         pantallas = {
-            "inicio":  lambda: HomeScreen(self.content, usuario),
+            "inicio":  lambda: HomeScreen(self.content, usuario, self.api),
             "labs":    lambda: LabsScreen(self.content, self.docker),
             "temario": lambda: TemarioScreen(self.content, usuario, self.api),
             "config":  lambda: ConfigScreen(self.content, usuario, self.auth,

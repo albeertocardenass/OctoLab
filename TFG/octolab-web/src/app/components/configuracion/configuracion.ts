@@ -45,7 +45,8 @@ export class ConfiguracionComponent implements OnInit, OnDestroy {
   get avatarSrc(): string | null {
     if (this.imagenPreview) return this.imagenPreview;
     const av = this.usuarioActivo?.avatar;
-    if (av && av.startsWith('http')) return av;
+    // Soporta tanto URLs http:// como base64 data: almacenado en BD
+    if (av && (av.startsWith('http') || av.startsWith('data:'))) return av;
     return null;
   }
 
@@ -61,12 +62,33 @@ export class ConfiguracionComponent implements OnInit, OnDestroy {
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.imagenPreview = reader.result as string;
-      this.avatarError = false;
-      this.cdr.detectChanges();
-      this.subirAvatar(this.imagenPreview);
+      const original = reader.result as string;
+      // Comprimir a máx 256x256 y calidad 0.8 antes de guardar en BD
+      this.comprimirImagen(original, 256, 0.8).then(comprimida => {
+        this.imagenPreview = comprimida;
+        this.avatarError = false;
+        this.cdr.detectChanges();
+        this.subirAvatar(comprimida);
+      });
     };
     reader.readAsDataURL(file);
+  }
+
+  private comprimirImagen(base64: string, maxSize: number, calidad: number): Promise<string> {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        if (w > h) { if (w > maxSize) { h = Math.round(h * maxSize / w); w = maxSize; } }
+        else       { if (h > maxSize) { w = Math.round(w * maxSize / h); h = maxSize; } }
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext('2d')!.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', calidad));
+      };
+      img.src = base64;
+    });
   }
 
   private subirAvatar(base64: string) {
