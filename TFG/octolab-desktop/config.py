@@ -9,7 +9,8 @@ API_VERIFY_CODE = f"{API_BASE_URL}/api/Temario/verificar-codigo"
 API_PROGRESO    = f"{API_BASE_URL}/api/Temario/progreso"
 
 # -- Docker ------------------------------------------------------------
-KALI_IMAGE           = "kalilinux/kali-rolling"
+KALI_IMAGE           = "octolab-kali:latest"          # imagen custom con todas las herramientas
+KALI_BASE_IMAGE      = "kalilinux/kali-rolling"       # base para construir la imagen
 METASPLOITABLE_IMAGE = "tleemcjr/metasploitable2"
 KALI_CONTAINER       = "octolab-kali"
 META_CONTAINER       = "octolab-metasploitable"
@@ -28,6 +29,7 @@ THEME       = "dark"   # "dark" | "light"
 BASE_DIR     = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR   = os.path.join(BASE_DIR, "assets")
 IMAGES_DIR   = os.path.join(ASSETS_DIR, "images")
+DOCKER_DIR   = os.path.join(BASE_DIR, "docker")
 LOG_FILE     = os.path.join(BASE_DIR, "octolab.log")
 SESSION_FILE = os.path.join(BASE_DIR, ".session")
 THEME_FILE   = os.path.join(BASE_DIR, ".theme")

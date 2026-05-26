@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(docker run --rm alpine sh -c \"apk add -q figlet && figlet -f slant 'Metasploitable2'\")"
+    ]
+  }
+}

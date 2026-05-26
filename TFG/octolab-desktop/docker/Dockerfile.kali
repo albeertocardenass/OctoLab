@@ -1,0 +1,34 @@
+FROM kalilinux/kali-rolling
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TERM=xterm-256color
+
+USER root
+WORKDIR /root
+
+# Forzar mirror CDN (kali.download) — siempre sincronizado, evita 404 de http.kali.org
+RUN echo 'deb http://kali.download/kali kali-rolling main contrib non-free non-free-firmware' \
+        > /etc/apt/sources.list && \
+    printf 'Acquire::Retries "3";\nAcquire::http::Timeout "30";\n' \
+        > /etc/apt/apt.conf.d/99-retries
+
+# Instalar herramientas necesarias para los labs
+RUN apt-get update -qq && \
+    apt-get install -y --fix-missing \
+        nmap \
+        iputils-ping \
+        net-tools \
+        ncat \
+        dnsutils \
+        python3 \
+        curl \
+        wget \
+        nano \
+        bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+# Banner de bienvenida — se muestra al abrir terminal con "cat /etc/motd"
+COPY motd.kali /etc/motd
+RUN sed -i 's/\r//' /etc/motd
+
+CMD ["/bin/bash"]
