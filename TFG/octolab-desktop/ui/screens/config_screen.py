@@ -1,4 +1,4 @@
-import customtkinter as ctk
+﻿import customtkinter as ctk
 import json
 import ctypes
 import ctypes.wintypes
@@ -35,8 +35,8 @@ class ConfigScreen(ctk.CTkFrame):
 
     def _build(self):
         ctk.CTkLabel(self, text="Configuracion",
-                     font=ctk.CTkFont(size=22, weight="bold")).pack(
-                         anchor="w", padx=40, pady=(28, 20))
+                     font=ctk.CTkFont(size=28, weight="bold")).pack(
+                         anchor="w", padx=40, pady=(24, 16))
 
         card = ctk.CTkFrame(self, corner_radius=12, fg_color=C["card"])
         card.pack(padx=40, fill="x")
@@ -49,15 +49,15 @@ class ConfigScreen(ctk.CTkFrame):
         datos = ctk.CTkFrame(card, fg_color="transparent")
         datos.pack(fill="x", padx=24, pady=(24, 0))
         ctk.CTkLabel(datos, text=nombre,
-                     font=ctk.CTkFont(size=15, weight="bold"),
+                     font=ctk.CTkFont(size=20, weight="bold"),
                      anchor="w").pack(anchor="w")
         ctk.CTkLabel(datos, text=email,
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=12),
+                     font=ctk.CTkFont(size=15),
                      anchor="w").pack(anchor="w")
         ctk.CTkLabel(datos, text=rol,
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=12),
+                     font=ctk.CTkFont(size=15),
                      anchor="w").pack(anchor="w", pady=(2, 0))
 
         ctk.CTkFrame(card, height=1, fg_color=C["divider"]).pack(fill="x", padx=20, pady=16)
@@ -66,7 +66,7 @@ class ConfigScreen(ctk.CTkFrame):
         tema_row = ctk.CTkFrame(card, fg_color="transparent")
         tema_row.pack(fill="x", padx=24, pady=(0, 4))
         ctk.CTkLabel(tema_row, text="Tema oscuro",
-                     font=ctk.CTkFont(size=13)).pack(side="left")
+                     font=ctk.CTkFont(size=16)).pack(side="left")
         self.theme_switch = ctk.CTkSwitch(tema_row, text="",
                                            command=self._toggle_theme)
         self.theme_switch.pack(side="right")
@@ -78,11 +78,11 @@ class ConfigScreen(ctk.CTkFrame):
         # ── Versión ──────────────────────────────────────────────────
         ctk.CTkLabel(card, text=f"Versión {APP_VERSION}",
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=11)).pack(pady=(0, 12))
+                     font=ctk.CTkFont(size=14)).pack(pady=(0, 12))
 
         # ── Cerrar sesión ────────────────────────────────────────────
         ctk.CTkButton(card, text="Cerrar Sesion",
-                       height=42,
+                       height=44,
                        fg_color=C["error"], hover_color="#dc2626",
                        command=self._logout).pack(padx=24, pady=(0, 24), fill="x")
 

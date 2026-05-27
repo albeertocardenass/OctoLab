@@ -33,11 +33,11 @@ class DependencyScreen(ctk.CTkFrame):
 
         ctk.CTkLabel(self._panel,
                      text="Verificando entorno",
-                     font=ctk.CTkFont(size=22, weight="bold")).pack(pady=(0, 6))
+                     font=ctk.CTkFont(size=28, weight="bold")).pack(pady=(0, 6))
         ctk.CTkLabel(self._panel,
                      text="Comprobando los requisitos necesarios para la aplicación...",
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=12)).pack(pady=(0, 28))
+                     font=ctk.CTkFont(size=15)).pack(pady=(0, 24))
 
         # ── Tarjeta de estado ─────────────────────────────────────────
         card = ctk.CTkFrame(self._panel, corner_radius=14,
@@ -57,17 +57,17 @@ class DependencyScreen(ctk.CTkFrame):
         ico.pack(side="left")
         ico.pack_propagate(False)
         ctk.CTkLabel(ico, text="D",
-                     font=ctk.CTkFont(size=15, weight="bold"),
+                     font=ctk.CTkFont(size=16, weight="bold"),
                      text_color=C["primary"]).place(relx=0.5, rely=0.5, anchor="center")
 
         desc = ctk.CTkFrame(row, fg_color="transparent")
         desc.pack(side="left", padx=(12, 0), fill="x", expand=True)
         ctk.CTkLabel(desc, text="Docker Desktop",
-                     font=ctk.CTkFont(size=13, weight="bold"),
+                     font=ctk.CTkFont(size=16, weight="bold"),
                      anchor="w").pack(anchor="w")
         ctk.CTkLabel(desc, text="Necesario para los Laboratorios",
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=10),
+                     font=ctk.CTkFont(size=13),
                      anchor="w").pack(anchor="w")
 
         # Badge de estado
@@ -76,13 +76,13 @@ class DependencyScreen(ctk.CTkFrame):
         self._badge.pack(side="right")
         self._badge_lbl = ctk.CTkLabel(self._badge, text="Comprobando...",
                                         text_color=C["muted"],
-                                        font=ctk.CTkFont(size=10, weight="bold"))
+                                        font=ctk.CTkFont(size=11, weight="bold"))
         self._badge_lbl.pack(padx=10, pady=5)
 
         # Mensaje de aviso (oculto hasta que se necesite)
         self._warn_lbl = ctk.CTkLabel(inner, text="",
                                        text_color=C["warn"],
-                                       font=ctk.CTkFont(size=11),
+                                       font=ctk.CTkFont(size=12),
                                        wraplength=380, justify="left")
         self._warn_lbl.pack(anchor="w", pady=(12, 0))
 
@@ -99,9 +99,9 @@ class DependencyScreen(ctk.CTkFrame):
         self._btn_activar = ctk.CTkButton(
             self._btn_row,
             text="Activar Docker",
-            width=190, height=42,
+            width=210, height=46,
             fg_color=C["ok"], hover_color="#059669",
-            font=ctk.CTkFont(size=13, weight="bold"),
+            font=ctk.CTkFont(size=15, weight="bold"),
             command=self._activar_docker,
         )
         self._btn_activar.pack(side="left", padx=(0, 10))
@@ -109,10 +109,10 @@ class DependencyScreen(ctk.CTkFrame):
         self._btn_continuar = ctk.CTkButton(
             self._btn_row,
             text="Continuar sin Docker",
-            width=190, height=42,
+            width=210, height=46,
             fg_color=("gray78", "#334155"),
             hover_color=("gray68", "#475569"),
-            font=ctk.CTkFont(size=13),
+            font=ctk.CTkFont(size=15),
             command=self.on_ready,
         )
         self._btn_continuar.pack(side="left")

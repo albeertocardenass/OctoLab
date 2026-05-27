@@ -1,0 +1,19 @@
+FROM tleemcjr/metasploitable2
+
+USER root
+
+# Crear estructura básica del home de msfadmin
+RUN mkdir -p /home/msfadmin/Desktop \
+             /home/msfadmin/Documents \
+             /home/msfadmin/Downloads \
+             /home/msfadmin/Tools && \
+    chown -R msfadmin:msfadmin /home/msfadmin
+
+# Banner de bienvenida en /etc/motd
+COPY motd.meta /etc/motd
+RUN sed -i 's/\r//' /etc/motd
+
+# Bash completo: .bashrc con prompt, aliases, historial y completion
+COPY bashrc.meta /home/msfadmin/.bashrc
+RUN sed -i 's/\r//' /home/msfadmin/.bashrc && \
+    chown msfadmin:msfadmin /home/msfadmin/.bashrc

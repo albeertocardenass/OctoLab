@@ -1,4 +1,4 @@
-"""
+﻿"""
 home_screen.py — Pantalla de inicio: bienvenida, resumen de funciones y créditos del proyecto.
 """
 import base64
@@ -18,7 +18,7 @@ C = {
     "avatar2":     ("#e0e7ff", "#312e81"),
 }
 
-SIZE_AVATAR = 64
+SIZE_AVATAR = 72
 
 
 def _avatar_desde_base64(b64: str) -> ctk.CTkImage | None:
@@ -113,7 +113,7 @@ class HomeScreen(ctk.CTkFrame):
 
         # ── Cabecera de perfil ────────────────────────────────────────
         header = ctk.CTkFrame(scroll, fg_color="transparent")
-        header.pack(fill="x", padx=40, pady=(36, 20))
+        header.pack(fill="x", padx=40, pady=(24, 14))
 
         img_ctk = (
             _avatar_desde_base64(avatar_b64)
@@ -131,7 +131,7 @@ class HomeScreen(ctk.CTkFrame):
             av.pack_propagate(False)
             ctk.CTkLabel(
                 av, text=inicial,
-                font=ctk.CTkFont(size=26, weight="bold"),
+                font=ctk.CTkFont(size=30, weight="bold"),
                 text_color="white",
             ).place(relx=0.5, rely=0.5, anchor="center")
 
@@ -139,27 +139,27 @@ class HomeScreen(ctk.CTkFrame):
         info.pack(side="left", padx=16)
         ctk.CTkLabel(
             info, text=f"Bienvenido, {nombre}",
-            font=ctk.CTkFont(size=22, weight="bold"),
+            font=ctk.CTkFont(size=28, weight="bold"),
             anchor="w",
         ).pack(anchor="w")
         ctk.CTkLabel(
             info, text=f"{rol}  •  {puntos} Puntos Octo",
             text_color=C["muted"],
-            font=ctk.CTkFont(size=13),
+            font=ctk.CTkFont(size=16),
             anchor="w",
         ).pack(anchor="w")
 
         # ── Progreso del temario ──────────────────────────────────────
         prog = ctk.CTkFrame(scroll, fg_color="transparent")
-        prog.pack(fill="x", padx=40, pady=(0, 8))
+        prog.pack(fill="x", padx=40, pady=(0, 6))
 
         ctk.CTkLabel(
             prog, text="Progreso del Temario",
-            font=ctk.CTkFont(size=12, weight="bold"),
+            font=ctk.CTkFont(size=15, weight="bold"),
             text_color=C["muted"],
         ).pack(anchor="w", pady=(0, 4))
 
-        bar = ctk.CTkProgressBar(prog, height=7, progress_color=C["primary"])
+        bar = ctk.CTkProgressBar(prog, height=8, progress_color=C["primary"])
         bar.set(n_desbloqueados / 12)
         bar.pack(fill="x")
 
@@ -167,18 +167,18 @@ class HomeScreen(ctk.CTkFrame):
             prog,
             text=f"{n_desbloqueados} / 12 módulos desbloqueados",
             text_color=C["muted"],
-            font=ctk.CTkFont(size=11),
+            font=ctk.CTkFont(size=14),
         ).pack(anchor="w", pady=(4, 0))
 
         # ── Separador ────────────────────────────────────────────────
         ctk.CTkFrame(scroll, height=1, fg_color=C["divider"]).pack(
-            fill="x", padx=40, pady=(22, 22))
+            fill="x", padx=40, pady=(14, 14))
 
         # ── Funciones ────────────────────────────────────────────────
         ctk.CTkLabel(
             scroll, text="¿Qué ofrece OctoLab?",
-            font=ctk.CTkFont(size=15, weight="bold"),
-        ).pack(anchor="w", padx=40, pady=(0, 12))
+            font=ctk.CTkFont(size=20, weight="bold"),
+        ).pack(anchor="w", padx=40, pady=(0, 10))
 
         feat_grid = ctk.CTkFrame(scroll, fg_color="transparent")
         feat_grid.pack(fill="x", padx=40, pady=(0, 6))
@@ -207,55 +207,55 @@ class HomeScreen(ctk.CTkFrame):
             top_row = ctk.CTkFrame(body, fg_color="transparent")
             top_row.pack(anchor="w", pady=(0, 7))
 
-            bdg = ctk.CTkFrame(top_row, width=32, height=22,
+            bdg = ctk.CTkFrame(top_row, width=38, height=24,
                                corner_radius=5, fg_color=color)
             bdg.pack(side="left")
             bdg.pack_propagate(False)
             ctk.CTkLabel(
                 bdg, text=abrev,
-                font=ctk.CTkFont(size=9, weight="bold"),
+                font=ctk.CTkFont(size=12, weight="bold"),
                 text_color="white",
             ).place(relx=0.5, rely=0.5, anchor="center")
 
             ctk.CTkLabel(
                 top_row, text=titulo,
-                font=ctk.CTkFont(size=13, weight="bold"),
+                font=ctk.CTkFont(size=16, weight="bold"),
             ).pack(side="left", padx=(8, 0))
 
             ctk.CTkLabel(
                 body, text=desc,
                 text_color=C["muted"],
-                font=ctk.CTkFont(size=11),
+                font=ctk.CTkFont(size=14),
                 anchor="w", justify="left",
                 wraplength=255,
             ).pack(anchor="w")
 
         # ── Separador ────────────────────────────────────────────────
         ctk.CTkFrame(scroll, height=1, fg_color=C["divider"]).pack(
-            fill="x", padx=40, pady=(22, 22))
+            fill="x", padx=40, pady=(14, 14))
 
         # ── Sobre el proyecto ─────────────────────────────────────────
         ctk.CTkLabel(
             scroll, text="Sobre el proyecto",
-            font=ctk.CTkFont(size=15, weight="bold"),
+            font=ctk.CTkFont(size=20, weight="bold"),
         ).pack(anchor="w", padx=40, pady=(0, 8))
 
         ctk.CTkLabel(
             scroll, text=ABOUT,
             text_color=C["muted"],
-            font=ctk.CTkFont(size=12),
+            font=ctk.CTkFont(size=15),
             anchor="w", justify="left",
             wraplength=720,
-        ).pack(anchor="w", padx=40, pady=(0, 22))
+        ).pack(anchor="w", padx=40, pady=(0, 18))
 
         # ── Equipo ────────────────────────────────────────────────────
         ctk.CTkLabel(
             scroll, text="Equipo",
-            font=ctk.CTkFont(size=14, weight="bold"),
+            font=ctk.CTkFont(size=20, weight="bold"),
         ).pack(anchor="w", padx=40, pady=(0, 10))
 
         equipo_row = ctk.CTkFrame(scroll, fg_color="transparent")
-        equipo_row.pack(anchor="w", padx=40, pady=(0, 40))
+        equipo_row.pack(anchor="w", padx=40, pady=(0, 28))
 
         for nombre_a, rol_a, stack_a in AUTORES:
             card = ctk.CTkFrame(
@@ -266,22 +266,22 @@ class HomeScreen(ctk.CTkFrame):
             card.pack(side="left", padx=(0, 14))
 
             inn = ctk.CTkFrame(card, fg_color="transparent")
-            inn.pack(padx=18, pady=18)
+            inn.pack(padx=20, pady=18)
 
             # Avatar con inicial
-            av2 = ctk.CTkFrame(inn, width=48, height=48,
-                                corner_radius=24, fg_color=C["primary"])
+            av2 = ctk.CTkFrame(inn, width=56, height=56,
+                                corner_radius=28, fg_color=C["primary"])
             av2.pack(anchor="w", pady=(0, 10))
             av2.pack_propagate(False)
             ctk.CTkLabel(
                 av2, text=nombre_a[0],
-                font=ctk.CTkFont(size=20, weight="bold"),
+                font=ctk.CTkFont(size=22, weight="bold"),
                 text_color="white",
             ).place(relx=0.5, rely=0.5, anchor="center")
 
             ctk.CTkLabel(
                 inn, text=nombre_a,
-                font=ctk.CTkFont(size=13, weight="bold"),
+                font=ctk.CTkFont(size=16, weight="bold"),
                 anchor="w",
             ).pack(anchor="w")
 
@@ -291,12 +291,12 @@ class HomeScreen(ctk.CTkFrame):
             ctk.CTkLabel(
                 badge, text=rol_a,
                 text_color=C["primary"],
-                font=ctk.CTkFont(size=10, weight="bold"),
-            ).pack(padx=8, pady=2)
+                font=ctk.CTkFont(size=13, weight="bold"),
+            ).pack(padx=8, pady=3)
 
             ctk.CTkLabel(
                 inn, text=stack_a,
                 text_color=C["muted"],
-                font=ctk.CTkFont(size=10),
+                font=ctk.CTkFont(size=13),
                 anchor="w",
             ).pack(anchor="w")

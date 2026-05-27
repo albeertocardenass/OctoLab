@@ -102,9 +102,9 @@ class App(ctk.CTk):
 
         ctk.CTkLabel(
             self.navbar, text="OctoLab",
-            font=ctk.CTkFont(size=18, weight="bold"),
+            font=ctk.CTkFont(size=22, weight="bold"),
             text_color="#4f46e5"
-        ).pack(pady=(30, 30))
+        ).pack(pady=(22, 22))
 
         tabs = [
             ("Inicio",         "inicio"),
@@ -119,8 +119,8 @@ class App(ctk.CTk):
                 fg_color="transparent",
                 hover_color=("gray75", "#1e293b"),
                 text_color=("gray15", "gray90"),
-                height=44, corner_radius=8,
-                font=ctk.CTkFont(size=13),
+                height=48, corner_radius=8,
+                font=ctk.CTkFont(size=16),
                 command=lambda k=key: self._cargar_pantalla(k)
             )
             btn.pack(fill="x", padx=12, pady=3)
@@ -138,11 +138,11 @@ class App(ctk.CTk):
             if k == key:
                 btn.configure(fg_color=("gray75", "#1e293b"),
                                text_color=("#4f46e5", "#818cf8"),
-                               font=ctk.CTkFont(size=13, weight="bold"))
+                               font=ctk.CTkFont(size=16, weight="bold"))
             else:
                 btn.configure(fg_color="transparent",
                                text_color=("gray15", "gray90"),
-                               font=ctk.CTkFont(size=13))
+                               font=ctk.CTkFont(size=16))
 
         usuario = self.auth.usuario or {}
 

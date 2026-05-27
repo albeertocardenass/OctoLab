@@ -11,7 +11,9 @@ API_PROGRESO    = f"{API_BASE_URL}/api/Temario/progreso"
 # -- Docker ------------------------------------------------------------
 KALI_IMAGE           = "octolab-kali:latest"          # imagen custom con todas las herramientas
 KALI_BASE_IMAGE      = "kalilinux/kali-rolling"       # base para construir la imagen
-METASPLOITABLE_IMAGE = "tleemcjr/metasploitable2"
+META_IMAGE           = "octolab-meta:latest"          # imagen custom de Metasploitable 2
+META_BASE_IMAGE      = "tleemcjr/metasploitable2"     # base para construir la imagen meta
+METASPLOITABLE_IMAGE = META_IMAGE                     # alias de compatibilidad
 KALI_CONTAINER       = "octolab-kali"
 META_CONTAINER       = "octolab-metasploitable"
 DOCKER_NETWORK       = "octolab-net"

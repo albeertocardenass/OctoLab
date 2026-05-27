@@ -9,7 +9,7 @@ import os
 
 # ── Configuración de la animación ──────────────────────────────────
 NUM_NODES    = 32
-NODE_SPEED   = 0.45
+NODE_SPEED   = 0.55
 CONNECT_DIST = 155
 BG_COLOR     = "#0f172a"
 NODE_COLOR   = "#4f46e5"
@@ -53,36 +53,34 @@ class LoginScreen(ctk.CTkFrame):
         if os.path.exists(_ico_path):
             try:
                 pil_img  = Image.open(_ico_path)
-                # Tomar la variante de mayor resolución disponible
                 sizes = getattr(pil_img, "ico", None)
-                pil_img = pil_img.convert("RGBA").resize((48, 48), Image.LANCZOS)
-                _logo_img = ctk.CTkImage(light_image=pil_img, dark_image=pil_img, size=(48, 48))
+                pil_img = pil_img.convert("RGBA").resize((52, 52), Image.LANCZOS)
+                _logo_img = ctk.CTkImage(light_image=pil_img, dark_image=pil_img, size=(52, 52))
             except Exception:
                 _logo_img = None
 
         if _logo_img:
             ctk.CTkLabel(logo_row, image=_logo_img, text="").pack(side="left")
         else:
-            # Fallback: pastilla morada con letra O
-            icon_box = ctk.CTkFrame(logo_row, width=48, height=48,
+            icon_box = ctk.CTkFrame(logo_row, width=52, height=52,
                                     corner_radius=10, fg_color="#4f46e5")
             icon_box.pack(side="left")
             icon_box.pack_propagate(False)
             ctk.CTkLabel(icon_box, text="O",
-                         font=ctk.CTkFont(size=22, weight="bold"),
+                         font=ctk.CTkFont(size=24, weight="bold"),
                          text_color="white").place(relx=0.5, rely=0.5, anchor="center")
 
         ctk.CTkLabel(logo_row, text="OctoLab",
-                     font=ctk.CTkFont(size=26, weight="bold"),
+                     font=ctk.CTkFont(size=28, weight="bold"),
                      text_color="white").pack(side="left", padx=(10, 0))
 
         # ── Subtítulo + Título ──────────────────────────────────────
         ctk.CTkLabel(outer, text="Bienvenido de nuevo",
-                     font=ctk.CTkFont(size=13),
+                     font=ctk.CTkFont(size=14),
                      text_color="#64748b").pack(pady=(10, 2))
 
         ctk.CTkLabel(outer, text="Inicia sesión en OctoLab",
-                     font=ctk.CTkFont(size=22, weight="bold"),
+                     font=ctk.CTkFont(size=24, weight="bold"),
                      text_color="white").pack(pady=(0, 22))
 
         # ── Tarjeta ─────────────────────────────────────────────────
@@ -101,23 +99,24 @@ class LoginScreen(ctk.CTkFrame):
 
         # ── Campo Email ─────────────────────────────────────────────
         ctk.CTkLabel(inner, text="Email",
-                     font=ctk.CTkFont(size=12, weight="bold"),
+                     font=ctk.CTkFont(size=13, weight="bold"),
                      text_color="#cbd5e1",
                      anchor="w").pack(anchor="w", pady=(0, 4))
 
         email_entry = ctk.CTkEntry(inner,
                                     placeholder_text="tu@email.com",
                                     textvariable=self.email_var,
-                                    width=320, height=42,
+                                    width=340, height=44,
                                     border_color="#334155",
                                     fg_color="#0f172a",
                                     text_color="white",
-                                    placeholder_text_color="#475569")
+                                    placeholder_text_color="#475569",
+                                    font=ctk.CTkFont(size=13))
         email_entry.pack()
 
         # ── Campo Contraseña ────────────────────────────────────────
         ctk.CTkLabel(inner, text="Contraseña",
-                     font=ctk.CTkFont(size=12, weight="bold"),
+                     font=ctk.CTkFont(size=13, weight="bold"),
                      text_color="#cbd5e1",
                      anchor="w").pack(anchor="w", pady=(16, 4))
 
@@ -128,20 +127,21 @@ class LoginScreen(ctk.CTkFrame):
                                         placeholder_text="••••••••",
                                         textvariable=self.pass_var,
                                         show="*",
-                                        width=260, height=42,
+                                        width=276, height=44,
                                         border_color="#334155",
                                         fg_color="#0f172a",
                                         text_color="white",
-                                        placeholder_text_color="#475569")
+                                        placeholder_text_color="#475569",
+                                        font=ctk.CTkFont(size=13))
         self.pass_entry.pack(side="left")
 
         self.toggle_btn = ctk.CTkButton(pw_row,
                                          text="Ver",
-                                         width=54, height=42,
+                                         width=58, height=44,
                                          fg_color="#1e3a5f",
                                          hover_color="#1e4a7f",
                                          text_color="#94a3b8",
-                                         font=ctk.CTkFont(size=12),
+                                         font=ctk.CTkFont(size=13),
                                          corner_radius=8,
                                          command=self._toggle_pw)
         self.toggle_btn.pack(side="left", padx=(4, 0))
@@ -149,37 +149,37 @@ class LoginScreen(ctk.CTkFrame):
         # ── Error ───────────────────────────────────────────────────
         ctk.CTkLabel(inner, textvariable=self.error_var,
                      text_color="#ef4444",
-                     font=ctk.CTkFont(size=12),
+                     font=ctk.CTkFont(size=13),
                      anchor="w").pack(anchor="w", pady=(8, 0))
 
         # ── Botón Entrar ────────────────────────────────────────────
         self.btn = ctk.CTkButton(inner, text="Entrar",
-                                  width=320, height=42,
+                                  width=340, height=44,
                                   fg_color="#4f46e5",
                                   hover_color="#4338ca",
-                                  font=ctk.CTkFont(size=14, weight="bold"),
+                                  font=ctk.CTkFont(size=15, weight="bold"),
                                   command=self._login)
         self.btn.pack(pady=(12, 0))
 
         # ── Botón Invitado ──────────────────────────────────────────
         ctk.CTkButton(inner, text="Entrar como Invitado",
-                       width=320, height=42,
+                       width=340, height=44,
                        fg_color="transparent",
                        hover_color="#1e293b",
                        border_width=1,
                        border_color="#4f46e5",
                        text_color="#818cf8",
-                       font=ctk.CTkFont(size=13),
+                       font=ctk.CTkFont(size=14),
                        command=self._guest_login).pack(pady=(8, 0))
 
         # ── Link de registro ─────────────────────────────────────────
         reg_row = ctk.CTkFrame(inner, fg_color="transparent")
         reg_row.pack(pady=(16, 0))
         ctk.CTkLabel(reg_row, text="¿No tienes cuenta? ",
-                     font=ctk.CTkFont(size=12),
+                     font=ctk.CTkFont(size=13),
                      text_color="#64748b").pack(side="left")
         link = ctk.CTkLabel(reg_row, text="Regístrate aquí",
-                             font=ctk.CTkFont(size=12, underline=True),
+                             font=ctk.CTkFont(size=13, underline=True),
                              text_color="#818cf8",
                              cursor="hand2")
         link.pack(side="left")
@@ -215,7 +215,7 @@ class LoginScreen(ctk.CTkFrame):
         self._canvas_w = new_w
         self._canvas_h = new_h
 
-    # ── Animación de nodos ──────────────────────────────────────────
+    # ── Animación de nodos (60 fps) ─────────────────────────────────
     def _init_nodes(self):
         w = self.winfo_width()
         h = self.winfo_height()
@@ -241,7 +241,7 @@ class LoginScreen(ctk.CTkFrame):
         w = self.winfo_width()
         h = self.winfo_height()
         if w < 10:
-            self.after(33, self._animate)
+            self.after(16, self._animate)
             return
 
         self.canvas.delete("all")
@@ -276,7 +276,7 @@ class LoginScreen(ctk.CTkFrame):
                 fill=NODE_COLOR, outline=NODE_OUTLINE, width=1
             )
 
-        self.after(33, self._animate)
+        self.after(16, self._animate)   # 60 fps
 
     # ── Acciones ────────────────────────────────────────────────────
     def _login(self):

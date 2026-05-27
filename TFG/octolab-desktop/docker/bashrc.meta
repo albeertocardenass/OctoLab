@@ -1,0 +1,46 @@
+# ~/.bashrc — msfadmin user — OctoLab
+# Se carga en cada terminal interactiva
+
+# No hacer nada si no es interactiva
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# ── Historial ──────────────────────────────────────────────────────────
+HISTCONTROL=ignoredups:erasedups
+HISTSIZE=5000
+HISTFILESIZE=10000
+
+# ── Prompt con colores (estilo Ubuntu/Metasploitable) ──────────────────
+# Rojo para usuario (máquina vulnerable), azul para directorio
+PS1='\[\e[01;31m\]\u@metasploitable\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
+
+# ── Aliases esenciales ─────────────────────────────────────────────────
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias la='ls -A  --color=auto'
+alias l='ls -CF  --color=auto'
+alias grep='grep   --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# Seguridad: pedir confirmación
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Herramientas de red rápidas
+alias ports='netstat -tulanp'
+alias ifaces='ifconfig -a'
+
+# ── Variables de entorno ───────────────────────────────────────────────
+export TERM=xterm
+export EDITOR=nano
+export PAGER=less
+export LANG=en_US.UTF-8
+
+# ── Bash completion ────────────────────────────────────────────────────
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi

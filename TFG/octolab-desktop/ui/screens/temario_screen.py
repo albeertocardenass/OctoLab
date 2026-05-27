@@ -1,4 +1,4 @@
-"""
+﻿"""
 temario_screen.py — Grid de módulos + tests con código hex de validación.
 """
 import customtkinter as ctk
@@ -528,10 +528,10 @@ class TestWindow(ctk.CTkToplevel):
         ctk.CTkLabel(inner_hdr,
                      text=self._mod_name,
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=11)).pack(side="left")
+                     font=ctk.CTkFont(size=14)).pack(side="left")
         ctk.CTkLabel(inner_hdr,
                      text=f"{q + 1} / 10",
-                     font=ctk.CTkFont(size=11, weight="bold"),
+                     font=ctk.CTkFont(size=16, weight="bold"),
                      text_color=C["primary"]).pack(side="right")
 
         bar = ctk.CTkProgressBar(hdr, height=4, corner_radius=0,
@@ -541,7 +541,7 @@ class TestWindow(ctk.CTkToplevel):
 
         # Enunciado
         ctk.CTkLabel(self, text=pregunta,
-                     font=ctk.CTkFont(size=13, weight="bold"),
+                     font=ctk.CTkFont(size=18, weight="bold"),
                      wraplength=560, justify="left",
                      anchor="w").pack(padx=22, anchor="w", pady=(16, 10))
 
@@ -552,14 +552,14 @@ class TestWindow(ctk.CTkToplevel):
                 self,
                 text=f"  {texto}",
                 anchor="w",
-                height=42,
+                height=44,
                 corner_radius=8,
                 border_width=2,
                 fg_color=self._OPT_SELECTED if selected else self._OPT_NORMAL,
                 border_color=self._OPT_BORDER_S if selected else self._OPT_BORDER_N,
                 hover_color=("gray85", "#253047"),
                 text_color=("gray10", "white"),
-                font=ctk.CTkFont(size=12),
+                font=ctk.CTkFont(size=15),
                 command=lambda idx=i: self._seleccionar(idx),
             )
             btn.pack(fill="x", padx=22, pady=3)
@@ -573,7 +573,7 @@ class TestWindow(ctk.CTkToplevel):
             ctk.CTkButton(nav, text="← Anterior", width=110, height=34,
                           fg_color=("gray78", "#334155"),
                           hover_color=("gray68", "#475569"),
-                          font=ctk.CTkFont(size=12),
+                          font=ctk.CTkFont(size=14),
                           command=self._prev).pack(side="left")
 
         es_ultimo = (q == 9)
@@ -582,7 +582,7 @@ class TestWindow(ctk.CTkToplevel):
                       width=120, height=34,
                       fg_color=C["success"] if es_ultimo else C["primary"],
                       hover_color="#059669" if es_ultimo else C["primary_hov"],
-                      font=ctk.CTkFont(size=12),
+                      font=ctk.CTkFont(size=14),
                       command=self._finalizar if es_ultimo else self._next
                       ).pack(side="right")
 
@@ -637,18 +637,18 @@ class TestWindow(ctk.CTkToplevel):
 
         ctk.CTkLabel(self,
                      text="¡Aprobado!" if aprobado else "No aprobado",
-                     font=ctk.CTkFont(size=15, weight="bold"),
+                     font=ctk.CTkFont(size=17, weight="bold"),
                      text_color=color).pack()
         ctk.CTkLabel(self, text=self._mod_name,
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=11)).pack(pady=(2, 14))
+                     font=ctk.CTkFont(size=13)).pack(pady=(2, 14))
 
         if aprobado:
             code = _generar_codigo(self._user_id, self._mod_id)
 
             ctk.CTkLabel(self, text="Tu código de validación:",
                          text_color=C["muted"],
-                         font=ctk.CTkFont(size=11)).pack()
+                         font=ctk.CTkFont(size=13)).pack()
 
             # Caja código + botón copiar en la misma fila
             code_row = ctk.CTkFrame(self, fg_color="transparent")
@@ -665,41 +665,41 @@ class TestWindow(ctk.CTkToplevel):
                                       corner_radius=10,
                                       fg_color=("gray78", "#334155"),
                                       hover_color=("gray68", "#475569"),
-                                      font=ctk.CTkFont(size=12))
+                                      font=ctk.CTkFont(size=14))
             copy_btn.pack(side="left", padx=(6, 0))
             copy_btn.configure(command=lambda: self._copiar(code, copy_btn))
 
             ctk.CTkLabel(self,
                          text="Introduce el código en la web · Temario · Código lab",
                          text_color=C["muted"],
-                         font=ctk.CTkFont(size=11)).pack(pady=(2, 12))
+                         font=ctk.CTkFont(size=13)).pack(pady=(2, 12))
 
             ctk.CTkButton(self, text="Ir a la web →",
                           width=180, height=36,
                           fg_color=C["primary"], hover_color=C["primary_hov"],
-                          font=ctk.CTkFont(size=12),
+                          font=ctk.CTkFont(size=14),
                           command=lambda: webbrowser.open(f"{WEB_BASE_URL}/temario")
                           ).pack(pady=(0, 6))
         else:
             ctk.CTkLabel(self,
                          text="Necesitas 7 / 10 para obtener el código.",
                          text_color=C["error"],
-                         font=ctk.CTkFont(size=12)).pack(pady=(0, 4))
+                         font=ctk.CTkFont(size=14)).pack(pady=(0, 4))
             ctk.CTkLabel(self,
                          text="Repasa el contenido del tema e inténtalo de nuevo.",
                          text_color=C["muted"],
-                         font=ctk.CTkFont(size=11)).pack()
+                         font=ctk.CTkFont(size=13)).pack()
             ctk.CTkButton(self, text="Reintentar",
                           width=160, height=36,
                           fg_color=C["primary"], hover_color=C["primary_hov"],
-                          font=ctk.CTkFont(size=12),
+                          font=ctk.CTkFont(size=14),
                           command=self._restart).pack(pady=(14, 6))
 
         ctk.CTkButton(self, text="Cerrar",
                       width=160, height=34,
                       fg_color=("gray78", "#334155"),
                       hover_color=("gray68", "#475569"),
-                      font=ctk.CTkFont(size=12),
+                      font=ctk.CTkFont(size=14),
                       command=self.destroy).pack(pady=(0, 16))
 
     def _copiar(self, code: str, btn: ctk.CTkButton):
@@ -724,12 +724,12 @@ class TemarioScreen(ctk.CTkFrame):
 
     def _build(self):
         ctk.CTkLabel(self, text="Temario",
-                     font=ctk.CTkFont(size=22, weight="bold")).pack(
+                     font=ctk.CTkFont(size=28, weight="bold")).pack(
                          anchor="w", padx=40, pady=(24, 2))
         ctk.CTkLabel(self,
                      text="Módulos de ciberseguridad · completa el test para obtener tu código de validación",
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=12)).pack(anchor="w", padx=40, pady=(0, 14))
+                     font=ctk.CTkFont(size=16)).pack(anchor="w", padx=40, pady=(0, 12))
 
         scroll = ctk.CTkScrollableFrame(self, fg_color="transparent")
         scroll.pack(fill="both", expand=True, padx=24, pady=(0, 16))
@@ -751,29 +751,29 @@ class TemarioScreen(ctk.CTkFrame):
             card.grid(row=row_idx, column=col_idx, padx=6, pady=6, sticky="nsew")
 
             inn = ctk.CTkFrame(card, fg_color="transparent")
-            inn.pack(fill="both", expand=True, padx=14, pady=12)
+            inn.pack(fill="both", expand=True, padx=14, pady=14)
 
             # Número + Título
             top = ctk.CTkFrame(inn, fg_color="transparent")
             top.pack(fill="x", pady=(0, 6))
 
             badge_fg = C["primary"] if desbloqueado else C["badge_lock"]
-            bdg = ctk.CTkFrame(top, width=34, height=34, corner_radius=8, fg_color=badge_fg)
+            bdg = ctk.CTkFrame(top, width=36, height=36, corner_radius=8, fg_color=badge_fg)
             bdg.pack(side="left")
             bdg.pack_propagate(False)
             ctk.CTkLabel(bdg, text=f"{mod_id:02d}",
-                         font=ctk.CTkFont(size=11, weight="bold"),
+                         font=ctk.CTkFont(size=16, weight="bold"),
                          text_color="white").place(relx=0.5, rely=0.5, anchor="center")
 
             ctk.CTkLabel(top, text=titulo,
-                         font=ctk.CTkFont(size=11, weight="bold"),
+                         font=ctk.CTkFont(size=16, weight="bold"),
                          anchor="w", wraplength=160,
                          justify="left").pack(side="left", padx=(8, 0), fill="x", expand=True)
 
             # Descripción
             ctk.CTkLabel(inn, text=desc,
                          text_color=C["muted"],
-                         font=ctk.CTkFont(size=10),
+                         font=ctk.CTkFont(size=13),
                          anchor="w", wraplength=210,
                          justify="left").pack(anchor="w", pady=(0, 8))
 
@@ -783,39 +783,39 @@ class TemarioScreen(ctk.CTkFrame):
                 bf.pack(anchor="w", pady=(0, 8))
                 ctk.CTkLabel(bf, text="✓  Contenido Disponible",
                              text_color=C["primary"],
-                             font=ctk.CTkFont(size=10, weight="bold")).pack(padx=8, pady=3)
+                             font=ctk.CTkFont(size=14, weight="bold")).pack(padx=10, pady=4)
             else:
                 bf = ctk.CTkFrame(inn, fg_color=C["cost_bg"], corner_radius=6)
                 bf.pack(anchor="w", pady=(0, 8))
                 ctk.CTkLabel(bf, text=f"Costo: {coste} pts",
                              text_color=C["muted"],
-                             font=ctk.CTkFont(size=10)).pack(padx=8, pady=3)
+                             font=ctk.CTkFont(size=13)).pack(padx=10, pady=4)
 
             # Botones
             if desbloqueado:
                 ctk.CTkButton(inn, text="▶  Abrir Tema",
-                              height=30,
+                              height=34,
                               fg_color=C["primary"], hover_color=C["primary_hov"],
-                              font=ctk.CTkFont(size=11),
+                              font=ctk.CTkFont(size=14),
                               command=lambda: webbrowser.open(f"{WEB_BASE_URL}/temario")
                               ).pack(fill="x", pady=(0, 4))
                 ctk.CTkButton(inn, text="Realizar Test",
-                              height=30,
+                              height=34,
                               fg_color="transparent",
                               hover_color=("gray82", "#1e293b"),
                               border_width=1, border_color=C["primary"],
                               text_color=C["primary"],
-                              font=ctk.CTkFont(size=11),
+                              font=ctk.CTkFont(size=14),
                               command=lambda mid=mod_id, t=titulo, uid=user_id: (
                                   TestWindow(self, mid, t, uid)
                               )).pack(fill="x")
             else:
                 ctk.CTkButton(inn, text="Desbloquear",
-                              height=30,
+                              height=34,
                               fg_color="transparent",
                               hover_color=("gray82", "#1e293b"),
                               border_width=1, border_color=C["divider"],
                               text_color=C["muted"],
-                              font=ctk.CTkFont(size=11),
+                              font=ctk.CTkFont(size=14),
                               command=lambda: webbrowser.open(f"{WEB_BASE_URL}/temario")
                               ).pack(fill="x")

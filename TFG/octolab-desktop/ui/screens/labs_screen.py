@@ -1,7 +1,7 @@
-import customtkinter as ctk
+﻿import customtkinter as ctk
 import subprocess
 import threading
-from config import KALI_CONTAINER, META_CONTAINER, KALI_IMAGE, METASPLOITABLE_IMAGE, DOCKER_NETWORK
+from config import KALI_CONTAINER, META_CONTAINER, KALI_IMAGE, META_IMAGE, DOCKER_NETWORK
 
 C = {
     "primary":     "#4f46e5",
@@ -16,31 +16,20 @@ C = {
 }
 
 CONTENEDORES = [
-    (KALI_CONTAINER,  KALI_IMAGE,           "Kali Linux",       "Distribución ofensiva para pentesting y auditorías"),
-    (META_CONTAINER,  METASPLOITABLE_IMAGE,  "Metasploitable 2", "Máquina intencionalmente vulnerable para práctica"),
+    (KALI_CONTAINER, KALI_IMAGE, "Kali Linux",       "Distribución ofensiva para pentesting y auditorías"),
+    (META_CONTAINER, META_IMAGE, "Metasploitable 2", "Máquina intencionalmente vulnerable para práctica"),
 ]
 
-# ── Banners de terminal ───────────────────────────────────────────────
-# Kali:          banner ya integrado en /etc/motd del Dockerfile
-# Metasploitable: se inyecta en /tmp/octolab_motd vía stdin al abrir terminal
-_BANNER_META = (
-    "    __  ___     __                   __      _ __        __    __    ___ \n"
-    "   /  |/  /__  / /_____ __________  / /___  (_) /_____ _/ /_  / /__ |__ \\\n"
-    "  / /|_/ / _ \\/ __/ __ `/ ___/ __ \\/ / __ \\/ / __/ __ `/ __ \\/ / _ \\__/ /\n"
-    " / /  / /  __/ /_/ /_/ (__  ) /_/ / / /_/ / / /_/ /_/ / /_/ / /  __/ __/ \n"
-    "/_/  /_/\\___/\\__/\\__,_/____/ .___/_/\\____/_/\\__/\\__,_/_.___/_/\\___/____/ \n"
-    "                          /_/\n"
-    "\n"
-    "  Contenedor  : octolab-metasploitable\n"
-    "  Red         : octolab-net\n"
-    "  Credenciales: msfadmin / msfadmin  |  root / toor\n"
-    "\n"
-    "  Warning: Never expose this VM to an untrusted network!\n"
-    "\n"
-)
+# Usuario con el que se abre la terminal (docker exec -u)
+_TERMINAL_USER: dict[str, str] = {
+    KALI_CONTAINER: "kali",
+    META_CONTAINER: "msfadmin",
+}
 
-BANNERS: dict[str, str] = {
-    META_CONTAINER: _BANNER_META,
+# Directorio de inicio de la terminal (docker exec -w)
+_TERMINAL_HOME: dict[str, str] = {
+    KALI_CONTAINER: "/home/kali",
+    META_CONTAINER: "/home/msfadmin",
 }
 
 # ── Referencia de comandos ────────────────────────────────────────────
@@ -121,15 +110,15 @@ def _icon_btn(parent, icon: str, label: str,
     frame = ctk.CTkFrame(parent, fg_color="transparent")
     btn = ctk.CTkButton(
         frame, text=icon,
-        width=48, height=44, corner_radius=10,
+        width=56, height=46, corner_radius=10,
         fg_color=fg, hover_color=hover,
-        font=ctk.CTkFont(size=17),
+        font=ctk.CTkFont(size=18),
         state="normal" if enabled else "disabled",
         command=command,
     )
     btn.pack()
     ctk.CTkLabel(frame, text=label,
-                 font=ctk.CTkFont(size=10),
+                 font=ctk.CTkFont(size=13),
                  text_color=C["muted"]).pack(pady=(3, 0))
     frame._btn = btn
     return frame
@@ -152,14 +141,14 @@ class LabsScreen(ctk.CTkFrame):
     def _build(self):
         # Título fuera del scroll (cabecera fija)
         ctk.CTkLabel(self, text="Laboratorios",
-                     font=ctk.CTkFont(size=22, weight="bold")).pack(
-                         anchor="w", padx=40, pady=(28, 2))
+                     font=ctk.CTkFont(size=28, weight="bold")).pack(
+                         anchor="w", padx=40, pady=(24, 2))
         ctk.CTkLabel(self,
                      text="Los contenedores comparten la red interna octolab-net — "
                           "Kali puede escanear y explotar Metasploitable directamente.",
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=12),
-                     wraplength=660, justify="left").pack(anchor="w", padx=40, pady=(0, 16))
+                     font=ctk.CTkFont(size=16),
+                     wraplength=660, justify="left").pack(anchor="w", padx=40, pady=(0, 14))
 
         ctk.CTkFrame(self, height=1, fg_color=C["divider"]).pack(fill="x", padx=40, pady=(0, 12))
 
@@ -173,27 +162,27 @@ class LabsScreen(ctk.CTkFrame):
             card.pack(fill="x", padx=40, pady=6)
 
             top = ctk.CTkFrame(card, fg_color="transparent")
-            top.pack(fill="x", padx=20, pady=(14, 4))
+            top.pack(fill="x", padx=22, pady=(16, 4))
             ctk.CTkLabel(top, text=titulo,
-                         font=ctk.CTkFont(size=15, weight="bold")).pack(side="left")
+                         font=ctk.CTkFont(size=20, weight="bold")).pack(side="left")
             estado_lbl = ctk.CTkLabel(top, text="Detenido",
                                        text_color=C["stopped"],
-                                       font=ctk.CTkFont(size=12, weight="bold"))
+                                       font=ctk.CTkFont(size=15, weight="bold"))
             estado_lbl.pack(side="right")
             self.estado_labels[nombre] = estado_lbl
 
             ctk.CTkLabel(card, text=desc,
                          text_color=C["muted"],
-                         font=ctk.CTkFont(size=12)).pack(anchor="w", padx=20)
+                         font=ctk.CTkFont(size=15)).pack(anchor="w", padx=22)
 
             ip_lbl = ctk.CTkLabel(card, text="",
                                    text_color=C["primary"],
-                                   font=ctk.CTkFont(family="Courier New", size=11))
-            ip_lbl.pack(anchor="w", padx=20, pady=(2, 0))
+                                   font=ctk.CTkFont(family="Courier New", size=14))
+            ip_lbl.pack(anchor="w", padx=22, pady=(2, 0))
             self.ip_labels[nombre] = ip_lbl
 
             btns_row = ctk.CTkFrame(card, fg_color="transparent")
-            btns_row.pack(anchor="w", padx=20, pady=(12, 16))
+            btns_row.pack(anchor="w", padx=22, pady=(12, 16))
 
             start_f = _icon_btn(btns_row, "▶", "Iniciar",
                                  C["primary"], C["primary_hov"],
@@ -220,14 +209,14 @@ class LabsScreen(ctk.CTkFrame):
             fill="x", padx=40, pady=(20, 16))
 
         ctk.CTkLabel(scroll, text="Referencia de comandos",
-                     font=ctk.CTkFont(size=15, weight="bold")).pack(
-                         anchor="w", padx=40, pady=(0, 12))
+                     font=ctk.CTkFont(size=20, weight="bold")).pack(
+                         anchor="w", padx=40, pady=(0, 10))
 
         ctk.CTkLabel(scroll,
                      text="Comandos de uso frecuente en los laboratorios. "
                           "Haz clic en Copiar para llevarlos directamente a la terminal.",
                      text_color=C["muted"],
-                     font=ctk.CTkFont(size=11),
+                     font=ctk.CTkFont(size=15),
                      wraplength=660, justify="left").pack(anchor="w", padx=40, pady=(0, 14))
 
         for (abrev, color, categoria), cmds in COMANDOS.items():
@@ -243,16 +232,16 @@ class LabsScreen(ctk.CTkFrame):
         hdr = ctk.CTkFrame(parent, fg_color="transparent")
         hdr.pack(fill="x", padx=40, pady=(0, 6))
 
-        bdg = ctk.CTkFrame(hdr, width=32, height=22,
+        bdg = ctk.CTkFrame(hdr, width=38, height=24,
                            corner_radius=5, fg_color=color)
         bdg.pack(side="left")
         bdg.pack_propagate(False)
         ctk.CTkLabel(bdg, text=abrev,
-                     font=ctk.CTkFont(size=9, weight="bold"),
+                     font=ctk.CTkFont(size=11, weight="bold"),
                      text_color="white").place(relx=0.5, rely=0.5, anchor="center")
 
         ctk.CTkLabel(hdr, text=titulo,
-                     font=ctk.CTkFont(size=12, weight="bold")).pack(
+                     font=ctk.CTkFont(size=16, weight="bold")).pack(
                          side="left", padx=(8, 0))
 
         # Tarjeta con filas de comandos
@@ -265,27 +254,27 @@ class LabsScreen(ctk.CTkFrame):
                     fill="x", padx=14)
 
             row = ctk.CTkFrame(card, fg_color="transparent")
-            row.pack(fill="x", padx=14, pady=7)
+            row.pack(fill="x", padx=16, pady=8)
 
             # Descripción
             ctk.CTkLabel(row, text=desc,
                          text_color=C["muted"],
-                         font=ctk.CTkFont(size=11),
-                         width=240, anchor="w").pack(side="left")
+                         font=ctk.CTkFont(size=14),
+                         width=260, anchor="w").pack(side="left")
 
             # Comando en monospace
             ctk.CTkLabel(row, text=cmd,
-                         font=ctk.CTkFont(family="Courier New", size=11),
+                         font=ctk.CTkFont(family="Courier New", size=14),
                          anchor="w").pack(side="left", fill="x", expand=True, padx=(8, 8))
 
             # Botón copiar
             copy_btn = ctk.CTkButton(
                 row, text="Copiar",
-                width=64, height=26,
+                width=68, height=28,
                 corner_radius=6,
                 fg_color=("gray78", "#334155"),
                 hover_color=("gray68", "#475569"),
-                font=ctk.CTkFont(size=10),
+                font=ctk.CTkFont(size=13),
             )
             copy_btn.configure(
                 command=lambda c=cmd, b=copy_btn: self._copiar(c, b))
@@ -302,47 +291,65 @@ class LabsScreen(ctk.CTkFrame):
                 pass
 
     def _set_estado(self, nombre: str, estado: str, ip: str | None = None):
-        lbl     = self.estado_labels.get(nombre)
-        ip_lbl  = self.ip_labels.get(nombre)
-        running = estado == "running"
+        try:
+            lbl     = self.estado_labels.get(nombre)
+            ip_lbl  = self.ip_labels.get(nombre)
+            running = estado == "running"
 
-        if lbl:
-            if running:
-                lbl.configure(text="En ejecucion", text_color=C["success"])
-            elif estado == "error":
-                lbl.configure(text="Error",        text_color=C["error"])
-            else:
-                lbl.configure(text="Detenido",     text_color=C["stopped"])
+            if lbl and lbl.winfo_exists():
+                if running:
+                    lbl.configure(text="En ejecucion", text_color=C["success"])
+                elif estado == "error":
+                    lbl.configure(text="Error",        text_color=C["error"])
+                else:
+                    lbl.configure(text="Detenido",     text_color=C["stopped"])
 
-        if ip_lbl:
-            ip_lbl.configure(text=f"IP red interna: {ip}" if ip else "")
+            if ip_lbl and ip_lbl.winfo_exists():
+                ip_lbl.configure(text=f"IP red interna: {ip}" if ip else "")
 
-        # En error: solo Iniciar activo (para reintentar)
-        self._set_btn_enabled(self._start_frames.get(nombre), not running)
-        self._set_btn_enabled(self._term_frames.get(nombre),  running)
-        self._set_btn_enabled(self._stop_frames.get(nombre),  running)
+            # En error: solo Iniciar activo (para reintentar)
+            self._set_btn_enabled(self._start_frames.get(nombre), not running)
+            self._set_btn_enabled(self._term_frames.get(nombre),  running)
+            self._set_btn_enabled(self._stop_frames.get(nombre),  running)
+        except Exception:
+            pass
 
     @staticmethod
     def _set_btn_enabled(frame, enabled: bool):
-        if frame and hasattr(frame, "_btn"):
-            frame._btn.configure(state="normal" if enabled else "disabled")
+        try:
+            if frame and hasattr(frame, "_btn") and frame._btn.winfo_exists():
+                frame._btn.configure(state="normal" if enabled else "disabled")
+        except Exception:
+            pass
 
     # ── Acciones ─────────────────────────────────────────────────────
     def _iniciar(self, nombre: str, imagen: str):
         def on_status(msg: str):
-            # Muestra el mensaje de progreso en la etiqueta de estado (hilo secundario → after)
-            self.after(0, lambda m=msg: self.estado_labels[nombre].configure(
-                text=m[:52] + "…" if len(msg) > 52 else m,
-                text_color=C["muted"]))
+            # Muestra el mensaje de progreso en la etiqueta de estado (hilo secundario → after).
+            # Guarda contra TclError si el widget ya fue destruido (usuario navegó a otra pantalla).
+            def _do(m=msg):
+                try:
+                    lbl = self.estado_labels.get(nombre)
+                    if lbl and lbl.winfo_exists():
+                        lbl.configure(
+                            text=m[:52] + "…" if len(m) > 52 else m,
+                            text_color=C["muted"])
+                except Exception:
+                    pass
+            self.after(0, _do)
 
         def tarea():
-            self.after(0, lambda: self.estado_labels[nombre].configure(
-                text="Iniciando...", text_color=C["muted"]))
-            self.after(0, lambda: [
-                self._set_btn_enabled(self._start_frames.get(nombre), False),
-                self._set_btn_enabled(self._term_frames.get(nombre),  False),
-                self._set_btn_enabled(self._stop_frames.get(nombre),  False),
-            ])
+            def _init_ui():
+                try:
+                    lbl = self.estado_labels.get(nombre)
+                    if lbl and lbl.winfo_exists():
+                        lbl.configure(text="Iniciando...", text_color=C["muted"])
+                    self._set_btn_enabled(self._start_frames.get(nombre), False)
+                    self._set_btn_enabled(self._term_frames.get(nombre),  False)
+                    self._set_btn_enabled(self._stop_frames.get(nombre),  False)
+                except Exception:
+                    pass
+            self.after(0, _init_ui)
             ok = self.docker.lanzar_contenedor(nombre, imagen, on_status=on_status)
             ip = self.docker.get_ip_contenedor(nombre) if ok else None
             self.after(0, lambda: self._set_estado(nombre, "running" if ok else "error", ip))
@@ -360,34 +367,34 @@ class LabsScreen(ctk.CTkFrame):
 
     def _abrir_terminal(self, nombre: str):
         try:
-            banner = BANNERS.get(nombre)
-            if banner:
-                # Inyectar banner en /tmp/octolab_motd vía stdin — sin quoting ni escaping
-                subprocess.run(
-                    ["docker", "exec", "-i", nombre, "bash", "-c",
-                     "cat > /tmp/octolab_motd"],
-                    input=banner.encode("utf-8"),
-                    capture_output=True,
-                    timeout=5,
-                )
-                motd_cmd = "cat /tmp/octolab_motd 2>/dev/null; exec bash"
-            else:
-                # Kali: banner ya está en /etc/motd del Dockerfile
-                motd_cmd = "cat /etc/motd 2>/dev/null; exec bash"
-
-            # String directo a CreateProcess — cmd.exe maneja las comillas sin escaping roto
-            cmd = f'cmd.exe /k docker exec -it {nombre} bash -c "{motd_cmd}"'
+            # Ambas imágenes tienen el banner en /etc/motd (baked en Dockerfile)
+            user = _TERMINAL_USER.get(nombre, "")
+            home = _TERMINAL_HOME.get(nombre, "")
+            u_flag = f"-u {user} " if user else ""
+            w_flag = f"-w {home} " if home else ""
+            motd_cmd = "cat /etc/motd 2>/dev/null; exec bash"
+            cmd = f'cmd.exe /k docker exec {u_flag}{w_flag}-it {nombre} bash -c "{motd_cmd}"'
             subprocess.Popen(cmd, creationflags=subprocess.CREATE_NEW_CONSOLE)
         except Exception as e:
             print(f"Error abriendo terminal: {e}")
 
     def _copiar(self, cmd: str, btn: ctk.CTkButton):
-        self.clipboard_clear()
-        self.clipboard_append(cmd)
-        self.update()
-        btn.configure(text="✓", fg_color=C["copy_ok"], hover_color="#059669")
-        self.after(1500, lambda: btn.configure(
-            text="Copiar",
-            fg_color=("gray78", "#334155"),
-            hover_color=("gray68", "#475569"),
-        ))
+        try:
+            self.clipboard_clear()
+            self.clipboard_append(cmd)
+            self.update()
+            btn.configure(text="✓", fg_color=C["copy_ok"], hover_color="#059669")
+        except Exception:
+            return
+
+        def _restore():
+            try:
+                if btn.winfo_exists():
+                    btn.configure(
+                        text="Copiar",
+                        fg_color=("gray78", "#334155"),
+                        hover_color=("gray68", "#475569"),
+                    )
+            except Exception:
+                pass
+        self.after(1500, _restore)

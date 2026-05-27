@@ -3,7 +3,7 @@ import subprocess
 import time
 import docker
 from config import (
-    KALI_IMAGE, METASPLOITABLE_IMAGE,
+    KALI_IMAGE, META_IMAGE,
     KALI_CONTAINER, META_CONTAINER, DOCKER_NETWORK, DOCKER_DIR
 )
 from utils.logger import get_logger
@@ -18,6 +18,7 @@ _CAPS: dict[str, list[str]] = {
 _USER: dict[str, str] = {
     KALI_CONTAINER: "root",
 }
+
 
 
 class DockerManager:
@@ -59,7 +60,7 @@ class DockerManager:
                 self.client = None
         return self._ping()
 
-    # ── Imagen personalizada de Kali ─────────────────────────────────
+    # ── Imágenes personalizadas ───────────────────────────────────────
     def _imagen_existe(self, imagen: str) -> bool:
         try:
             self.client.images.get(imagen)
@@ -67,22 +68,19 @@ class DockerManager:
         except (docker.errors.ImageNotFound, Exception):
             return False
 
-    def construir_imagen_kali(self, on_status=None) -> bool:
-        """
-        Construye octolab-kali:latest usando el CLI de Docker (subprocess).
-        Más robusto que el SDK Python para operaciones de build.
-        """
-        dockerfile = os.path.join(DOCKER_DIR, "Dockerfile.kali")
+    def _construir_imagen(self, tag: str, dockerfile: str,
+                          on_status=None) -> bool:
+        """Build genérico: construye `tag` usando `dockerfile` en DOCKER_DIR."""
         if on_status:
-            on_status("Construyendo imagen de Kali (primera vez ~3-5 min)...")
-        log.info("Iniciando build de octolab-kali:latest...")
+            on_status(f"Construyendo imagen {tag} (primera vez ~3-5 min)...")
+        log.info(f"Iniciando build de {tag}...")
         try:
             proc = subprocess.Popen(
                 [
                     "docker", "build",
-                    "--no-cache",        # evita usar capas rotas de builds anteriores
-                    "-t", KALI_IMAGE,
-                    "-f", dockerfile,
+                    "--no-cache",
+                    "-t", tag,
+                    "-f", os.path.join(DOCKER_DIR, dockerfile),
                     DOCKER_DIR,
                 ],
                 stdout=subprocess.PIPE,
@@ -96,25 +94,16 @@ class DockerManager:
                 if not line:
                     continue
                 log.info(f"[build] {line}")
-                if on_status and ("Step" in line or "step" in line
-                                  or "#" in line):
-                    # Truncar a 50 chars para que quepa en la etiqueta
+                if on_status and ("#" in line or "step" in line.lower()):
                     on_status(line[:50] + ("…" if len(line) > 50 else ""))
-
             proc.wait()
-            if proc.returncode == 0:
-                log.info("Imagen octolab-kali:latest construida correctamente.")
+            if proc.returncode == 0 or self._imagen_existe(tag):
+                log.info(f"Imagen {tag} construida correctamente.")
                 return True
-            else:
-                # En Docker Desktop/Windows el pipe puede cerrarse con EOF
-                # aunque la imagen se haya creado. Verificar antes de fallar.
-                if self._imagen_existe(KALI_IMAGE):
-                    log.info("Imagen construida correctamente (EOF de pipe ignorado).")
-                    return True
-                log.error(f"Build falló con código {proc.returncode}")
-                if on_status:
-                    on_status(f"Error: build falló (código {proc.returncode})")
-                return False
+            log.error(f"Build {tag} falló con código {proc.returncode}")
+            if on_status:
+                on_status(f"Error: build {tag} falló (código {proc.returncode})")
+            return False
         except FileNotFoundError:
             msg = "Docker CLI no encontrado en PATH"
             log.error(msg)
@@ -122,10 +111,18 @@ class DockerManager:
                 on_status(msg)
             return False
         except Exception as e:
-            log.error(f"Error construyendo imagen Kali: {e}")
+            log.error(f"Error construyendo {tag}: {e}")
             if on_status:
                 on_status(f"Error: {e}")
             return False
+
+    def construir_imagen_kali(self, on_status=None) -> bool:
+        """Construye octolab-kali:latest desde Dockerfile.kali."""
+        return self._construir_imagen(KALI_IMAGE, "Dockerfile.kali", on_status)
+
+    def construir_imagen_meta(self, on_status=None) -> bool:
+        """Construye octolab-meta:latest desde Dockerfile.meta."""
+        return self._construir_imagen(META_IMAGE, "Dockerfile.meta", on_status)
 
     # ── Red ───────────────────────────────────────────────────────────
     def crear_red(self):
@@ -146,10 +143,12 @@ class DockerManager:
             log.error("Docker no disponible.")
             return False
 
-        # Construir imagen custom de Kali si no existe todavía
+        # Construir imagen custom si no existe todavía
         if nombre == KALI_CONTAINER and not self._imagen_existe(KALI_IMAGE):
-            ok = self.construir_imagen_kali(on_status)
-            if not ok:
+            if not self.construir_imagen_kali(on_status):
+                return False
+        elif nombre == META_CONTAINER and not self._imagen_existe(META_IMAGE):
+            if not self.construir_imagen_meta(on_status):
                 return False
 
         self.crear_red()
