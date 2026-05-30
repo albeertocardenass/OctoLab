@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { API_BASE } from '../../services/api.config';
 
 @Component({
   selector: 'app-configuracion',
@@ -45,7 +46,6 @@ export class ConfiguracionComponent implements OnInit, OnDestroy {
   get avatarSrc(): string | null {
     if (this.imagenPreview) return this.imagenPreview;
     const av = this.usuarioActivo?.avatar;
-    // Soporta tanto URLs http:// como base64 data: almacenado en BD
     if (av && (av.startsWith('http') || av.startsWith('data:'))) return av;
     return null;
   }
@@ -63,7 +63,6 @@ export class ConfiguracionComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     reader.onload = () => {
       const original = reader.result as string;
-      // Comprimir a máx 256x256 y calidad 0.8 antes de guardar en BD
       this.comprimirImagen(original, 256, 0.8).then(comprimida => {
         this.imagenPreview = comprimida;
         this.avatarError = false;
@@ -99,7 +98,7 @@ export class ConfiguracionComponent implements OnInit, OnDestroy {
     this.subiendoAvatar = true;
     this.cdr.detectChanges();
 
-    this.http.post<any>(`/api/Usuarios/${idUsuario}/avatar`, { imagenBase64: base64 }, { headers }).subscribe({
+    this.http.post<any>(`${API_BASE}/api/Usuarios/${idUsuario}/avatar`, { imagenBase64: base64 }, { headers }).subscribe({
       next: (res) => {
         this.subiendoAvatar = false;
         this.imagenPreview = null;
@@ -123,7 +122,7 @@ export class ConfiguracionComponent implements OnInit, OnDestroy {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    this.http.put(`/api/Usuarios/${idUsuario}`, this.usuarioActivo, { headers }).subscribe({
+    this.http.put(`${API_BASE}/api/Usuarios/${idUsuario}`, this.usuarioActivo, { headers }).subscribe({
       next: () => {
         if (isPlatformBrowser(this.platformId)) {
           this.authService.actualizarUsuarioLocal(this.usuarioActivo);
