@@ -22,6 +22,20 @@ resource "aws_security_group" "backend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -41,23 +55,20 @@ resource "aws_instance" "backend_server" {
               #!/bin/bash
               exec > /var/log/octolab-startup.log 2>&1
 
-              # Instalar dependencias
               apt-get update -y
-              apt-get install -y wget awscli libicu70
+              apt-get install -y wget awscli libicu70 nginx certbot python3-certbot-nginx
 
-              # Instalar .NET 10 con el script oficial
               wget https://dot.net/v1/dotnet-install.sh -O /tmp/dotnet-install.sh
               chmod +x /tmp/dotnet-install.sh
               /tmp/dotnet-install.sh --channel 10.0 --runtime aspnetcore --install-dir /usr/share/dotnet
               ln -sf /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-              # Configurar credenciales AWS para ubuntu
               mkdir -p /home/ubuntu/.aws
               cat > /home/ubuntu/.aws/credentials <<CREDS
               [default]
-              aws_access_key_id=ASIAWOAC42RQXCK362L6
-              aws_secret_access_key=ikqzGpDedKqrf/8GsJaxNxqeQlmV8Nu25+5M7VNw
-              aws_session_token=IQoJb3JpZ2luX2VjEBQaCXVzLXdlc3QtMiJGMEQCIAlVhzySAxobItiFeo4VWiZwsN9/y8bmyNsbQQI1bIHjAiBOBg6gxYzTZNvZ6IfUudC0JO0hyzzMJfHif/ljkVOywCrAAgjd//////////8BEAEaDDQ0MjM4NzcxNTE2OSIMcwCQE8jsE1dgKU5rKpQCfDsB0jQYRLiZ6dMRXG1htMM9YBLAxl4xA5OTh/T34TXemdO8jhCBCIdeHh8tLHnV+Ab3HqJVuyTjKlusnCHJ8KkVtq6kihpHU13R5T3+R02G8h+uEcCf0/mArq7VNoDwDvwqjRcvisDVcjl93Ebw36U7ATiy/3orkx+pPQjr6fq60Sy1mOA4aKTDtbZjzAdD8VjQX/TEmzknwbiZDGMn5dqKudEv9QempwarV32XrKjbc+nKGqHhahoR0zUpunYFqlQMvsNg2YXpSlSRKlEb90OL4a2S2L2Gp/8jTZ9WFf0T218EktjT0OsTUjGJUko1n+Q32mq+MSJST/OGXGf4O95pL2+UeDZPp6pSr7oalBIip7SZMLmR69AGOp4Bw/zrzeuyTmv1lTyy/32Bsy7hQSlBBvf9opgnqQ6vvLlxQ07RjiEX9TnHYiS60FNN1fc5nyVqaSXEIfTyTG5PzTURRExQKVVaQMLQuiKHuIA418b+aEjksJwPskMuuPsiAj9uhxFicykspZvJXyVEoT62e9EN97+N/AZ3LSUNWFGhSVXeuns4vQ/IVYO0ayEvNCO/S9b9OVV0QbgS1A4=
+              aws_access_key_id=ASIAWOAC42RQYJGXJQG6
+              aws_secret_access_key=8T0D1W+l3jKJE1qrGBKyGgMtVQvp7C6dbXlg7Ua4
+              aws_session_token=IQoJb3JpZ2luX2VjEHQaCXVzLXdlc3QtMiJGMEQCIFlesU5hHOu2CW/H/GVCXJ6ZuROcMzli47lmgfDxPPulAiAHa/pC+cE6C5NbIKZomme0eGnogeomQUI3qV0bLpuLiiq3Agg9EAEaDDQ0MjM4NzcxNTE2OSIME4J7jzzA4JnnWhyoKpQCN3zdwkY3py+znbFFfq3MJoYygZcL87Esqg+iBAz41GdYrzSphDVdvod4SgTgv2Gr3re2SYF45ySYpwuBNXotfRKt2p04MlNIM0beUXZeIEZZaKWd/KXtve9Ejt/q0DPcvFnluNGWFE8SorOYg5NXJGugXJFzEtgYNFwizgCV67DqgbVEkdkE9HiXipoID6cuZhjeku90z9MycAKpM1l8ACAogjCrBISDiFpQZMA1pgd68BSqlnJEdQRHx5neAH/4pGt0DsQgxkMRIjupibZhM2TrzDrEkIUaUnWI0WFHwY4LVOuMStY/Jzs/2XJ4eRRME/KndtzMPNFWp0lYXJe+xaMBU/HZnHtORm47/NTa7VhhTr+jMMisgNEGOp4B6kGj5t6IOqI59CZGGzoST9aD4pddUhAWRgC46gQvH528XF6J6KqFXG2zviAgGfn6tD4cinpEeCz4hIKZ85kh/D3O1IMVR86OJresNphsVXvTvW5N9DQrfPqZ6jVCza2ycGIBcFb6KKgR3td4+87oNcpYgibuLLoG0RUsBMqMqNKPjsW5TkMbsY8oMNX/2tXklo0PqYSxeU/iDW1lSb0=
               CREDS
 
               cat > /home/ubuntu/.aws/config <<CONFIG
@@ -67,12 +78,91 @@ resource "aws_instance" "backend_server" {
 
               chown -R ubuntu:ubuntu /home/ubuntu/.aws
 
-              # Descargar backend desde S3
               mkdir -p /app
               chmod 777 /app
-              sudo -u ubuntu aws s3 cp s3://octolab-web-frontend-prod-tfg/backend/ /app/ --recursive --region us-east-1
+              sudo -u ubuntu aws s3 cp s3://octolab.site/backend/ /app/ --recursive --region us-east-1
 
-              # Crear servicio systemd
+              cat > /etc/nginx/sites-available/api.octolab.site <<NGINX
+              server {
+                  listen 80;
+                  server_name api.octolab.site;
+
+                  location / {
+                      if (\$request_method = 'OPTIONS') {
+                          add_header 'Access-Control-Allow-Origin' '*';
+                          add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+                          add_header 'Access-Control-Allow-Headers' '*';
+                          add_header 'Content-Length' 0;
+                          return 204;
+                      }
+                      proxy_pass http://localhost:5000;
+                      proxy_http_version 1.1;
+                      proxy_set_header Host \$host;
+                      proxy_set_header X-Real-IP \$remote_addr;
+                      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                      proxy_set_header X-Forwarded-Proto \$scheme;
+                  }
+              }
+              NGINX
+
+              ln -s /etc/nginx/sites-available/api.octolab.site /etc/nginx/sites-enabled/
+              systemctl enable nginx
+              systemctl start nginx
+
+              sleep 10
+              certbot --nginx -d api.octolab.site --non-interactive --agree-tos -m juanalbertito76@gmail.com
+
+              cat > /etc/nginx/sites-available/api.octolab.site <<NGINX2
+              server {
+                  listen 80;
+                  server_name api.octolab.site;
+
+                  location / {
+                      if (\$request_method = 'OPTIONS') {
+                          add_header 'Access-Control-Allow-Origin' '*';
+                          add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+                          add_header 'Access-Control-Allow-Headers' '*';
+                          add_header 'Content-Length' 0;
+                          return 204;
+                      }
+                      proxy_pass http://localhost:5000;
+                      proxy_http_version 1.1;
+                      proxy_set_header Host \$host;
+                      proxy_set_header X-Real-IP \$remote_addr;
+                      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                      proxy_set_header X-Forwarded-Proto \$scheme;
+                  }
+              }
+
+              server {
+                  listen 443 ssl;
+                  server_name api.octolab.site;
+
+                  location / {
+                      if (\$request_method = 'OPTIONS') {
+                          add_header 'Access-Control-Allow-Origin' '*';
+                          add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+                          add_header 'Access-Control-Allow-Headers' '*';
+                          add_header 'Content-Length' 0;
+                          return 204;
+                      }
+                      proxy_pass http://localhost:5000;
+                      proxy_http_version 1.1;
+                      proxy_set_header Host \$host;
+                      proxy_set_header X-Real-IP \$remote_addr;
+                      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                      proxy_set_header X-Forwarded-Proto \$scheme;
+                  }
+
+                  ssl_certificate /etc/letsencrypt/live/api.octolab.site/fullchain.pem;
+                  ssl_certificate_key /etc/letsencrypt/live/api.octolab.site/privkey.pem;
+                  include /etc/letsencrypt/options-ssl-nginx.conf;
+                  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+              }
+              NGINX2
+
+              systemctl reload nginx
+
               cat > /etc/systemd/system/octolab.service <<SERVICE
               [Unit]
               Description=OctoLab Backend
@@ -105,7 +195,16 @@ resource "aws_instance" "backend_server" {
   }
 }
 
+resource "aws_eip" "backend_eip" {
+  instance = aws_instance.backend_server.id
+  domain   = "vpc"
+
+  tags = {
+    Name = "octolab-backend-eip"
+  }
+}
+
 output "backend_api_url" {
-  value       = "http://${aws_instance.backend_server.public_ip}:5000"
+  value       = "http://${aws_eip.backend_eip.public_ip}:5000"
   description = "La URL pública de la API del Backend"
 }

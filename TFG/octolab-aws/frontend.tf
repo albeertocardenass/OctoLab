@@ -1,10 +1,8 @@
-# 1. El bucket para los archivos de Angular
 resource "aws_s3_bucket" "frontend_bucket" {
-  bucket        = "octolab-web-frontend-prod-tfg" 
-  force_destroy = true                            
+  bucket        = "octolab.site"
+  force_destroy = true
 }
 
-# 2. Configuración de alojamiento web estático
 resource "aws_s3_bucket_website_configuration" "frontend_web_config" {
   bucket = aws_s3_bucket.frontend_bucket.id
 
@@ -17,7 +15,6 @@ resource "aws_s3_bucket_website_configuration" "frontend_web_config" {
   }
 }
 
-# 3. Permitir el acceso público en el bucket
 resource "aws_s3_bucket_public_access_block" "frontend_public_block" {
   bucket = aws_s3_bucket.frontend_bucket.id
 
@@ -27,7 +24,6 @@ resource "aws_s3_bucket_public_access_block" "frontend_public_block" {
   restrict_public_buckets = false
 }
 
-# 4. Política de lectura pública para que internet pueda cargar la web
 resource "aws_s3_bucket_policy" "frontend_policy" {
   depends_on = [aws_s3_bucket_public_access_block.frontend_public_block]
   bucket     = aws_s3_bucket.frontend_bucket.id
@@ -46,7 +42,6 @@ resource "aws_s3_bucket_policy" "frontend_policy" {
   })
 }
 
-# Output: La URL real para abrir vuestro frontend
 output "s3_website_url" {
   value       = aws_s3_bucket_website_configuration.frontend_web_config.website_endpoint
   description = "La URL pública para acceder a la aplicación Angular"

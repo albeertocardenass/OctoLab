@@ -77,6 +77,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+    context.Response.Headers.Append("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    context.Response.Headers.Append("Access-Control-Allow-Headers", "*");
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 200;
+        return;
+    }
+    await next();
+});
+
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -115,7 +129,6 @@ static async Task AplicarColumnasAusentesAsync(MyDbContext dbContext)
     await conn.OpenAsync();
     try
     {
-        // Añadir columnas ausentes
         foreach (var (col, alterSql) in columnas)
         {
             using var check = conn.CreateCommand();
@@ -129,7 +142,6 @@ static async Task AplicarColumnasAusentesAsync(MyDbContext dbContext)
             }
         }
 
-        // Migrar columnas a LONGTEXT si aún son VARCHAR (para almacenar base64 en BD)
         var columnasLongText = new[]
         {
             ("Usuarios",     "Avatar",  "ALTER TABLE Usuarios MODIFY COLUMN Avatar LONGTEXT NULL"),
