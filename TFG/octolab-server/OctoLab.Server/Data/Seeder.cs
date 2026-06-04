@@ -107,13 +107,36 @@ public class Seeder
 
         var todosLosUsuarios = await _context.Usuarios.ToListAsync();
 
-        var fakerPublicaciones = new Faker<Publicacion>("es")
-            .RuleFor(p => p.Contenido, f => f.Lorem.Paragraph())
-            .RuleFor(p => p.Fecha, f => f.Date.Recent(30))
-            .RuleFor(p => p.UsuarioId, f => f.PickRandom(todosLosUsuarios).Id);
+        
+        var contenidos = new List<string>
+        {
+            "Llevo 1 semana sin poder completar el último laboratorio. ¿Alguien que me pueda ayudar?",
+            "¿Alguien puede explicarme la diferencia entre cifrado simétrico y asimétrico?",
+            "!Si donas a OctoLab te dan recompensas!",
+            "El módulo de redes me está costando bastante. ¿Algún consejo para entender mejor las subnets?",
+            "Alguien ha conseguido todos los labs?",
+            "¿Qué herramienta usáis para análisis de vulnerabilidades? Yo uso Nmap.",
+            "Acabo de registrarme en OctoLab. Espero aprender mucho aquí.",
+            "El laboratorio de Metasploit es brutal. Muy bien explicado todo.",
+            "!Sacad más laboratorios!",
+            "Llevo una semana en la plataforma y ya he aprendido más que en meses por mi cuenta."
+        };
+        
 
-        var posts = fakerPublicaciones.Generate(POSTS_COUNT);
-        await _context.Publicaciones.AddRangeAsync(posts);
+        var faker = new Faker("es");
+        var publicaciones = new List<Publicacion>();
+
+        for (int i = 0; i < POSTS_COUNT; i++)
+        {
+            publicaciones.Add(new Publicacion
+            {
+                Contenido = contenidos[i % contenidos.Count],
+                Fecha = faker.Date.Recent(30),
+                UsuarioId = faker.PickRandom(todosLosUsuarios).Id
+            });
+        }
+
+        await _context.Publicaciones.AddRangeAsync(publicaciones);
     }
 
     private static string EncriptarNativo(string password)

@@ -1,7 +1,7 @@
 import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { NgxStripeModule } from 'ngx-stripe';
 import { API_BASE } from '../../services/api.config';
@@ -30,12 +30,21 @@ export class DonationComponent implements OnInit {
 
     if (exito) {
       this.mensajeExito = '¡Gracias por tu donación! Tu apoyo significa mucho para OctoLab.';
+      this.darPuntosDonacion();
       this.cdr.detectChanges();
     }
     if (cancelado) {
       this.mensajeError = 'Pago cancelado. Puedes intentarlo de nuevo cuando quieras.';
       this.cdr.detectChanges();
     }
+  }
+
+  private darPuntosDonacion() {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token) return;
+    this.http.post(`${API_BASE}/api/Pagos/donar-puntos`, {}, {
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` })
+    }).subscribe();
   }
 
   seleccionarCantidad(valor: number) {

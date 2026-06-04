@@ -30,21 +30,19 @@ Set-Content $backendTf $content
 Set-Location $awsDir
 terraform apply -auto-approve
 
-$backendUrl = terraform output -raw backend_api_url
-$ip = $backendUrl -replace "http://", "" -replace ":5000", ""
-
-Set-Content $apiConfig "export const API_BASE = 'http://$ip`:5000';"
+Set-Content $apiConfig "export const API_BASE = 'https://api.octolab.site';"
 
 Set-Location $serverDir
 dotnet publish -c Release -o ./publish
-aws s3 cp ./publish s3://octolab-web-frontend-prod-tfg/backend/ --recursive
+aws s3 cp ./publish s3://octolab.site/backend/ --recursive
+aws s3 cp (Join-Path $serverDir "Resources\Pdfs") s3://octolab.site/backend/Resources/Pdfs/ --recursive
 
 Set-Location $webDir
 pnpm build
-aws s3 sync ".\dist\octolab-web\browser" s3://octolab-web-frontend-prod-tfg --delete
-aws s3 cp ".\dist\octolab-web\browser\index.csr.html" s3://octolab-web-frontend-prod-tfg/index.html
+aws s3 sync ".\dist\octolab-web\browser" s3://octolab.site
+aws s3 cp ".\dist\octolab-web\browser\index.csr.html" s3://octolab.site/index.html
+aws s3 cp ".\dist\octolab-web\browser\assets\pdf.worker.min.mjs" s3://octolab.site/assets/pdf.worker.min.mjs --content-type "application/javascript"
 
 Write-Host "Despliegue completado."
-Write-Host "Frontend: http://octolab-web-frontend-prod-tfg.s3-website-us-east-1.amazonaws.com"
-Write-Host "Backend: $backendUrl"
-Write-Host "Espera 10 minutos para que EC2 arranque el servidor."
+Write-Host "Frontend: https://octolab.site"
+Write-Host "Espera 15 minutos para que EC2 arranque el servidor con Nginx y SSL."

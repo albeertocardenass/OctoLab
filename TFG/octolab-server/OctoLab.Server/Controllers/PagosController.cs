@@ -31,8 +31,8 @@ public class PagosController : ControllerBase
             }
         },
             Mode = "payment",
-            SuccessUrl = "http://localhost:4200/home/donaciones?exito=true",
-            CancelUrl = "http://localhost:4200/home/donaciones?cancelado=true"
+SuccessUrl = "https://octolab.site/home/donaciones?exito=true",
+CancelUrl = "https://octolab.site/home/donaciones?cancelado=true"
         };
 
         var service = new SessionService();
