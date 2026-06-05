@@ -1,7 +1,7 @@
 import os
 
 # -- API Backend -------------------------------------------------------
-API_BASE_URL    = os.getenv("OCTOLAB_API", "http://34.201.135.5:5000")
+API_BASE_URL    = os.getenv("OCTOLAB_API", "https://api.octolab.site")
 WEB_BASE_URL    = os.getenv("OCTOLAB_WEB",  "http://localhost:4200")
 API_LOGIN       = f"{API_BASE_URL}/api/Usuarios/login"
 API_REGISTER    = f"{API_BASE_URL}/api/Auth/register"

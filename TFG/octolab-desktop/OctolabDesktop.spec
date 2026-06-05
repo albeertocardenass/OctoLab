@@ -1,12 +1,19 @@
 # -*- mode: python ; coding: utf-8 -*-
-
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[
+        *collect_data_files('customtkinter'),
+        ('assets', 'assets'),
+        ('docker', 'docker'),
+    ],
+    hiddenimports=[
+        *collect_submodules('customtkinter'),
+        'PIL._tkinter_finder',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -35,4 +42,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='assets/images/octolab.ico',
 )
