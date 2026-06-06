@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PublicacionService } from '../../services/publicaciones.service';
 import { AuthService } from '../../services/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { API_BASE } from '../../services/api.config';
 
 @Component({
   selector: 'app-comunidad',
@@ -19,6 +21,7 @@ export class ComunidadComponent implements OnInit {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private zone = inject(NgZone);
+  private http = inject(HttpClient);
 
   usuarioActivo: any = null;
   nuevaPublicacion: string = '';
@@ -44,6 +47,11 @@ export class ComunidadComponent implements OnInit {
     }
   }
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
   cargarComunidad() {
     this.pubService.obtenerPublicaciones().subscribe({
       next: (data) => {
@@ -53,14 +61,45 @@ export class ComunidadComponent implements OnInit {
             .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
             .map(p => ({
               ...p,
+              liked: false,
+              totalLikes: 0,
               respuestas: data
                 .filter(r => r.publicacionPadreId === p.id)
                 .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
             }));
+
+          this.publicaciones.forEach(p => this.cargarLikes(p));
           this.cdr.detectChanges();
         });
       },
       error: (err) => console.error('Error al cargar publicaciones', err)
+    });
+  }
+
+  cargarLikes(post: any) {
+    this.http.get<any>(`${API_BASE}/api/Likes/${post.id}`, { headers: this.getHeaders() }).subscribe({
+      next: (res) => {
+        post.totalLikes = res.totalLikes;
+        post.liked = res.liked;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  toggleLike(postId: number) {
+    if (!this.usuarioActivo) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.http.post<any>(`${API_BASE}/api/Likes/${postId}`, {}, { headers: this.getHeaders() }).subscribe({
+      next: (res) => {
+        const post = this.publicaciones.find(p => p.id === postId);
+        if (post) {
+          post.liked = res.liked;
+          post.totalLikes += res.liked ? 1 : -1;
+          this.cdr.detectChanges();
+        }
+      }
     });
   }
 

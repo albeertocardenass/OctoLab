@@ -242,6 +242,29 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-like {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 4px 12px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.btn-like.liked {
+  background: #ff4757;
+  border-color: #ff4757;
+  color: white;
 }

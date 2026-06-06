@@ -44,7 +44,7 @@ public class Seeder
                     Rol = "Admin",
                     Avatar = "default-avatar.jpg",
                     Descripcion = "Administrador principal de Octolab",
-                    Puntos = 999
+                    Puntos = 9999
                 },
                 new Usuario
                 {
@@ -57,7 +57,7 @@ public class Seeder
                     Rol = "Admin",
                     Avatar = "default-avatar.jpg",
                     Descripcion = "Co-fundador de OctoLab",
-                    Puntos = 999
+                    Puntos = 9999
                 },
                 new Usuario
                 {
@@ -70,7 +70,7 @@ public class Seeder
                     Rol = "Admin",
                     Avatar = "default-avatar.jpg",
                     Descripcion = "Co-fundador de OctoLab",
-                    Puntos = 999
+                    Puntos = 9999
                 }
             };
 
@@ -78,28 +78,43 @@ public class Seeder
         }
     }
 
-    private async Task SeedFakeUsersAsync()
+private async Task SeedFakeUsersAsync()
+{
+    if (await _context.Usuarios.CountAsync() <= 3)
     {
-        if (await _context.Usuarios.CountAsync() <= 3)
+        var passwordHasheada = EncriptarNativo("1234");
+
+        Faker<Usuario> faker = new Faker<Usuario>("es")
+            .RuleFor(u => u.Nombre, f => f.Name.FirstName())
+            .RuleFor(u => u.Apellido1, f => f.Name.LastName())
+            .RuleFor(u => u.Apellido2, f => f.Name.LastName())
+            .RuleFor(u => u.Apodo, f => f.Internet.UserName())
+            .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Nombre, u.Apellido1))
+            .RuleFor(u => u.Password, f => passwordHasheada)
+            .RuleFor(u => u.Rol, f => "Usuario")
+            .RuleFor(u => u.Avatar, f => "default-avatar.jpg")
+            .RuleFor(u => u.Descripcion, f => f.Lorem.Sentence())
+            .RuleFor(u => u.Puntos, f => f.Random.Int(0, 500));
+
+        var usuarios = faker.Generate(FAKE_USERS_COUNT);
+
+        var lockObj = new object();
+        var usuariosParaInsertar = new List<Usuario>();
+
+        await Task.Run(() =>
         {
-            var passwordHasheada = EncriptarNativo("1234");
+            Parallel.ForEach(usuarios, usuario =>
+            {
+                lock (lockObj)
+                {
+                    usuariosParaInsertar.Add(usuario);
+                }
+            });
+        });
 
-            Faker<Usuario> faker = new Faker<Usuario>("es")
-                .RuleFor(u => u.Nombre, f => f.Name.FirstName())
-                .RuleFor(u => u.Apellido1, f => f.Name.LastName())
-                .RuleFor(u => u.Apellido2, f => f.Name.LastName())
-                .RuleFor(u => u.Apodo, f => f.Internet.UserName())
-                .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Nombre, u.Apellido1))
-                .RuleFor(u => u.Password, f => passwordHasheada)
-                .RuleFor(u => u.Rol, f => "Usuario")
-                .RuleFor(u => u.Avatar, f => "default-avatar.jpg")
-                .RuleFor(u => u.Descripcion, f => f.Lorem.Sentence())
-                .RuleFor(u => u.Puntos, f => f.Random.Int(0, 500));
-
-            var usuarios = faker.Generate(FAKE_USERS_COUNT);
-            await _context.Usuarios.AddRangeAsync(usuarios);
-        }
+        await _context.Usuarios.AddRangeAsync(usuariosParaInsertar);
     }
+}
 
     private async Task SeedPublicacionesAsync()
     {

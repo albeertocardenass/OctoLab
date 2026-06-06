@@ -13,7 +13,6 @@ namespace OctoLab.Server.Models.Entities
         public required string Apodo { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
-        // LONGTEXT para almacenar la imagen en base64 directamente en la BD
         [Column(TypeName = "LONGTEXT")]
         public string? Avatar { get; set; }
         public string? Descripcion { get; set; }
@@ -23,5 +22,6 @@ namespace OctoLab.Server.Models.Entities
         public DateTime UltimaConexion { get; set; } = DateTime.Now;
         public string ModulosDesbloqueados { get; set; } = "";
         public string TemasCompletados { get; set; } = "";
+        public ICollection<UsuarioLike> Likes { get; set; } = new List<UsuarioLike>();
     }
 }
