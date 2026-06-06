@@ -28,6 +28,19 @@ RUN apt-get update -qq && \
         bash-completion \
         sudo \
         openssh-client \
+        openssh-server \
+        nftables \
+        adduser \
+        tshark \
+        ftp \
+        telnet \
+        set \
+        sqlmap \
+        apktool \
+        openssl \
+        hashcat \
+        john \
+        wordlists \
         hydra \
         default-mysql-client \
         smbclient \
@@ -52,4 +65,8 @@ COPY bashrc.kali /home/kali/.bashrc
 RUN sed -i 's/\r//' /home/kali/.bashrc && \
     chown kali:kali /home/kali/.bashrc
 
-CMD ["/bin/bash"]
+# Generar claves de host SSH y arrancar el servidor al iniciar el contenedor
+RUN ssh-keygen -A && \
+    mkdir -p /run/sshd
+
+CMD ["/bin/bash", "-c", "service ssh start; exec /bin/bash"]

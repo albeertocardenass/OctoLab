@@ -18,6 +18,9 @@ _CAPS: dict[str, list[str]] = {
 _USER: dict[str, str] = {
     KALI_CONTAINER: "root",
 }
+_PORTS: dict[str, dict] = {
+    META_CONTAINER: {"80/tcp": 8080},
+}
 
 
 
@@ -155,6 +158,7 @@ class DockerManager:
 
         caps = _CAPS.get(nombre, [])
         user = _USER.get(nombre, None)
+        ports = _PORTS.get(nombre, {})
 
         try:
             # ── Comprobar si ya existe el contenedor ─────────────────
@@ -162,9 +166,11 @@ class DockerManager:
                 c = self.client.containers.get(nombre)
                 existing_caps = c.attrs.get("HostConfig", {}).get("CapAdd") or []
                 existing_user = c.attrs.get("Config", {}).get("User", "")
+                existing_ports = c.attrs.get("HostConfig", {}).get("PortBindings") or {}
                 caps_ok = not caps or all(cap in existing_caps for cap in caps)
                 user_ok = not user or existing_user == user
-                if not caps_ok or not user_ok:
+                ports_ok = not ports or all(p in existing_ports for p in ports)
+                if not caps_ok or not user_ok or not ports_ok:
                     log.info(f"{nombre}: reconfigurando contenedor...")
                     if on_status:
                         on_status(f"Reconfigurando {nombre}...")
@@ -194,6 +200,8 @@ class DockerManager:
                 run_kwargs["cap_add"] = caps
             if user:
                 run_kwargs["user"] = user
+            if ports:
+                run_kwargs["ports"] = ports
 
             self.client.containers.run(imagen, **run_kwargs)
             log.info(f"{nombre} iniciado (caps={caps}, user={user}).")

@@ -17,3 +17,6 @@ RUN sed -i 's/\r//' /etc/motd
 COPY bashrc.meta /home/msfadmin/.bashrc
 RUN sed -i 's/\r//' /home/msfadmin/.bashrc && \
     chown msfadmin:msfadmin /home/msfadmin/.bashrc
+
+# Arrancar todos los servicios vulnerables al iniciar el contenedor
+CMD ["/bin/bash", "-c", "/etc/init.d/ssh start 2>/dev/null; /etc/init.d/xinetd start 2>/dev/null; /etc/init.d/openbsd-inetd start 2>/dev/null; /etc/init.d/apache2 start 2>/dev/null; /etc/init.d/mysql start 2>/dev/null; exec /bin/bash"]
