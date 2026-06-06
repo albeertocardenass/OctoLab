@@ -12,6 +12,7 @@ namespace OctoLab.Server.Data
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Publicacion> Publicaciones { get; set; }
+        public DbSet<UsuarioLike> UsuarioLikes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,21 @@ namespace OctoLab.Server.Data
                 .HasOne(p => p.Usuario)
                 .WithMany()
                 .HasForeignKey(p => p.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UsuarioLike>()
+                .HasKey(ul => new { ul.UsuarioId, ul.PublicacionId });
+
+            modelBuilder.Entity<UsuarioLike>()
+                .HasOne(ul => ul.Usuario)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(ul => ul.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UsuarioLike>()
+                .HasOne(ul => ul.Publicacion)
+                .WithMany(p => p.Likes)
+                .HasForeignKey(ul => ul.PublicacionId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

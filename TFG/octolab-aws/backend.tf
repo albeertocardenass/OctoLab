@@ -66,9 +66,9 @@ resource "aws_instance" "backend_server" {
               mkdir -p /home/ubuntu/.aws
               cat > /home/ubuntu/.aws/credentials <<CREDS
               [default]
-              aws_access_key_id=ASIAWOAC42RQ24EMTG4F
-              aws_secret_access_key=onOZUNefzTaRNxEJTjQ4gKvYgSJay31HNmsPzv+0
-              aws_session_token=IQoJb3JpZ2luX2VjELn//////////wEaCXVzLXdlc3QtMiJHMEUCIQCmKv9ubLXRSgETCUyDArB2d+gSGVpCrk7GW++3bxrfWAIgSUjbjoHiGgJkw7qbe0BmG00czXtCncCxNgnfEmDaYgQqwAIIgv//////////ARABGgw0NDIzODc3MTUxNjkiDCcIRu9mm35/SOHu+CqUAj7NGOC9Ezo3Jev7ZYN1KrJJRR7XvJ4wbW+AO9aUk+7Lfma5W2dMvlbqwguVLZ2rx/EjHaXkyGnJCvpLh9cOF4LB9FqJdmUwO4YQskKVVocp99o94v7cGuU4DUp7cIrRdu/KNOfzWSm9MaRJ8jwowttJJ8JalcrGdZqv6vZM8rrxdr5cfwk2SeiJPC7fsAVGXi1GGxWG8A0wwCS+bV/F5sfjjeyAwaQh+RyLsBsS6/IifTKWgaZ/ath0uARH+9M8JO03yoTlSDzpr2GfmRW+PBhwyboo9ZqrJqtBwdaRUFP5iB8VTeeH4L6ZvQfeUQNdTy8niV2HhxLXQcHCqH14TLMsrkV0a8sMaICYVAu3Ciu+QmKDZjCsyI/RBjqdAagQUGjfvB7C0HYk8k+sbOHYJPrCbpkhJFXG0Haf/IJmMR8l44nuQO8CJRsMxVN3uDP2fBKMMxKHc73Afs1PQEGuELuoYJDQPVv/AP1Q9duJJvr3zCGNtahEelkaEBoze5slKA2XKAt21e+SVEEcB0j2Fc9PB4Fe9dYkucc1KVGutZlARevulMHJ+X21nHrzYuIyd1R/HvSdrJj26oU=
+              aws_access_key_id=ASIAWOAC42RQ5XXAE53Y
+              aws_secret_access_key=YbLRaqKtSVDVjOHc2jDq/vWSzkWgLMlYwBsgJe0J
+              aws_session_token=IQoJb3JpZ2luX2VjELv//////////wEaCXVzLXdlc3QtMiJGMEQCIFtDwIlmavR67fEDE+Sm0xHwBLiyy3Sxmpsf5hqRMnwhAiANEWG+AK4dlnj3ocq5jQXeG0re4n6yddISS9pLxCOdHirAAgiE//////////8BEAEaDDQ0MjM4NzcxNTE2OSIMzcTY0lGLXk04o+sbKpQC07qFO9B7hdvR1Sjxnx4h20lYwQg1tKiJeaoPZ/m1ugXDW2V8clSVDfm5S4Q/98fjfNRjTWSCTRm3+e/JMDzYT62EBlmroK6ZCoVFvGIhljX+am1QlwVfh0nbWM/LPFOo2NKJ+t1zohD2ogldtv3G0b0OHnw1VaK2uBVltaA6a/vsNkXXcyYLkNQbDdgxLGriTb7ywIFDXdSBNWH4z/9oIZjLzK6Q8FDDvPY9FQwVYX+l1F/TsR0OrUBJVSTzkFUgLvNXIoedJdvk3KMSBWToo5eP8HJsHzlBU2u0fE+URv/fqZM/FfSYGfJPGVyer73/RKTJGZFCjPeIuDk76sEXrq9WHDO6CDiTxoSruA6039z8TTblMLn1j9EGOp4BfL0KF97ziNa0ZYiXyawBdsin2+R/aPUv9uUTEYH4WrVkYHUkIRSEA02hkP8kmtP//BI5MyVWiu/xFo5IsOpSxfj7CkTH4lcnBE5VyNri0XelTNuLXDSTbLM82MuXALD4xaVG7c1TZDbn1TE6EaT3I8yo2551Ok3gtZ1/iulFx0uCoCNvi0JcfZBmizir3DiS/Fiha1WnShElC2EiCRA=
               CREDS
 
               cat > /home/ubuntu/.aws/config <<CONFIG
@@ -208,6 +208,8 @@ output "backend_api_url" {
   value       = "http://${aws_eip.backend_eip.public_ip}:5000"
   description = "La URL pública de la API del Backend"
 }
+
+
 
 
 
