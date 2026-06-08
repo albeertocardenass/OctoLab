@@ -15,7 +15,6 @@
   text-align: center;
 }
 
-
 .donation-header {
   margin-bottom: 32px;
 }
@@ -42,9 +41,9 @@
 
 .btn-tier {
   flex: 1;
-  border: 2px solid #4f46e5;
+  border: 2px solid var(--primary, #4f46e5);
   background: transparent;
-  color: #4f46e5;
+  color: var(--primary, #4f46e5);
   padding: 12px 0;
   border-radius: 12px;
   font-size: 1rem;
@@ -58,8 +57,8 @@
 }
 
 .btn-tier.selected {
-  background: #4f46e5;
-  color: white;
+  background: var(--primary, #4f46e5);
+  color: #fff;
 }
 
 .custom-amount {
@@ -89,14 +88,14 @@
 }
 
 .input-euro:focus-within {
-  border-color: #4f46e5;
+  border-color: var(--primary, #4f46e5);
 }
 
 .euro-prefix {
   padding: 0 12px;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #4f46e5;
+  color: var(--primary, #4f46e5);
   background: rgba(79, 70, 229, 0.06);
   align-self: stretch;
   display: flex;
@@ -126,7 +125,7 @@
 }
 
 .resumen strong {
-  color: #4f46e5;
+  color: var(--primary, #4f46e5);
   font-size: 1.3rem;
   font-weight: 800;
   margin-left: 6px;
@@ -134,20 +133,20 @@
 
 .btn-donar {
   width: 100%;
-  background: #4f46e5;
-  color: white;
+  background: var(--primary, #4f46e5);
+  color: #fff;
   border: none;
   padding: 15px;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: opacity 0.2s, transform 0.1s;
   letter-spacing: 0.3px;
 }
 
 .btn-donar:hover:not(:disabled) {
-  background: #4338ca;
+  opacity: 0.88;
   transform: translateY(-1px);
 }
 
@@ -156,7 +155,7 @@
 }
 
 .btn-donar:disabled {
-  background: #a5b4fc;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
@@ -169,45 +168,99 @@
   padding: 10px;
 }
 
-.estado-card {
-  padding: 16px;
-}
-
-.estado-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+.exito-overlay {
+  position: relative;
+  min-height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin: 0 auto 20px;
 }
 
-.exito .estado-icon {
-  background: rgba(16, 185, 129, 0.12);
-  color: #10b981;
+.confetti-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 16px;
 }
 
-.exito h3 {
-  font-size: 1.4rem;
+.exito-card {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 1rem;
+}
+
+.exito-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  animation: bounce 0.6s ease both;
+}
+
+@keyframes bounce {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.exito-card h3 {
+  font-size: 1.5rem;
   font-weight: 800;
   color: var(--texto-principal, #111827);
-  margin: 0 0 10px;
+  margin: 0 0 0.75rem;
 }
 
-.exito p {
+.exito-card p {
   color: var(--texto-secundario, #6b7280);
   font-size: 0.95rem;
-  margin: 0;
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
+}
+
+.exito-countdown {
+  font-size: 0.85rem;
+  color: var(--texto-secundario, #6b7280);
+  margin-bottom: 1.5rem;
+}
+
+.exito-countdown strong {
+  color: var(--primary, #4f46e5);
+  font-size: 1.1rem;
+}
+
+.btn-volver {
+  background: var(--primary, #4f46e5);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-volver:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
 .fade-in {
-  animation: fadeIn 0.4s ease;
+  animation: fadeIn 0.4s ease both;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease both;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }

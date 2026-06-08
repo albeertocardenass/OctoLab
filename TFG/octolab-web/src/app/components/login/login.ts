@@ -50,10 +50,8 @@ export class LoginComponent implements OnInit {
           const destino = rol === 'Admin' ? '/admin' : this.returnUrl;
 
           this.transitionService.show();
-          // Navigate after overlay is fully visible (0.5s fade-in + brief hold)
           setTimeout(() => {
             this.router.navigateByUrl(destino);
-            // Hide overlay after destination component has rendered and faded in
             setTimeout(() => this.transitionService.hide(), 700);
           }, 1800);
         }

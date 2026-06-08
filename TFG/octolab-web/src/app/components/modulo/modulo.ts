@@ -117,7 +117,6 @@ export class ModuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
 
     if (this.viewReady) {
-      // Wait one frame so Angular renders the canvas/wrapper elements
       requestAnimationFrame(() => this.iniciarConResizeObserver());
     } else {
       this.pendingRender = true;
@@ -133,7 +132,6 @@ export class ModuloComponent implements OnInit, AfterViewInit, OnDestroy {
         this.renderizarPagina(this.paginaActual);
       }
     });
-    // Observing pdfArea triggers immediately with current size → first render
     this.resizeObserver.observe(this.pdfAreaRef.nativeElement);
   }
 

@@ -2,10 +2,23 @@
   <div class="donation-container">
 
     @if (mensajeExito) {
-      <div class="estado-card exito">
-        <div class="estado-icon">✓</div>
-        <h3>¡Gracias por tu apoyo!</h3>
-        <p>{{ mensajeExito }}</p>
+      <div class="exito-overlay">
+        <canvas class="confetti-canvas" #confettiCanvas></canvas>
+        <div class="exito-card fade-in-up">
+          <div class="exito-icon">🎉</div>
+          @if (nombreUsuario) {
+            <h3>¡Gracias, {{ nombreUsuario }}!</h3>
+          } @else {
+            <h3>¡Gracias por tu apoyo!</h3>
+          }
+          <p>Tu donación a OctolabWeb significa mucho. Gracias a ti seguimos creciendo.</p>
+          <div class="exito-countdown">
+            Redirigiendo en <strong>{{ countdown }}</strong> segundos...
+          </div>
+          <button class="btn-volver" (click)="volverAlInicio()">
+            Volver al inicio →
+          </button>
+        </div>
       </div>
     } @else {
       <div class="donation-header">

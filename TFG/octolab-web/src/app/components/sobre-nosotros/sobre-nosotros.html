@@ -1,88 +1,90 @@
-<div class="sobre-wrapper fade-in">
-  <div class="bg-glow"></div>
+<div class="sn-wrapper fade-in">
+  <div class="sn-glow"></div>
 
-  <section class="hero-section">
-    <div class="hero-badge">Proyecto Fin de Grado 2026</div>
-    <h1 class="hero-title">Seguridad para el <span class="brand">100%</span> de la red</h1>
-    <p class="hero-sub">
-      OctoLab no es solo una plataforma de cursos; es un ecosistema diseñado para cerrar la brecha 
-      entre la curiosidad y la maestría técnica en ciberseguridad.
-    </p>
+  <section class="sn-hero">
+    <div class="sn-badge">TFG · ASIR · 2025-2026</div>
+    <h1 class="sn-title">OctolabWeb</h1>
+    <p class="sn-subtitle">Plataforma educativa de ciberseguridad con laboratorios prácticos,<br>temario interactivo y sistema de puntos.</p>
+    <div class="sn-school">
+      <span class="sn-school-icon">🎓</span>
+      <span>IES Miguel Romero Esteo · Málaga</span>
+    </div>
   </section>
 
-  <section class="timeline-section">
-    <h2 class="section-title">El Camino del Pulpo</h2>
-    <div class="timeline-container">
-      <div class="timeline-item">
-        <div class="time-dot"></div>
-        <div class="time-content">
-          <h3>La Idea</h3>
-          <p>Nace la necesidad de crear un entorno de aprendizaje gamificado tras detectar la falta de recursos prácticos accesibles.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="time-dot"></div>
-        <div class="time-content">
-          <h3>Arquitectura</h3>
-          <p>Diseño de un backend robusto en .NET y una interfaz reactiva en Angular capaz de gestionar progresos en tiempo real.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="time-dot"></div>
-        <div class="time-content">
-          <h3>Lanzamiento</h3>
-          <p>Despliegue de los 12 módulos fundamentales que cubren desde criptografía hasta hacking ético.</p>
+  <section class="sn-about-card">
+    <div class="sn-about-inner">
+      <div class="sn-about-avatar">AC</div>
+      <div class="sn-about-info">
+        <p class="sn-about-role">Desarrollador</p>
+        <h2 class="sn-about-name">Alberto Cárdenas Palomo</h2>
+        <p class="sn-about-desc">
+          Alumno de ASIR apasionado por la ciberseguridad y el desarrollo full-stack.
+          OctolabWeb nació de la convicción de que aprender seguridad informática debe ser
+          práctico, accesible y motivador, no solo teórico.
+        </p>
+        <div class="sn-tags">
+          <span class="sn-tag">Angular 17</span>
+          <span class="sn-tag">ASP.NET Core</span>
+          <span class="sn-tag">SQLite</span>
+          <span class="sn-tag">Ciberseguridad</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="tech-stack-section">
-    <h2 class="section-title">Nuestra Forja</h2>
-    <div class="tech-grid">
-      <div class="tech-card">
-        <div class="tech-icon">&lt;/&gt;</div>
-        <h4>Frontend</h4>
-        <p>Angular 18+, TypeScript y animaciones fluidas para una UX inmersiva.</p>
+  <section class="sn-features">
+    <h2 class="sn-section-title">¿Qué ofrece OctolabWeb?</h2>
+    <div class="sn-feature-grid">
+      <div class="sn-feature-card">
+        <div class="sn-feature-icon">🧪</div>
+        <h3>Laboratorios Prácticos</h3>
+        <p>Retos y ejercicios reales para afianzar conceptos de seguridad informática en un entorno controlado.</p>
       </div>
-      <div class="tech-card">
-        <div class="tech-icon">API</div>
-        <h4>Backend</h4>
-        <p>.NET Web API con seguridad JWT y Entity Framework Core.</p>
+      <div class="sn-feature-card">
+        <div class="sn-feature-icon">📚</div>
+        <h3>Temario Interactivo</h3>
+        <p>Módulos estructurados que cubren desde criptografía hasta hacking ético, con contenido PDF integrado.</p>
       </div>
-      <div class="tech-card">
-        <div class="tech-icon">DB</div>
-        <h4>Persistencia</h4>
-        <p>SQLite para un manejo de datos ligero, rápido y portable.</p>
+      <div class="sn-feature-card">
+        <div class="sn-feature-icon">🏆</div>
+        <h3>Sistema de Puntos</h3>
+        <p>Gamificación real: gana puntos completando módulos y retos para escalar en el ranking de la comunidad.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="equipo-section">
-    <h2 class="equipo-titulo">El Equipo Detrás del Código</h2>
-    <div class="equipo-grid">
-      <div class="miembro-card" *ngFor="let miembro of equipo">
-        <div class="miembro-avatar">{{ miembro.emoji }}</div>
-        <span class="miembro-alias">@{{ miembro.alias }}</span>
-        <h3 class="miembro-nombre">{{ miembro.nombre }}</h3>
-        <p class="miembro-desc">{{ miembro.descripcion }}</p>
-        <div class="miembro-tag">Full Stack Developer</div>
+      <div class="sn-feature-card">
+        <div class="sn-feature-icon">👥</div>
+        <h3>Comunidad</h3>
+        <p>Foro integrado donde los usuarios pueden compartir dudas, recursos y avances con el resto de la comunidad.</p>
       </div>
     </div>
   </section>
 
-  <section class="valores-section">
-    <div class="valores-grid">
-      <div class="valor-card">
-        <span class="valor-icon">◇</span>
-        <h3>Transparencia</h3>
-        <p>En seguridad, la oscuridad no es defensa. Promovemos el conocimiento abierto.</p>
+  <section class="sn-stack">
+    <h2 class="sn-section-title">Stack Tecnológico</h2>
+    <div class="sn-stack-grid">
+      <div class="sn-stack-item">
+        <span class="sn-stack-label">Frontend</span>
+        <span class="sn-stack-value">Angular 17 · TypeScript · SSR</span>
       </div>
-      <div class="valor-card">
-        <span class="valor-icon">◈</span>
-        <h3>Práctica Real</h3>
-        <p>Menos diapositivas, más consolas. Aprender haciendo es nuestra ley.</p>
+      <div class="sn-stack-divider"></div>
+      <div class="sn-stack-item">
+        <span class="sn-stack-label">Backend</span>
+        <span class="sn-stack-value">ASP.NET Core · JWT · EF Core</span>
+      </div>
+      <div class="sn-stack-divider"></div>
+      <div class="sn-stack-item">
+        <span class="sn-stack-label">Base de Datos</span>
+        <span class="sn-stack-value">SQLite · Ligero y portable</span>
+      </div>
+      <div class="sn-stack-divider"></div>
+      <div class="sn-stack-item">
+        <span class="sn-stack-label">Pagos</span>
+        <span class="sn-stack-value">Stripe · Donaciones seguras</span>
       </div>
     </div>
+  </section>
+
+  <section class="sn-footer-note">
+    <p>Proyecto de Fin de Grado · ASIR · Curso 2025-2026</p>
+    <p class="sn-footer-school">IES Miguel Romero Esteo · Málaga</p>
   </section>
 </div>

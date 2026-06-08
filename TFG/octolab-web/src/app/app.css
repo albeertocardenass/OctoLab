@@ -2,7 +2,6 @@
   min-height: 100vh;
 }
 
-/* ── Login transition overlay (global, persists across navigation) ── */
 .login-transition-overlay {
   position: fixed;
   inset: 0;

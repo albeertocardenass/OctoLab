@@ -37,8 +37,7 @@ export class RegisterComponent {
     }
 
     this.http.post(`${API_BASE}/api/Auth/register`, this.registerData).subscribe({
-      next: (res) => {
-        console.log('Respuesta OK:', res);
+      next: (_res) => {
         alert('¡Usuario registrado con éxito!');
         this.router.navigate(['/login']);
       },

@@ -227,10 +227,8 @@
   background-color: var(--bg-tarjetas);
 }
 
-/* router-outlet is a sibling flex item with no content — keep it invisible */
 .main-viewport router-outlet { display: none; }
 
-/* Sin padding ni scroll cuando se muestra la página de módulo */
 .main-viewport:has(app-modulo) {
   padding: 0;
   overflow: hidden;

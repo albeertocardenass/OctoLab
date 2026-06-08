@@ -77,11 +77,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('usuario');
-      localStorage.removeItem('token');
-      sessionStorage.removeItem('usuario');
-      sessionStorage.removeItem('token');
+      this.authService.logout();
+      localStorage.clear();
+      sessionStorage.clear();
     }
+    this.isMenuOpen = false;
+    this.usuarioActivo = null;
     this.router.navigate(['/login']);
   }
 

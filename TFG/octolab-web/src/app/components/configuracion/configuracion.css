@@ -16,7 +16,6 @@
   overflow: hidden;
 }
 
-/* ── Cabecera con degradado ── */
 .config-profile-header {
   display: flex;
   flex-direction: column;
@@ -43,7 +42,6 @@
   letter-spacing: 0.5px;
 }
 
-/* ── Avatar ── */
 .avatar-container {
   display: flex;
   flex-direction: column;

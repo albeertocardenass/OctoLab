@@ -1,6 +1,5 @@
 <div class="modulo-page">
 
-  <!-- Cabecera compacta -->
   <div class="modulo-header">
     <button class="btn-volver" (click)="volver()">← Volver</button>
     <h1 class="modulo-titulo">{{ moduloIdStr }} · {{ titulo }}</h1>
@@ -9,7 +8,6 @@
     }
   </div>
 
-  <!-- Área PDF -->
   <div class="pdf-area" #pdfArea>
 
     @if (cargando) {
@@ -37,11 +35,9 @@
     }
   </div>
 
-  <!-- Barra inferior unificada -->
   @if (!cargando && !errorMsg) {
     <div class="bottom-bar">
 
-      <!-- Navegación izquierda -->
       <div class="nav-controls">
         <button class="nav-mini" (click)="anterior()" [disabled]="paginaActual <= 1 || renderizando">←</button>
         <div class="progress-track">
@@ -51,10 +47,8 @@
         <span class="slide-label">{{ paginaActual }} / {{ totalPaginas }}</span>
       </div>
 
-      <!-- Separador -->
       <div class="bar-sep"></div>
 
-      <!-- Código hex -->
       <form class="codigo-form" (ngSubmit)="submitCodigo()">
         <span class="codigo-label">Código lab</span>
         <input
