@@ -1,90 +1,165 @@
 <div class="sn-wrapper fade-in">
-  <div class="sn-glow"></div>
 
   <section class="sn-hero">
-    <div class="sn-badge">TFG · ASIR · 2025-2026</div>
-    <h1 class="sn-title">OctolabWeb</h1>
-    <p class="sn-subtitle">Plataforma educativa de ciberseguridad con laboratorios prácticos,<br>temario interactivo y sistema de puntos.</p>
-    <div class="sn-school">
-      <span class="sn-school-icon">🎓</span>
-      <span>IES Miguel Romero Esteo · Málaga</span>
+    <div class="sn-hero-badge">
+      <span class="sn-badge-dot"></span>
+      TFG ASIR 2025-2026 &nbsp;·&nbsp; IES Miguel Romero Esteo &nbsp;·&nbsp; Málaga
+    </div>
+    <h1 class="sn-hero-title">Octolab<span class="sn-accent">Web</span></h1>
+    <p class="sn-hero-sub">Plataforma educativa de ciberseguridad con laboratorios prácticos, temario interactivo y sistema de puntos.</p>
+  </section>
+
+  <section class="sn-que-es">
+    <h2 class="sn-section-title">¿Qué es OctolabWeb?</h2>
+    <p class="sn-intro">
+      OctolabWeb es un ecosistema completo de aprendizaje en ciberseguridad. Combina una plataforma web, un backend robusto, una aplicación de escritorio y contenedores Docker para ofrecer laboratorios reales donde el alumno practica hacking ético de forma segura y guiada.
+    </p>
+
+    <div class="sn-cards-grid">
+
+      <div class="sn-card">
+        <div class="sn-card-header">
+          <span class="sn-card-icon">🌐</span>
+          <div>
+            <h3 class="sn-card-title">Aplicación Web</h3>
+            <span class="sn-card-sub">Angular 17 SSR</span>
+          </div>
+        </div>
+        <ul class="sn-list">
+          <li>Autenticación con roles: Admin, Usuario e Invitado</li>
+          <li>Panel de administración con gestión de usuarios</li>
+          <li>Feed de noticias en tiempo real desde The Hacker News (RSS)</li>
+          <li>Comunidad con posts, respuestas en hilo y likes</li>
+          <li>Sistema de donaciones integrado con Stripe</li>
+          <li>Temario con módulos PDF, puntos y códigos hexadecimales</li>
+          <li>Dark mode completo y diseño responsive</li>
+        </ul>
+      </div>
+
+      <div class="sn-card">
+        <div class="sn-card-header">
+          <span class="sn-card-icon">⚙️</span>
+          <div>
+            <h3 class="sn-card-title">Backend</h3>
+            <span class="sn-card-sub">ASP.NET Core + SQLite</span>
+          </div>
+        </div>
+        <ul class="sn-list">
+          <li>API REST con autenticación JWT y control de roles</li>
+          <li>Proxy de imágenes para el feed RSS</li>
+          <li>Endpoints de verificación de códigos hexadecimales</li>
+          <li>Tracking de última conexión y progreso por usuario</li>
+          <li>Integración con Stripe para pagos seguros</li>
+          <li>Gestión de módulos PDF protegidos por rol</li>
+        </ul>
+      </div>
+
+      <div class="sn-card">
+        <div class="sn-card-header">
+          <span class="sn-card-icon">🖥️</span>
+          <div>
+            <h3 class="sn-card-title">App Desktop</h3>
+            <span class="sn-card-sub">Python + CustomTkinter</span>
+          </div>
+        </div>
+        <ul class="sn-list">
+          <li>Login conectado al backend con JWT</li>
+          <li>Verificación automática de Docker en el sistema</li>
+          <li>Lanzamiento de labs: Kali Linux + Metasploitable 2</li>
+          <li>Terminal embebida para acceder a las VMs</li>
+          <li>Temario con tests interactivos por módulo</li>
+          <li>Generación de códigos hex únicos por usuario y tema</li>
+          <li>Distribuida como .exe con PyInstaller</li>
+        </ul>
+      </div>
+
+      <div class="sn-card">
+        <div class="sn-card-header">
+          <span class="sn-card-icon">🐳</span>
+          <div>
+            <h3 class="sn-card-title">Infraestructura</h3>
+            <span class="sn-card-sub">Docker + AWS</span>
+          </div>
+        </div>
+        <ul class="sn-list">
+          <li>Contenedores Docker con red NAT privada aislada</li>
+          <li>Kali Linux y Metasploitable 2 preconfigurados</li>
+          <li>Despliegue en AWS: EC2, S3, RDS y CloudFront</li>
+          <li>Backend y frontend desplegados en entorno cloud</li>
+        </ul>
+      </div>
+
     </div>
   </section>
 
-  <section class="sn-about-card">
-    <div class="sn-about-inner">
-      <div class="sn-about-avatar">AC</div>
-      <div class="sn-about-info">
-        <p class="sn-about-role">Desarrollador</p>
-        <h2 class="sn-about-name">Alberto Cárdenas Palomo</h2>
-        <p class="sn-about-desc">
-          Alumno de ASIR apasionado por la ciberseguridad y el desarrollo full-stack.
-          OctolabWeb nació de la convicción de que aprender seguridad informática debe ser
-          práctico, accesible y motivador, no solo teórico.
+  <section class="sn-equipo">
+    <h2 class="sn-section-title">El Equipo</h2>
+    <div class="sn-equipo-grid">
+
+      <div class="sn-miembro">
+        <div class="sn-miembro-top">
+          <div class="sn-avatar">AC</div>
+          <div>
+            <h3 class="sn-miembro-nombre">Alberto Cárdenas Palomo</h3>
+            <span class="sn-miembro-rol">Desarrollador Full Stack</span>
+          </div>
+        </div>
+        <p class="sn-miembro-desc">
+          Responsable de la aplicación de escritorio Python, la infraestructura Docker con red NAT para los laboratorios, y co-desarrollador de la plataforma web Angular y la API ASP.NET Core.
         </p>
-        <div class="sn-tags">
-          <span class="sn-tag">Angular 17</span>
-          <span class="sn-tag">ASP.NET Core</span>
-          <span class="sn-tag">SQLite</span>
-          <span class="sn-tag">Ciberseguridad</span>
+        <div class="sn-miembro-techs">
+          <span class="sn-tech-pill">Angular</span>
+          <span class="sn-tech-pill">ASP.NET Core</span>
+          <span class="sn-tech-pill">Python</span>
+          <span class="sn-tech-pill">Docker</span>
+          <span class="sn-tech-pill">TypeScript</span>
+          <span class="sn-tech-pill">C#</span>
         </div>
       </div>
+
+      <div class="sn-miembro">
+        <div class="sn-miembro-top">
+          <div class="sn-avatar">JA</div>
+          <div>
+            <h3 class="sn-miembro-nombre">Juan Alberto Campaña Espejo</h3>
+            <span class="sn-miembro-rol">Desarrollador Full Stack</span>
+          </div>
+        </div>
+        <p class="sn-miembro-desc">
+          Responsable del despliegue en AWS (EC2, S3, RDS, CloudFront) y la base de datos MySQL, y co-desarrollador de la plataforma web Angular y la API ASP.NET Core.
+        </p>
+        <div class="sn-miembro-techs">
+          <span class="sn-tech-pill">Angular</span>
+          <span class="sn-tech-pill">ASP.NET Core</span>
+          <span class="sn-tech-pill">AWS</span>
+          <span class="sn-tech-pill">MySQL</span>
+          <span class="sn-tech-pill">TypeScript</span>
+          <span class="sn-tech-pill">C#</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <section class="sn-features">
-    <h2 class="sn-section-title">¿Qué ofrece OctolabWeb?</h2>
-    <div class="sn-feature-grid">
-      <div class="sn-feature-card">
-        <div class="sn-feature-icon">🧪</div>
-        <h3>Laboratorios Prácticos</h3>
-        <p>Retos y ejercicios reales para afianzar conceptos de seguridad informática en un entorno controlado.</p>
-      </div>
-      <div class="sn-feature-card">
-        <div class="sn-feature-icon">📚</div>
-        <h3>Temario Interactivo</h3>
-        <p>Módulos estructurados que cubren desde criptografía hasta hacking ético, con contenido PDF integrado.</p>
-      </div>
-      <div class="sn-feature-card">
-        <div class="sn-feature-icon">🏆</div>
-        <h3>Sistema de Puntos</h3>
-        <p>Gamificación real: gana puntos completando módulos y retos para escalar en el ranking de la comunidad.</p>
-      </div>
-      <div class="sn-feature-card">
-        <div class="sn-feature-icon">👥</div>
-        <h3>Comunidad</h3>
-        <p>Foro integrado donde los usuarios pueden compartir dudas, recursos y avances con el resto de la comunidad.</p>
-      </div>
+  <section class="sn-tecnologias">
+    <h2 class="sn-section-title">Tecnologías</h2>
+    <div class="sn-tech-grid">
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🔷</span>Angular 17</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🔷</span>TypeScript</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🟣</span>ASP.NET Core</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🟣</span>C#</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🗄️</span>MySQL</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🐍</span>Python</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🎨</span>CustomTkinter</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">🐳</span>Docker</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">☁️</span>AWS</div>
+      <div class="sn-tech-badge"><span class="sn-tech-emoji">💳</span>Stripe</div>
     </div>
   </section>
 
-  <section class="sn-stack">
-    <h2 class="sn-section-title">Stack Tecnológico</h2>
-    <div class="sn-stack-grid">
-      <div class="sn-stack-item">
-        <span class="sn-stack-label">Frontend</span>
-        <span class="sn-stack-value">Angular 17 · TypeScript · SSR</span>
-      </div>
-      <div class="sn-stack-divider"></div>
-      <div class="sn-stack-item">
-        <span class="sn-stack-label">Backend</span>
-        <span class="sn-stack-value">ASP.NET Core · JWT · EF Core</span>
-      </div>
-      <div class="sn-stack-divider"></div>
-      <div class="sn-stack-item">
-        <span class="sn-stack-label">Base de Datos</span>
-        <span class="sn-stack-value">SQLite · Ligero y portable</span>
-      </div>
-      <div class="sn-stack-divider"></div>
-      <div class="sn-stack-item">
-        <span class="sn-stack-label">Pagos</span>
-        <span class="sn-stack-value">Stripe · Donaciones seguras</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="sn-footer-note">
+  <div class="sn-footer">
     <p>Proyecto de Fin de Grado · ASIR · Curso 2025-2026</p>
     <p class="sn-footer-school">IES Miguel Romero Esteo · Málaga</p>
-  </section>
+  </div>
+
 </div>
