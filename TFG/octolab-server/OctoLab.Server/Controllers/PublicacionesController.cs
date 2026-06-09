@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OctoLab.Server.Data;
@@ -49,7 +49,6 @@ public class PublicacionesController : ControllerBase
 
         var userId = long.Parse(userIdClaim);
 
-        // Guardar base64 directamente en BD (persiste con la DB, independiente del sistema de archivos)
         var imagenBase64 = (string.IsNullOrEmpty(dto.ImagenBase64) || !dto.ImagenBase64.Contains("base64,"))
             ? null
             : dto.ImagenBase64;

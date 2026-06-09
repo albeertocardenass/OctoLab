@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OctoLab.Server.Data;
@@ -124,7 +124,6 @@ namespace OctoLab.Server.Controllers
             if (string.IsNullOrEmpty(dto.ImagenBase64) || !dto.ImagenBase64.Contains("base64,"))
                 return BadRequest(new { mensaje = "Imagen inválida" });
 
-            // Guardar base64 directamente en la BD (persiste con la DB, independiente del sistema de archivos)
             usuario.Avatar = dto.ImagenBase64;
             await _context.SaveChangesAsync();
 

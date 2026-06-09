@@ -20,14 +20,14 @@
       <div class="profile-wrapper">
         <div class="user-profile-trigger" (click)="toggleMenu($event)">
           <div class="user-info-text">
-            <span class="username">{{ usuarioActivo?.nombre || 'Usuario' }}</span>
+            <span class="username">{{ usuarioActivo?.apodo || 'Usuario' }}</span>
             <span class="role">{{ usuarioActivo?.rol || 'Invitado' }}</span>
           </div>
           @if (esAvatarValido(usuarioActivo?.avatar)) {
             <img class="profile-circle-header avatar-img" [src]="usuarioActivo.avatar" alt="avatar">
           } @else {
             <div class="profile-circle-header">
-              {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
+              {{ usuarioActivo?.apodo?.charAt(0) || 'U' }}
             </div>
           }
         </div>
@@ -39,7 +39,7 @@
                 <img class="large-avatar-circle avatar-img" [src]="usuarioActivo.avatar" alt="avatar">
               } @else {
                 <div class="large-avatar-circle">
-                  {{ usuarioActivo?.nombre?.charAt(0) || 'U' }}
+                  {{ usuarioActivo?.apodo?.charAt(0) || 'U' }}
                 </div>
               }
               <div class="header-user-data">

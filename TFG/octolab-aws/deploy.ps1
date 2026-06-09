@@ -30,8 +30,6 @@ Set-Content $backendTf $content
 Set-Location $awsDir
 terraform apply -auto-approve
 
-Set-Content $apiConfig "export const API_BASE = 'https://api.octolab.site';"
-
 Set-Location $serverDir
 dotnet publish -c Release -o ./publish
 aws s3 cp ./publish s3://octolab.site/backend/ --recursive

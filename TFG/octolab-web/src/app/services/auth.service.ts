@@ -69,7 +69,7 @@ export class AuthService {
   }
 
   getNombreUsuario(): string {
-    return this.currentUser?.nombre || 'Usuario';
+    return this.currentUser?.apodo || 'Usuario';
   }
 
   getUsuarioActual() {

@@ -14,11 +14,10 @@ namespace OctoLab.Server.Controllers
     {
         private readonly MyDbContext _context;
 
-        // Puntos que se otorgan al completar cada tema del laboratorio
         private static readonly Dictionary<int, int> PuntosPorTema = new()
         {
-            { 1, 100 },   // Reconocimiento con Nmap
-            { 2, 150 },   // Explotación con Metasploit
+            { 1, 100 },
+            { 2, 150 },
         };
 
         public TemarioController(MyDbContext context)
@@ -37,7 +36,7 @@ namespace OctoLab.Server.Controllers
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null) return NotFound();
 
-            // Comprobar que el tema no fue completado ya
+
             var completados = string.IsNullOrEmpty(usuario.TemasCompletados)
                 ? new HashSet<int>()
                 : new HashSet<int>(usuario.TemasCompletados.Split(',').Select(int.Parse));
@@ -45,16 +44,16 @@ namespace OctoLab.Server.Controllers
             if (completados.Contains(dto.TemaId))
                 return BadRequest(new { mensaje = "Este tema ya fue completado anteriormente." });
 
-            // Validar el código (mismo algoritmo que el cliente Python)
+
             var codigoEsperado = GenerarCodigoHex(userId, dto.TemaId);
             if (!string.Equals(dto.Codigo.Trim(), codigoEsperado, StringComparison.OrdinalIgnoreCase))
                 return BadRequest(new { mensaje = "Código incorrecto." });
 
-            // Sumar puntos
+
             var puntosGanados = PuntosPorTema.GetValueOrDefault(dto.TemaId, 100);
             usuario.Puntos += puntosGanados;
 
-            // Registrar tema como completado
+
             completados.Add(dto.TemaId);
             usuario.TemasCompletados = string.Join(",", completados);
 
@@ -108,9 +107,7 @@ namespace OctoLab.Server.Controllers
             return PhysicalFile(pdfPath, "application/pdf");
         }
 
-        // Mismo algoritmo que utils/crypto.py en el cliente Python:
-        // raw = f"{usuario_id}-{tema_id}-{int(time.time() // 86400)}-octolab"
-        // hashlib.sha256(raw).hexdigest()[:16].upper()
+
         private static string GenerarCodigoHex(long usuarioId, int temaId)
         {
             var dia = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 86400;

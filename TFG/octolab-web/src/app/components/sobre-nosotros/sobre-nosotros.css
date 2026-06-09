@@ -13,7 +13,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── Hero ─── */
 .sn-hero {
   text-align: center;
   padding: 3rem 0 4rem;
@@ -68,7 +67,6 @@
   line-height: 1.7;
 }
 
-/* ─── Secciones ─── */
 .sn-que-es,
 .sn-equipo,
 .sn-tecnologias {
@@ -92,7 +90,6 @@
   max-width: 780px;
 }
 
-/* ─── Cards grid ─── */
 .sn-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -170,7 +167,6 @@
   font-weight: 700;
 }
 
-/* ─── Equipo ─── */
 .sn-equipo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -250,7 +246,6 @@
   font-weight: 600;
 }
 
-/* ─── Tecnologías ─── */
 .sn-tech-grid {
   display: flex;
   flex-wrap: wrap;
@@ -281,7 +276,6 @@
   font-size: 1rem;
 }
 
-/* ─── Footer ─── */
 .sn-footer {
   text-align: center;
   padding-top: 2rem;
@@ -300,7 +294,6 @@
   color: var(--primary) !important;
 }
 
-/* ─── Dark mode ─── */
 :host-context(body.dark-theme) .sn-card-icon {
   background: rgba(79, 70, 229, 0.15);
 }
@@ -310,7 +303,6 @@
   border-color: rgba(79, 70, 229, 0.3);
 }
 
-/* ─── Responsive ─── */
 @media (max-width: 600px) {
   .sn-hero-title {
     letter-spacing: -1px;

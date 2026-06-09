@@ -41,7 +41,7 @@ namespace OctoLab.Server.Controllers
                 Apellido1 = dto.Apellido1,
                 Apellido2 = dto.Apellido2,
                 Email = dto.Email,
-                Password = EncriptarNativo(dto.Password),  
+                Password = EncriptarNativo(dto.Password),
                 Apodo = dto.Apodo,
                 Rol = "Usuario",
                 Puntos = 200
