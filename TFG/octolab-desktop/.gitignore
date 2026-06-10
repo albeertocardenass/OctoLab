@@ -1,0 +1,16 @@
+# PyInstaller build artifacts
+build/
+dist/
+*.spec.bak
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Session / logs
+.session
+*.log
+
+# Local env
+localhost
