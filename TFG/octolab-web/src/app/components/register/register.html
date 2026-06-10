@@ -47,6 +47,11 @@
                 {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
               </button>
             </div>
+            <div class="pw-reqs">
+              <span [style.color]="pwReqs.len   ? '#22c55e' : '#ef4444'">Min. 6 caracteres</span>
+              <span [style.color]="pwReqs.upper ? '#22c55e' : '#ef4444'">Una mayuscula</span>
+              <span [style.color]="pwReqs.digit ? '#22c55e' : '#ef4444'">Un digito</span>
+            </div>
           </div>
           <div class="input-group">
             <label>Confirmar Contraseña</label>
@@ -66,7 +71,7 @@
         <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
 
         <button type="submit" class="btn-primary"
-          [disabled]="registerForm.invalid || registerData.password !== confirmarPassword">
+          [disabled]="registerForm.invalid || registerData.password !== confirmarPassword || !pwValid">
           Crear cuenta
         </button>
       </form>

@@ -44,7 +44,8 @@ namespace OctoLab.Server.Controllers
                 Password = EncriptarNativo(dto.Password),
                 Apodo = dto.Apodo,
                 Rol = "Usuario",
-                Puntos = 200
+                Puntos = 200,
+                Avatar = dto.Apodo[..1].ToUpper()
             };
 
             _context.Usuarios.Add(nuevoUsuario);

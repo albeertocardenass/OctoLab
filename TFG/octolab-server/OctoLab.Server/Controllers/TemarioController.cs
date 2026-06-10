@@ -16,8 +16,18 @@ namespace OctoLab.Server.Controllers
 
         private static readonly Dictionary<int, int> PuntosPorTema = new()
         {
-            { 1, 100 },
-            { 2, 150 },
+            {  1, 240 },  // Fundamentos          (coste 180)
+            {  2, 280 },  // Sistemas Operativos  (coste 250)
+            {  3, 280 },  // Redes                (coste 250)
+            {  4, 420 },  // Ethical Hacking       (coste 380)
+            {  5, 350 },  // Vulnerabilidades      (coste 320)
+            {  6, 310 },  // Ingeniería Social     (coste 290)
+            {  7, 380 },  // Seguridad Web         (coste 340)
+            {  8, 310 },  // Dispositivos Móviles  (coste 290)
+            {  9, 420 },  // Criptografía          (coste 380)
+            { 10, 350 },  // Nube                  (coste 320)
+            { 11, 350 },  // Respuesta Incidentes  (coste 320)
+            { 12, 250 },  // Legalidad             (coste 260)
         };
 
         public TemarioController(MyDbContext context)

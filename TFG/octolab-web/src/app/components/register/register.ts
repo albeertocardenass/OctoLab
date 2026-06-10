@@ -30,6 +30,19 @@ export class RegisterComponent {
   mostrarConfirmar = false;
   confirmarPassword = '';
 
+  get pwReqs() {
+    const pw = this.registerData.password;
+    return {
+      len:   pw.length >= 6,
+      upper: /[A-Z]/.test(pw),
+      digit: /[0-9]/.test(pw),
+    };
+  }
+
+  get pwValid() {
+    return this.pwReqs.len && this.pwReqs.upper && this.pwReqs.digit;
+  }
+
   onRegister() {
     if (this.registerData.password !== this.confirmarPassword) {
       this.errorMessage = 'Las contraseñas no coinciden.';
