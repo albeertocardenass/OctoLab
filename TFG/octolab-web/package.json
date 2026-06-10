@@ -41,6 +41,7 @@
     "@omnedia/ngx-lava-lamp": "^4.0.1",
     "@stripe/stripe-js": "^8.11.0",
     "express": "^5.1.0",
+    "jszip": "^3.10.1",
     "ngx-stripe": "^21.8.0",
     "ogl": "^1.0.11",
     "pdfjs-dist": "^5.7.284",

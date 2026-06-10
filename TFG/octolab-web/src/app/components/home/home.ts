@@ -86,12 +86,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 
-  descargarApp() {
-    if (isPlatformBrowser(this.platformId)) {
-      const link = document.createElement('a');
-      link.href = 'assets/OctolabDesktop.exe';
-      link.download = 'OctolabDesktop.exe';
-      link.click();
-    }
+  async descargarApp() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+
+    const [exeBlob, readmeBlob, aboutBlob] = await Promise.all([
+      fetch('assets/OctolabDesktop.exe').then(r => r.blob()),
+      fetch('assets/README.txt').then(r => r.blob()),
+      fetch('assets/ABOUTUS.txt').then(r => r.blob()),
+    ]);
+
+    zip.file('OctolabDesktop.exe', exeBlob);
+    zip.file('README.txt', readmeBlob);
+    zip.file('ABOUTUS.txt', aboutBlob);
+
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'OctoLab_v1.zip';
+    a.click();
+    URL.revokeObjectURL(url);
   }
 }

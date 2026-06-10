@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, PLATFORM_ID, inject, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, PLATFORM_ID, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,17 +19,18 @@ export class ComunidadComponent implements OnInit {
   private authService = inject(AuthService);
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-  private zone = inject(NgZone);
   private http = inject(HttpClient);
 
   usuarioActivo: any = null;
   nuevaPublicacion: string = '';
-  publicaciones: any[] = [];
-  cantidadVisible: number = 10;
+  publicaciones = signal<any[]>([]);
+  pageSize: number = 10;
+  paginaActual: number = 1;
 
   respondiendo: number | null = null;
   textoRespuesta: string = '';
+
+  @ViewChild('postsList') postsListRef!: ElementRef;
 
   ngOnInit() {
     this.cargarDatosSeguros();
@@ -54,23 +55,20 @@ export class ComunidadComponent implements OnInit {
 
   cargarComunidad() {
     this.pubService.obtenerPublicaciones().subscribe({
-      next: (data) => {
-        this.zone.run(() => {
-          this.publicaciones = data
-            .filter(p => !p.publicacionPadreId)
-            .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
-            .map(p => ({
-              ...p,
-              liked: false,
-              totalLikes: 0,
-              respuestas: data
-                .filter(r => r.publicacionPadreId === p.id)
-                .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
-            }));
-
-          this.publicaciones.forEach(p => this.cargarLikes(p));
-          this.cdr.detectChanges();
-        });
+      next: (data: any[]) => {
+        const lista = data
+          .filter(p => !p.publicacionPadreId)
+          .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+          .map(p => ({
+            ...p,
+            liked: false,
+            totalLikes: 0,
+            respuestas: data
+              .filter(r => r.publicacionPadreId === p.id)
+              .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
+          }));
+        this.publicaciones.set(lista);
+        lista.forEach(p => this.cargarLikes(p));
       },
       error: (err) => console.error('Error al cargar publicaciones', err)
     });
@@ -81,7 +79,8 @@ export class ComunidadComponent implements OnInit {
       next: (res) => {
         post.totalLikes = res.totalLikes;
         post.liked = res.liked;
-        this.cdr.detectChanges();
+        // Forzar reactividad actualizando el signal con el mismo array
+        this.publicaciones.update(v => [...v]);
       }
     });
   }
@@ -93,11 +92,12 @@ export class ComunidadComponent implements OnInit {
     }
     this.http.post<any>(`${API_BASE}/api/Likes/${postId}`, {}, { headers: this.getHeaders() }).subscribe({
       next: (res) => {
-        const post = this.publicaciones.find(p => p.id === postId);
+        const lista = this.publicaciones();
+        const post = lista.find(p => p.id === postId);
         if (post) {
           post.liked = res.liked;
           post.totalLikes += res.liked ? 1 : -1;
-          this.cdr.detectChanges();
+          this.publicaciones.update(v => [...v]);
         }
       }
     });
@@ -191,19 +191,36 @@ export class ComunidadComponent implements OnInit {
     return !!url && (url.startsWith('http') || url.startsWith('data:'));
   }
 
-  get publicacionesVisibles() {
-    return this.publicaciones.slice(0, this.cantidadVisible);
+  cambiarPageSize(size: number) {
+    this.pageSize = size;
+    this.paginaActual = 1;
   }
 
-  @HostListener('window:scroll')
-  onScroll(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
-      const max = document.documentElement.scrollHeight;
-      if (pos >= max - 100 && this.cantidadVisible < this.publicaciones.length) {
-        this.cantidadVisible += 10;
-        this.cdr.detectChanges();
-      }
+  get totalPaginas(): number {
+    return Math.ceil(this.publicaciones().length / this.pageSize);
+  }
+
+  paginaAnterior() {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      this.scrollAlInicio();
     }
+  }
+
+  paginaSiguiente() {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      this.scrollAlInicio();
+    }
+  }
+
+  private scrollAlInicio() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.postsListRef?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  get publicacionesVisibles() {
+    const inicio = (this.paginaActual - 1) * this.pageSize;
+    return this.publicaciones().slice(inicio, inicio + this.pageSize);
   }
 }

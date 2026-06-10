@@ -37,7 +37,7 @@ _TERMINAL_HOME: dict[str, str] = {
 # python3, ssh, ping, net-tools, dnsutils
 COMANDOS = {
     ("RE", "#0891b2", "Reconocimiento — nmap"): [
-        ("Descubrir hosts activos en la red",     "nmap -sn -T4 -n 172.18.0.0/16"),
+        ("Descubrir hosts activos en la red",     "nmap -sn -T4 -n 172.X.X.X/16"),
         ("Escaneo rápido (100 puertos comunes)",  "nmap -T4 -n -F <IP_objetivo>"),
         ("Escaneo de puertos y versiones",        "nmap -sS -sV -T4 -n -p 1-1000 <IP_objetivo>"),
         ("Escaneo completo (todos los puertos)",  "nmap -sS -T4 -n -p- --min-rate 5000 <IP_objetivo>"),

@@ -268,3 +268,80 @@
   border-color: #ff4757;
   color: white;
 }
+
+.page-size-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.page-size-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--texto-secundario, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-right: 4px;
+}
+
+.btn-page-size {
+  border: 1.5px solid var(--borde, #d1d5db);
+  background: transparent;
+  color: var(--texto-secundario, #6b7280);
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-page-size:hover {
+  border-color: var(--primary, #4f46e5);
+  color: var(--primary, #4f46e5);
+}
+
+.btn-page-size.active {
+  background: var(--primary, #4f46e5);
+  border-color: var(--primary, #4f46e5);
+  color: #fff;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 0 8px;
+}
+
+.btn-pag {
+  border: 1.5px solid var(--borde, #d1d5db);
+  background: transparent;
+  color: var(--texto-principal, #111827);
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-pag:hover:not(:disabled) {
+  border-color: var(--primary, #4f46e5);
+  color: var(--primary, #4f46e5);
+}
+
+.btn-pag:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pag-info {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--texto-secundario, #6b7280);
+  min-width: 60px;
+  text-align: center;
+}

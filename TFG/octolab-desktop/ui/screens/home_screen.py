@@ -72,19 +72,26 @@ ABOUT = (
     "Docker y un sistema de gamificación con puntos Octo para motivar el aprendizaje "
     "progresivo y autodirigido.\n\n"
     "Desarrollada como ecosistema completo: aplicación de escritorio en Python "
-    "(customtkinter), aplicación web en Angular y API REST en .NET 8."
+    "(customtkinter), aplicación web en Angular y API REST en ASP.NET Core."
 )
 
+# (nombre_completo, rol, descripción, [techs])
 AUTORES = [
     (
-        "Alberto Cárdenas",
-        "Desarrollador",
-        "Backend · API REST · App Desktop · Base de datos",
+        "Alberto Cárdenas Palomo",
+        "Desarrollador Full Stack",
+        "Responsable de la aplicación de escritorio Python, la infraestructura\n"
+        "Docker con red NAT para los laboratorios, y co-desarrollador de la\n"
+        "plataforma web Angular y la API ASP.NET Core.",
+        ["Angular", "ASP.NET Core", "Python", "Docker", "TypeScript", "C#"],
     ),
     (
-        "Juan Alberto Campaña",
-        "Desarrollador",
-        "Frontend · Aplicación web · Diseño UX/UI",
+        "Juan Alberto Campaña Espejo",
+        "Desarrollador Full Stack",
+        "Responsable del despliegue en AWS (EC2, S3, RDS, Terraform) y la base\n"
+        "de datos MySQL, y co-desarrollador de la plataforma web Angular y la\n"
+        "API ASP.NET Core.",
+        ["Angular", "ASP.NET Core", "AWS", "TypeScript", "C#", "MySQL", "Terraform"],
     ),
 ]
 
@@ -257,7 +264,8 @@ class HomeScreen(ctk.CTkFrame):
         equipo_row = ctk.CTkFrame(scroll, fg_color="transparent")
         equipo_row.pack(anchor="w", padx=40, pady=(0, 28))
 
-        for nombre_a, rol_a, stack_a in AUTORES:
+        for nombre_a, rol_a, desc_a, techs_a in AUTORES:
+            initials = "".join(p[0] for p in nombre_a.split()[:2])
             card = ctk.CTkFrame(
                 equipo_row, corner_radius=12,
                 fg_color=C["card"],
@@ -268,14 +276,14 @@ class HomeScreen(ctk.CTkFrame):
             inn = ctk.CTkFrame(card, fg_color="transparent")
             inn.pack(padx=20, pady=18)
 
-            # Avatar con inicial
+            # Avatar con iniciales
             av2 = ctk.CTkFrame(inn, width=56, height=56,
                                 corner_radius=28, fg_color=C["primary"])
             av2.pack(anchor="w", pady=(0, 10))
             av2.pack_propagate(False)
             ctk.CTkLabel(
-                av2, text=nombre_a[0],
-                font=ctk.CTkFont(size=22, weight="bold"),
+                av2, text=initials,
+                font=ctk.CTkFont(size=18, weight="bold"),
                 text_color="white",
             ).place(relx=0.5, rely=0.5, anchor="center")
 
@@ -289,14 +297,32 @@ class HomeScreen(ctk.CTkFrame):
             badge = ctk.CTkFrame(inn, fg_color=C["avatar2"], corner_radius=6)
             badge.pack(anchor="w", pady=(4, 6))
             ctk.CTkLabel(
-                badge, text=rol_a,
+                badge, text=rol_a.upper(),
                 text_color=C["primary"],
-                font=ctk.CTkFont(size=13, weight="bold"),
+                font=ctk.CTkFont(size=11, weight="bold"),
             ).pack(padx=8, pady=3)
 
+            # Descripción
             ctk.CTkLabel(
-                inn, text=stack_a,
+                inn, text=desc_a,
                 text_color=C["muted"],
                 font=ctk.CTkFont(size=13),
-                anchor="w",
-            ).pack(anchor="w")
+                anchor="w", justify="left",
+            ).pack(anchor="w", pady=(0, 10))
+
+            # Tech pills
+            pills_row = ctk.CTkFrame(inn, fg_color="transparent")
+            pills_row.pack(anchor="w")
+            row1 = ctk.CTkFrame(pills_row, fg_color="transparent")
+            row1.pack(anchor="w")
+            row2 = ctk.CTkFrame(pills_row, fg_color="transparent")
+            row2.pack(anchor="w", pady=(4, 0))
+            for i, tech in enumerate(techs_a):
+                target_row = row1 if i < 4 else row2
+                pill = ctk.CTkFrame(target_row, fg_color=C["tag_bg"], corner_radius=6)
+                pill.pack(side="left", padx=(0, 4))
+                ctk.CTkLabel(
+                    pill, text=tech,
+                    font=ctk.CTkFont(size=12),
+                    text_color=C["muted"],
+                ).pack(padx=7, pady=3)

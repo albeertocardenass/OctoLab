@@ -1,0 +1,29 @@
+Acerca de OctoLab
+=================
+
+OctoLab es una plataforma educativa especializada en ciberseguridad,
+diseñada para que cualquier persona pueda aprender desde cero hasta
+un nivel avanzado de forma práctica y estructurada.
+
+MISIÓN
+------
+Implementar el acceso a la formación en ciberseguridad mediante
+contenidos de calidad, laboratorios prácticos y una comunidad activa
+de estudiantes y profesionales.
+
+QUÉ OFRECEMOS
+-------------
+- 12 módulos temáticos: desde fundamentos hasta respuesta ante incidentes
+- Laboratorios prácticos con verificación de códigos
+- Sistema de puntos y progresión
+- Comunidad integrada para resolver dudas y compartir conocimiento
+- Aplicación de escritorio y plataforma web sincronizadas
+
+VERSIÓN
+-------
+OctoLab Desktop v1.0
+Plataforma web: https://octolab.site
+
+CONTACTO
+--------
+Email: contacto@octolab.site

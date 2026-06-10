@@ -1,0 +1,46 @@
+# -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+
+a = Analysis(
+    ['main.py'],
+    pathex=[],
+    binaries=[],
+    datas=[
+        *collect_data_files('customtkinter'),
+        ('assets', 'assets'),
+        ('docker', 'docker'),
+    ],
+    hiddenimports=[
+        *collect_submodules('customtkinter'),
+        'PIL._tkinter_finder',
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=['hook_local_env.py'],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    name='OctolabDesktop-local',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    icon='assets/images/octolab.ico',
+)

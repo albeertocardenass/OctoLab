@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, ChangeDetectorRef, NgZone, afterNextRender } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +10,7 @@ import { ThemeService } from '../../services/theme.service';
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './admin.html',
   styleUrls: ['./admin.css']
 })
@@ -28,12 +27,6 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   usuarios: any[] = [];
   isDarkMode = false;
   private themeSub: Subscription | null = null;
-
-  constructor() {
-    afterNextRender(() => {
-      this.cargarUsuarios();
-    });
-  }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -57,6 +50,8 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
         this.router.navigate(['/home']);
         return;
       }
+
+      this.cargarUsuarios();
     }
   }
 

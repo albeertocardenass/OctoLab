@@ -62,6 +62,7 @@ export class ModuloComponent implements OnInit, AfterViewInit, OnDestroy {
   tipoMensaje: 'ok' | 'error' | '' = '';
 
   private pdf: PDFDocumentProxy | null = null;
+  private pdfBlob: Blob | null = null;
   private viewReady     = false;
   private pendingRender = false;
   private resizeObserver: ResizeObserver | null = null;
@@ -106,7 +107,18 @@ export class ModuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
+  descargarPdf(): void {
+    if (!this.pdfBlob) return;
+    const url = URL.createObjectURL(this.pdfBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `modulo-${this.moduloIdStr}-${this.titulo.replace(/\s+/g, '-')}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   private async cargarPdf(blob: Blob): Promise<void> {
+    this.pdfBlob = blob;
     const { GlobalWorkerOptions, getDocument } = await import('pdfjs-dist');
     GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.mjs';
 

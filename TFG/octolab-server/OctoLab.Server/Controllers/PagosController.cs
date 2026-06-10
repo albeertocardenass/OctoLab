@@ -7,9 +7,17 @@ namespace OctoLab.Server.Controllers;
 [ApiController]
 public class PagosController : ControllerBase
 {
+    private readonly IConfiguration _config;
+
+    public PagosController(IConfiguration config)
+    {
+        _config = config;
+    }
+
     [HttpPost("crear-sesion")]
     public ActionResult CrearSesion([FromBody] PagoDto dto)
     {
+        var frontendUrl = _config["FrontendUrl"]?.TrimEnd('/') ?? "https://octolab.site";
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = new List<string> { "card" },
@@ -31,8 +39,8 @@ public class PagosController : ControllerBase
             }
         },
             Mode = "payment",
-SuccessUrl = "https://octolab.site/home/donaciones?exito=true",
-CancelUrl = "https://octolab.site/home/donaciones?cancelado=true"
+            SuccessUrl = $"{frontendUrl}/home/donaciones?exito=true",
+            CancelUrl = $"{frontendUrl}/home/donaciones?cancelado=true"
         };
 
         var service = new SessionService();

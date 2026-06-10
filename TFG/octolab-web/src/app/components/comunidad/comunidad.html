@@ -13,7 +13,16 @@
     </div>
   </div>
 
-  <div class="posts-list">
+  <div class="page-size-bar">
+    <span class="page-size-label">Mostrar</span>
+    @for (size of [10, 20, 30]; track size) {
+      <button class="btn-page-size" [class.active]="pageSize === size" (click)="cambiarPageSize(size)">
+        {{ size }}
+      </button>
+    }
+  </div>
+
+  <div class="posts-list" #postsList>
     @for (post of publicacionesVisibles; track post.id) {
     <div class="post-card">
 
@@ -91,10 +100,23 @@
     </div>
     }
 
-    @if (publicaciones.length === 0) {
-    <div class="no-messages">
-      <p>Aún no hay mensajes. ¡Sé el primero en publicar algo!</p>
-    </div>
+    @if (publicaciones().length === 0) {
+      <div class="no-messages">
+        <p>Aún no hay mensajes. ¡Sé el primero en publicar algo!</p>
+      </div>
     }
+
   </div>
+
+  @if (publicaciones().length > 0 && totalPaginas > 1) {
+    <div class="paginacion">
+      <button class="btn-pag" (click)="paginaAnterior()" [disabled]="paginaActual === 1">
+        &#8592; Anterior
+      </button>
+      <span class="pag-info">{{ paginaActual }} / {{ totalPaginas }}</span>
+      <button class="btn-pag" (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas">
+        Siguiente &#8594;
+      </button>
+    </div>
+  }
 </div>
