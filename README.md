@@ -101,11 +101,10 @@ pnpm install
 ng serve
 ```
 **4. Abrir la App Desktop**
-```bash
-cd octolab-desktop/dist
-./OctolabDesktop-local.exe
-```
-> (apunta a localhost:5276)
+
+Descarga `OctolabDesktop-local.exe` desde [GitHub Releases](https://github.com/albertoocardenass/OctoLab/releases/tag/v1.0.0) y ejecútala directamente.
+
+> Apunta automáticamente a localhost:5276
 
 **5. Abrir el navegador**
 ```
