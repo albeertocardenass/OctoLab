@@ -102,7 +102,7 @@ ng serve
 ```
 **4. Abrir la App Desktop**
 
-Descarga `OctolabDesktop-local.exe` desde [GitHub Releases](https://github.com/albertoocardenass/OctoLab/releases/tag/v1.0.0) y ejecútala directamente.
+Descarga `OctolabDesktop-local.exe` desde [GitHub Releases](https://github.com/albeertocardenass/OctoLab/releases/tag/v1.0.0) y ejecútala directamente.
 
 > Apunta automáticamente a localhost:5276
 
