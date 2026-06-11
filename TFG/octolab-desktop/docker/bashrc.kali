@@ -7,7 +7,7 @@ case $- in
       *) return;;
 esac
 
-# ── Historial ──────────────────────────────────────────────────────────
+# Historial 
 HISTCONTROL=ignoredups:erasedups
 HISTSIZE=5000
 HISTFILESIZE=10000
@@ -15,11 +15,11 @@ shopt -s histappend       # no sobreescribir, añadir al cierre
 shopt -s checkwinsize     # actualizar LINES/COLUMNS tras cada comando
 shopt -s globstar         # ** para rutas recursivas
 
-# ── Prompt con colores (estilo Kali) ───────────────────────────────────
+# Prompt con colores (estilo Kali)
 # Verde para usuario, azul para directorio
 PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
 
-# ── Aliases esenciales ─────────────────────────────────────────────────
+# Aliases esenciales 
 alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
 alias la='ls -A  --color=auto'
@@ -40,7 +40,7 @@ alias ports='ss -tulanp'
 alias ifaces='ip -brief addr'
 alias myip='ip route get 1.1.1.1 | awk "{print \$7; exit}"'
 
-# ── Variables de entorno ───────────────────────────────────────────────
+# Variables de entorno
 export TERM=xterm-256color
 export EDITOR=nano
 export PAGER=less
@@ -48,7 +48,7 @@ export LESS='-R --use-color'
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 
-# ── Bash completion ────────────────────────────────────────────────────
+# Bash completion 
 if ! shopt -oq posix; then
     if   [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion

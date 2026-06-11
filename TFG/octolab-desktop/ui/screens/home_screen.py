@@ -6,7 +6,6 @@ import io
 import customtkinter as ctk
 from PIL import Image, ImageDraw
 
-# Tuplas (modo_claro, modo_oscuro)
 C = {
     "primary":     "#4f46e5",
     "primary_hov": "#4338ca",
@@ -40,9 +39,7 @@ def _avatar_desde_base64(b64: str) -> ctk.CTkImage | None:
         return None
 
 
-# ── Contenido estático ────────────────────────────────────────────────
 
-# (abrev, color_badge, título, descripción)
 FEATURES = [
     (
         "TM", "#4f46e5", "Temario",
@@ -75,7 +72,6 @@ ABOUT = (
     "(customtkinter), aplicación web en Angular y API REST en ASP.NET Core."
 )
 
-# (nombre_completo, rol, descripción, [techs])
 AUTORES = [
     (
         "Alberto Cárdenas Palomo",
@@ -96,7 +92,7 @@ AUTORES = [
 ]
 
 
-# ── Pantalla ──────────────────────────────────────────────────────────
+
 
 class HomeScreen(ctk.CTkFrame):
     def __init__(self, master, usuario: dict, api_client=None):
@@ -104,7 +100,7 @@ class HomeScreen(ctk.CTkFrame):
         self.usuario = usuario
         self._build()
 
-    # ── construcción ─────────────────────────────────────────────────
+
     def _build(self):
         nombre          = self.usuario.get("nombre", "Usuario")
         rol             = self.usuario.get("rol",    "Usuario")
@@ -114,11 +110,11 @@ class HomeScreen(ctk.CTkFrame):
         desbloqueados   = self.usuario.get("modulosDesbloqueados", [])
         n_desbloqueados = len(desbloqueados)
 
-        # Contenedor desplazable
+
         scroll = ctk.CTkScrollableFrame(self, fg_color="transparent")
         scroll.pack(fill="both", expand=True)
 
-        # ── Cabecera de perfil ────────────────────────────────────────
+
         header = ctk.CTkFrame(scroll, fg_color="transparent")
         header.pack(fill="x", padx=40, pady=(24, 14))
 
@@ -156,7 +152,7 @@ class HomeScreen(ctk.CTkFrame):
             anchor="w",
         ).pack(anchor="w")
 
-        # ── Progreso del temario ──────────────────────────────────────
+
         prog = ctk.CTkFrame(scroll, fg_color="transparent")
         prog.pack(fill="x", padx=40, pady=(0, 6))
 
@@ -177,11 +173,11 @@ class HomeScreen(ctk.CTkFrame):
             font=ctk.CTkFont(size=14),
         ).pack(anchor="w", pady=(4, 0))
 
-        # ── Separador ────────────────────────────────────────────────
+
         ctk.CTkFrame(scroll, height=1, fg_color=C["divider"]).pack(
             fill="x", padx=40, pady=(14, 14))
 
-        # ── Funciones ────────────────────────────────────────────────
+
         ctk.CTkLabel(
             scroll, text="¿Qué ofrece OctoLab?",
             font=ctk.CTkFont(size=20, weight="bold"),
@@ -202,7 +198,7 @@ class HomeScreen(ctk.CTkFrame):
             inn = ctk.CTkFrame(card, fg_color="transparent")
             inn.pack(fill="both", expand=True, padx=16, pady=14)
 
-            # Acento lateral de color
+
             accent = ctk.CTkFrame(inn, width=3, corner_radius=2, fg_color=color)
             accent.pack(side="left", fill="y", padx=(0, 12))
             accent.pack_propagate(False)
@@ -210,7 +206,7 @@ class HomeScreen(ctk.CTkFrame):
             body = ctk.CTkFrame(inn, fg_color="transparent")
             body.pack(side="left", fill="both", expand=True)
 
-            # Fila: badge abreviatura + título
+
             top_row = ctk.CTkFrame(body, fg_color="transparent")
             top_row.pack(anchor="w", pady=(0, 7))
 
@@ -237,11 +233,11 @@ class HomeScreen(ctk.CTkFrame):
                 wraplength=255,
             ).pack(anchor="w")
 
-        # ── Separador ────────────────────────────────────────────────
+
         ctk.CTkFrame(scroll, height=1, fg_color=C["divider"]).pack(
             fill="x", padx=40, pady=(14, 14))
 
-        # ── Sobre el proyecto ─────────────────────────────────────────
+
         ctk.CTkLabel(
             scroll, text="Sobre el proyecto",
             font=ctk.CTkFont(size=20, weight="bold"),
@@ -255,7 +251,7 @@ class HomeScreen(ctk.CTkFrame):
             wraplength=720,
         ).pack(anchor="w", padx=40, pady=(0, 18))
 
-        # ── Equipo ────────────────────────────────────────────────────
+
         ctk.CTkLabel(
             scroll, text="Equipo",
             font=ctk.CTkFont(size=20, weight="bold"),
@@ -276,7 +272,7 @@ class HomeScreen(ctk.CTkFrame):
             inn = ctk.CTkFrame(card, fg_color="transparent")
             inn.pack(padx=20, pady=18)
 
-            # Avatar con iniciales
+
             av2 = ctk.CTkFrame(inn, width=56, height=56,
                                 corner_radius=28, fg_color=C["primary"])
             av2.pack(anchor="w", pady=(0, 10))
@@ -293,7 +289,7 @@ class HomeScreen(ctk.CTkFrame):
                 anchor="w",
             ).pack(anchor="w")
 
-            # Badge de rol
+
             badge = ctk.CTkFrame(inn, fg_color=C["avatar2"], corner_radius=6)
             badge.pack(anchor="w", pady=(4, 6))
             ctk.CTkLabel(
@@ -302,7 +298,7 @@ class HomeScreen(ctk.CTkFrame):
                 font=ctk.CTkFont(size=11, weight="bold"),
             ).pack(padx=8, pady=3)
 
-            # Descripción
+
             ctk.CTkLabel(
                 inn, text=desc_a,
                 text_color=C["muted"],
@@ -310,7 +306,7 @@ class HomeScreen(ctk.CTkFrame):
                 anchor="w", justify="left",
             ).pack(anchor="w", pady=(0, 10))
 
-            # Tech pills
+
             pills_row = ctk.CTkFrame(inn, fg_color="transparent")
             pills_row.pack(anchor="w")
             row1 = ctk.CTkFrame(pills_row, fg_color="transparent")

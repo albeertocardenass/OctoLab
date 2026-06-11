@@ -10,8 +10,6 @@ from utils.logger import get_logger
 
 log = get_logger("docker_manager")
 
-# Kali necesita NET_RAW + NET_ADMIN para nmap/ping y correr como root
-# para que los binarios SUID no sean bloqueados por el kernel.
 _CAPS: dict[str, list[str]] = {
     KALI_CONTAINER: ["NET_RAW", "NET_ADMIN"],
 }
@@ -28,7 +26,6 @@ class DockerManager:
     def __init__(self):
         self.client = None
 
-    # ── Conexión ─────────────────────────────────────────────────────
     def iniciar_docker_desktop(self) -> bool:
         import platform
         if platform.system() != "Windows":
@@ -63,7 +60,6 @@ class DockerManager:
                 self.client = None
         return self._ping()
 
-    # ── Imágenes personalizadas ───────────────────────────────────────
     def _imagen_existe(self, imagen: str) -> bool:
         try:
             self.client.images.get(imagen)
@@ -127,7 +123,6 @@ class DockerManager:
         """Construye octolab-meta:latest desde Dockerfile.meta."""
         return self._construir_imagen(META_IMAGE, "Dockerfile.meta", on_status)
 
-    # ── Red ───────────────────────────────────────────────────────────
     def crear_red(self):
         if not self._ensure_client():
             return
@@ -139,14 +134,12 @@ class DockerManager:
         except Exception as e:
             log.error(f"Error creando red: {e}")
 
-    # ── Contenedores ─────────────────────────────────────────────────
     def lanzar_contenedor(self, nombre: str, imagen: str,
                           on_status=None) -> bool:
         if not self._ensure_client():
             log.error("Docker no disponible.")
             return False
 
-        # Construir imagen custom si no existe todavía
         if nombre == KALI_CONTAINER and not self._imagen_existe(KALI_IMAGE):
             if not self.construir_imagen_kali(on_status):
                 return False
@@ -161,7 +154,6 @@ class DockerManager:
         ports = _PORTS.get(nombre, {})
 
         try:
-            # ── Comprobar si ya existe el contenedor ─────────────────
             try:
                 c = self.client.containers.get(nombre)
                 existing_caps = c.attrs.get("HostConfig", {}).get("CapAdd") or []
@@ -185,7 +177,6 @@ class DockerManager:
             except docker.errors.NotFound:
                 pass
 
-            # ── Crear contenedor nuevo ───────────────────────────────
             if on_status:
                 on_status(f"Iniciando {nombre}...")
 
@@ -213,7 +204,6 @@ class DockerManager:
                 on_status(f"Error: {e}")
             return False
 
-    # ── Utilidades ────────────────────────────────────────────────────
     def get_ip_contenedor(self, nombre: str) -> str | None:
         if not self._ensure_client():
             return None

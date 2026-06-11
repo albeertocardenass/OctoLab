@@ -4,7 +4,6 @@ import ctypes
 import ctypes.wintypes
 from config import APP_VERSION, THEME_FILE
 
-# Tuplas (modo_claro, modo_oscuro)
 C = {
     "primary":    "#4f46e5",
     "card":       ("gray92", "#1e293b"),
@@ -41,7 +40,6 @@ class ConfigScreen(ctk.CTkFrame):
         card = ctk.CTkFrame(self, corner_radius=12, fg_color=C["card"])
         card.pack(padx=40, fill="x")
 
-        # ── Datos del usuario ────────────────────────────────────────
         nombre = self.usuario.get("nombre", "")
         email  = self.usuario.get("email",  "")
         rol    = self.usuario.get("rol",    "")
@@ -62,7 +60,6 @@ class ConfigScreen(ctk.CTkFrame):
 
         ctk.CTkFrame(card, height=1, fg_color=C["divider"]).pack(fill="x", padx=20, pady=16)
 
-        # ── Tema ─────────────────────────────────────────────────────
         tema_row = ctk.CTkFrame(card, fg_color="transparent")
         tema_row.pack(fill="x", padx=24, pady=(0, 4))
         ctk.CTkLabel(tema_row, text="Tema oscuro",
@@ -75,12 +72,10 @@ class ConfigScreen(ctk.CTkFrame):
 
         ctk.CTkFrame(card, height=1, fg_color=C["divider"]).pack(fill="x", padx=20, pady=16)
 
-        # ── Versión ──────────────────────────────────────────────────
         ctk.CTkLabel(card, text=f"Versión {APP_VERSION}",
                      text_color=C["muted"],
                      font=ctk.CTkFont(size=14)).pack(pady=(0, 12))
 
-        # ── Cerrar sesión ────────────────────────────────────────────
         ctk.CTkButton(card, text="Cerrar Sesion",
                        height=44,
                        fg_color=C["error"], hover_color="#dc2626",
@@ -91,19 +86,17 @@ class ConfigScreen(ctk.CTkFrame):
         root = self.winfo_toplevel()
         hwnd = root.winfo_id()
 
-        # 1. Desactivar animaciones DWM para que el withdraw/deiconify interno
-        #    de CTK no muestre la animación de apertura de Windows
+
         _dwm_transitions(hwnd, enable=False)
 
-        # 2. Cambiar el tema
         ctk.set_appearance_mode(modo)
 
-        # 3. Asegurar que la ventana está visible (CTK puede haberla ocultado)
+
         root.deiconify()
         root.lift()
         root.focus_force()
 
-        # 4. Reactivar animaciones DWM tras un frame
+
         root.after(100, lambda: _dwm_transitions(hwnd, enable=True))
 
         try:

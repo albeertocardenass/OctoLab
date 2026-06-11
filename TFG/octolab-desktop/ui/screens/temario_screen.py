@@ -7,7 +7,7 @@ import random
 from config import WEB_BASE_URL
 from utils.crypto import generar_codigo_hex
 
-# ── Paleta ───────────────────────────────────────────────────────────
+
 C = {
     "primary":     "#4f46e5",
     "primary_hov": "#4338ca",
@@ -21,7 +21,7 @@ C = {
     "badge_ok_bg": ("#e0e7ff", "#312e81"),
 }
 
-# ── Módulos (id, titulo, desc, coste, recompensa) ────────────────────
+
 MODULOS = [
     (1,  "Fundamentos de Ciberseguridad",     "Protección de sistemas, Tríada CIA e importancia en la era digital.",     180, 220),
     (2,  "Seguridad en Sistemas Operativos",  "Actualizaciones, parches, antivirus y gestión del menor privilegio.",      250, 280),
@@ -37,7 +37,7 @@ MODULOS = [
     (12, "Legalidad y Ética",                 "Cumplimiento del GDPR, principios éticos y diferencias de seguridad.",     260, 250),
 ]
 
-# ── Preguntas (pregunta, [A,B,C,D], índice_correcto) ─────────────────
+
 PREGUNTAS: dict[int, list] = {
     1: [
         ("¿Cuántos incidentes de ciberseguridad analizó ENISA entre julio 2023 y junio 2024?",
@@ -465,7 +465,7 @@ PREGUNTAS: dict[int, list] = {
 }
 
 
-# ── Helpers ──────────────────────────────────────────────────────────
+
 def _preparar_preguntas(mod_id: int) -> list:
     """Devuelve 10 preguntas del módulo con opciones barajadas."""
     pool = list(PREGUNTAS[mod_id])
@@ -485,9 +485,9 @@ def _generar_codigo(user_id: int, mod_id: int) -> str:
     return generar_codigo_hex(user_id, mod_id)
 
 
-# ── Ventana de test ───────────────────────────────────────────────────
+
 class TestWindow(ctk.CTkToplevel):
-    # Colores de las tarjetas de opción
+
     _OPT_NORMAL   = ("gray93", "#1e293b")
     _OPT_SELECTED = ("#e0e7ff", "#312e81")
     _OPT_BORDER_N = ("gray78", "#334155")
@@ -506,14 +506,14 @@ class TestWindow(ctk.CTkToplevel):
         self._opt_btns: list[ctk.CTkButton] = []
         self._restart()
 
-    # ── lifecycle ────────────────────────────────────────────────────
+
     def _restart(self):
         self._preguntas  = _preparar_preguntas(self._mod_id)
         self._idx        = 0
         self._respuestas = [None] * 10
         self._mostrar_pregunta()
 
-    # ── pregunta ─────────────────────────────────────────────────────
+
     def _mostrar_pregunta(self):
         for w in self.winfo_children():
             w.destroy()
@@ -521,9 +521,9 @@ class TestWindow(ctk.CTkToplevel):
 
         q = self._idx
         pregunta, opciones, _ = self._preguntas[q]
-        seleccion = self._respuestas[q]  # puede ser None
+        seleccion = self._respuestas[q]  
 
-        # Cabecera compacta
+
         hdr = ctk.CTkFrame(self, fg_color=("gray88", "#0f172a"), corner_radius=0)
         hdr.pack(fill="x")
 
@@ -543,13 +543,13 @@ class TestWindow(ctk.CTkToplevel):
         bar.pack(fill="x")
         bar.set((q + 1) / 10)
 
-        # Enunciado
+
         ctk.CTkLabel(self, text=pregunta,
                      font=ctk.CTkFont(size=18, weight="bold"),
                      wraplength=560, justify="left",
                      anchor="w").pack(padx=22, anchor="w", pady=(16, 10))
 
-        # Opciones como tarjetas seleccionables
+
         for i, texto in enumerate(opciones):
             selected = (seleccion == i)
             btn = ctk.CTkButton(
@@ -569,7 +569,7 @@ class TestWindow(ctk.CTkToplevel):
             btn.pack(fill="x", padx=22, pady=3)
             self._opt_btns.append(btn)
 
-        # Navegación
+
         nav = ctk.CTkFrame(self, fg_color="transparent")
         nav.pack(fill="x", padx=22, pady=(12, 16), side="bottom")
 
@@ -610,14 +610,14 @@ class TestWindow(ctk.CTkToplevel):
         self._mostrar_pregunta()
 
     def _finalizar(self):
-        # Si la última pregunta no tiene respuesta guardada, no contar
+
         score = sum(
             1 for i, (_, _, correcto) in enumerate(self._preguntas)
             if self._respuestas[i] == correcto
         )
         self._mostrar_resultado(score)
 
-    # ── resultado ────────────────────────────────────────────────────
+
     def _mostrar_resultado(self, score: int):
         for w in self.winfo_children():
             w.destroy()
@@ -625,11 +625,11 @@ class TestWindow(ctk.CTkToplevel):
         aprobado = score >= 7
         color    = C["success"] if aprobado else C["error"]
 
-        # Banda superior de color
+
         banda = ctk.CTkFrame(self, fg_color=color, corner_radius=0, height=6)
         banda.pack(fill="x")
 
-        # Puntuación
+
         scores_frame = ctk.CTkFrame(self, fg_color="transparent")
         scores_frame.pack(pady=(20, 4))
         ctk.CTkLabel(scores_frame, text=f"{score}",
@@ -654,7 +654,7 @@ class TestWindow(ctk.CTkToplevel):
                          text_color=C["muted"],
                          font=ctk.CTkFont(size=13)).pack()
 
-            # Caja código + botón copiar en la misma fila
+
             code_row = ctk.CTkFrame(self, fg_color="transparent")
             code_row.pack(pady=8)
 
@@ -719,7 +719,7 @@ class TestWindow(ctk.CTkToplevel):
         ))
 
 
-# ── Pantalla principal ────────────────────────────────────────────────
+
 class TemarioScreen(ctk.CTkFrame):
     def __init__(self, master, usuario: dict, api_client):
         super().__init__(master, fg_color="transparent")
@@ -757,7 +757,7 @@ class TemarioScreen(ctk.CTkFrame):
             inn = ctk.CTkFrame(card, fg_color="transparent")
             inn.pack(fill="both", expand=True, padx=14, pady=14)
 
-            # Número + Título
+
             top = ctk.CTkFrame(inn, fg_color="transparent")
             top.pack(fill="x", pady=(0, 6))
 
@@ -774,14 +774,14 @@ class TemarioScreen(ctk.CTkFrame):
                          anchor="w", wraplength=160,
                          justify="left").pack(side="left", padx=(8, 0), fill="x", expand=True)
 
-            # Descripción
+
             ctk.CTkLabel(inn, text=desc,
                          text_color=C["muted"],
                          font=ctk.CTkFont(size=13),
                          anchor="w", wraplength=210,
                          justify="left").pack(anchor="w", pady=(0, 8))
 
-            # Badge estado / coste
+
             if desbloqueado:
                 bf = ctk.CTkFrame(inn, fg_color=C["badge_ok_bg"], corner_radius=6)
                 bf.pack(anchor="w", pady=(0, 8))
@@ -795,7 +795,7 @@ class TemarioScreen(ctk.CTkFrame):
                              text_color=C["muted"],
                              font=ctk.CTkFont(size=13)).pack(padx=10, pady=4)
 
-            # Botones
+
             if desbloqueado:
                 ctk.CTkButton(inn, text="▶  Abrir Tema",
                               height=34,

@@ -24,7 +24,7 @@ class DependencyScreen(ctk.CTkFrame):
         self._build()
         threading.Thread(target=self._verificar, daemon=True).start()
 
-    # ── UI ────────────────────────────────────────────────────────────
+
     def _build(self):
         ctk.CTkFrame(self, fg_color="transparent").pack(expand=True)
 
@@ -39,7 +39,7 @@ class DependencyScreen(ctk.CTkFrame):
                      text_color=C["muted"],
                      font=ctk.CTkFont(size=15)).pack(pady=(0, 24))
 
-        # ── Tarjeta de estado ─────────────────────────────────────────
+
         card = ctk.CTkFrame(self._panel, corner_radius=14,
                             fg_color=C["card"], width=440)
         card.pack(pady=(0, 24))
@@ -48,7 +48,7 @@ class DependencyScreen(ctk.CTkFrame):
         inner = ctk.CTkFrame(card, fg_color="transparent")
         inner.pack(fill="both", expand=True, padx=24, pady=20)
 
-        # Fila principal
+
         row = ctk.CTkFrame(inner, fg_color="transparent")
         row.pack(fill="x")
 
@@ -70,7 +70,7 @@ class DependencyScreen(ctk.CTkFrame):
                      font=ctk.CTkFont(size=13),
                      anchor="w").pack(anchor="w")
 
-        # Badge de estado
+
         self._badge = ctk.CTkFrame(row, corner_radius=8,
                                    fg_color=("gray80", "#334155"))
         self._badge.pack(side="right")
@@ -79,21 +79,21 @@ class DependencyScreen(ctk.CTkFrame):
                                         font=ctk.CTkFont(size=11, weight="bold"))
         self._badge_lbl.pack(padx=10, pady=5)
 
-        # Mensaje de aviso (oculto hasta que se necesite)
+
         self._warn_lbl = ctk.CTkLabel(inner, text="",
                                        text_color=C["warn"],
                                        font=ctk.CTkFont(size=12),
                                        wraplength=380, justify="left")
         self._warn_lbl.pack(anchor="w", pady=(12, 0))
 
-        # ── Spinner ───────────────────────────────────────────────────
+
         self._bar = ctk.CTkProgressBar(self._panel, width=400, height=4,
                                         mode="indeterminate",
                                         progress_color=C["primary"])
         self._bar.pack(pady=(0, 28))
         self._bar.start()
 
-        # ── Fila de botones (oculta hasta finalizar comprobación) ─────
+
         self._btn_row = ctk.CTkFrame(self._panel, fg_color="transparent")
 
         self._btn_activar = ctk.CTkButton(
@@ -119,7 +119,7 @@ class DependencyScreen(ctk.CTkFrame):
 
         ctk.CTkFrame(self, fg_color="transparent").pack(expand=True)
 
-    # ── Verificación inicial ──────────────────────────────────────────
+
     def _verificar(self):
         docker_ok = self.docker_manager._ping()
         self.after(0, lambda: self._mostrar_resultado(docker_ok))
@@ -144,7 +144,7 @@ class DependencyScreen(ctk.CTkFrame):
             )
             self._btn_row.pack()
 
-    # ── Activar Docker ────────────────────────────────────────────────
+
     def _activar_docker(self):
         if self._activando:
             return
@@ -153,7 +153,7 @@ class DependencyScreen(ctk.CTkFrame):
         self._btn_activar.configure(state="disabled", text="Iniciando...")
         self._btn_continuar.configure(state="disabled")
 
-        # Spinner mientras espera
+
         self._bar.pack(before=self._btn_row, pady=(0, 20))
         self._bar.start()
 

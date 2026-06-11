@@ -16,7 +16,6 @@ class ApiClient:
             token    = data.get("token")
             usuario  = data.get("usuario", {})
             self.token = token
-            # Devolvemos token + campos del usuario juntos para facilitar el acceso
             return {"ok": True, "token": token, "data": usuario}
         except requests.exceptions.ConnectionError:
             return {"ok": False, "error": "No se puede conectar al servidor."}

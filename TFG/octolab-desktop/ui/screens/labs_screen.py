@@ -20,21 +20,17 @@ CONTENEDORES = [
     (META_CONTAINER, META_IMAGE, "Metasploitable 2", "Máquina intencionalmente vulnerable para práctica"),
 ]
 
-# Usuario con el que se abre la terminal (docker exec -u)
 _TERMINAL_USER: dict[str, str] = {
     KALI_CONTAINER: "kali",
     META_CONTAINER: "msfadmin",
 }
 
-# Directorio de inicio de la terminal (docker exec -w)
 _TERMINAL_HOME: dict[str, str] = {
     KALI_CONTAINER: "/home/kali",
     META_CONTAINER: "/home/msfadmin",
 }
 
-# ── Referencia de comandos ────────────────────────────────────────────
-# Herramientas disponibles en octolab-kali: nmap, ncat, curl, wget,
-# python3, ssh, ping, net-tools, dnsutils
+
 COMANDOS = {
     ("RE", "#0891b2", "Reconocimiento — nmap"): [
         ("Descubrir hosts activos en la red",     "nmap -sn -T4 -n 172.X.X.X/16"),
@@ -104,7 +100,6 @@ COMANDOS = {
 }
 
 
-# ── Botón icono ───────────────────────────────────────────────────────
 def _icon_btn(parent, icon: str, label: str,
               fg, hover, command, enabled: bool = True) -> ctk.CTkFrame:
     frame = ctk.CTkFrame(parent, fg_color="transparent")
@@ -124,7 +119,6 @@ def _icon_btn(parent, icon: str, label: str,
     return frame
 
 
-# ── Pantalla ──────────────────────────────────────────────────────────
 class LabsScreen(ctk.CTkFrame):
     def __init__(self, master, docker_manager):
         super().__init__(master, fg_color="transparent")
@@ -137,9 +131,7 @@ class LabsScreen(ctk.CTkFrame):
         self._build()
         threading.Thread(target=self._refrescar_estados, daemon=True).start()
 
-    # ── Construcción ─────────────────────────────────────────────────
     def _build(self):
-        # Título fuera del scroll (cabecera fija)
         ctk.CTkLabel(self, text="Laboratorios",
                      font=ctk.CTkFont(size=28, weight="bold")).pack(
                          anchor="w", padx=40, pady=(24, 2))
@@ -152,11 +144,9 @@ class LabsScreen(ctk.CTkFrame):
 
         ctk.CTkFrame(self, height=1, fg_color=C["divider"]).pack(fill="x", padx=40, pady=(0, 12))
 
-        # Todo lo demás desplazable
         scroll = ctk.CTkScrollableFrame(self, fg_color="transparent")
         scroll.pack(fill="both", expand=True)
 
-        # ── Tarjetas de contenedores ──────────────────────────────────
         for nombre, imagen, titulo, desc in CONTENEDORES:
             card = ctk.CTkFrame(scroll, corner_radius=12, fg_color=C["card"])
             card.pack(fill="x", padx=40, pady=6)
@@ -204,7 +194,6 @@ class LabsScreen(ctk.CTkFrame):
             stop_f.pack(side="left")
             self._stop_frames[nombre] = stop_f
 
-        # ── Referencia de comandos ────────────────────────────────────
         ctk.CTkFrame(scroll, height=1, fg_color=C["divider"]).pack(
             fill="x", padx=40, pady=(20, 16))
 
@@ -222,13 +211,12 @@ class LabsScreen(ctk.CTkFrame):
         for (abrev, color, categoria), cmds in COMANDOS.items():
             self._seccion_comandos(scroll, abrev, color, categoria, cmds)
 
-        # Margen inferior
         ctk.CTkFrame(scroll, height=20, fg_color="transparent").pack()
 
     def _seccion_comandos(self, parent, abrev: str, color: str,
                           titulo: str, cmds: list):
         """Renderiza una categoría de comandos con su tarjeta."""
-        # Cabecera de categoría
+
         hdr = ctk.CTkFrame(parent, fg_color="transparent")
         hdr.pack(fill="x", padx=40, pady=(0, 6))
 
@@ -244,7 +232,7 @@ class LabsScreen(ctk.CTkFrame):
                      font=ctk.CTkFont(size=16, weight="bold")).pack(
                          side="left", padx=(8, 0))
 
-        # Tarjeta con filas de comandos
+
         card = ctk.CTkFrame(parent, corner_radius=10, fg_color=C["card"])
         card.pack(fill="x", padx=40, pady=(0, 14))
 
@@ -256,18 +244,17 @@ class LabsScreen(ctk.CTkFrame):
             row = ctk.CTkFrame(card, fg_color="transparent")
             row.pack(fill="x", padx=16, pady=8)
 
-            # Descripción
             ctk.CTkLabel(row, text=desc,
                          text_color=C["muted"],
                          font=ctk.CTkFont(size=14),
                          width=260, anchor="w").pack(side="left")
 
-            # Comando en monospace
+
             ctk.CTkLabel(row, text=cmd,
                          font=ctk.CTkFont(family="Courier New", size=14),
                          anchor="w").pack(side="left", fill="x", expand=True, padx=(8, 8))
 
-            # Botón copiar
+
             copy_btn = ctk.CTkButton(
                 row, text="Copiar",
                 width=68, height=28,
@@ -280,7 +267,7 @@ class LabsScreen(ctk.CTkFrame):
                 command=lambda c=cmd, b=copy_btn: self._copiar(c, b))
             copy_btn.pack(side="right")
 
-    # ── Estado de contenedores ────────────────────────────────────────
+
     def _refrescar_estados(self):
         for nombre, _, _, _ in CONTENEDORES:
             try:
@@ -307,7 +294,7 @@ class LabsScreen(ctk.CTkFrame):
             if ip_lbl and ip_lbl.winfo_exists():
                 ip_lbl.configure(text=f"IP red interna: {ip}" if ip else "")
 
-            # En error: solo Iniciar activo (para reintentar)
+
             self._set_btn_enabled(self._start_frames.get(nombre), not running)
             self._set_btn_enabled(self._term_frames.get(nombre),  running)
             self._set_btn_enabled(self._stop_frames.get(nombre),  running)
@@ -322,11 +309,10 @@ class LabsScreen(ctk.CTkFrame):
         except Exception:
             pass
 
-    # ── Acciones ─────────────────────────────────────────────────────
+
     def _iniciar(self, nombre: str, imagen: str):
         def on_status(msg: str):
-            # Muestra el mensaje de progreso en la etiqueta de estado (hilo secundario → after).
-            # Guarda contra TclError si el widget ya fue destruido (usuario navegó a otra pantalla).
+
             def _do(m=msg):
                 try:
                     lbl = self.estado_labels.get(nombre)
@@ -367,7 +353,7 @@ class LabsScreen(ctk.CTkFrame):
 
     def _abrir_terminal(self, nombre: str):
         try:
-            # Ambas imágenes tienen el banner en /etc/motd (baked en Dockerfile)
+
             user = _TERMINAL_USER.get(nombre, "")
             home = _TERMINAL_HOME.get(nombre, "")
             u_flag = f"-u {user} " if user else ""

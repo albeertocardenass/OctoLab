@@ -79,7 +79,6 @@ export class ComunidadComponent implements OnInit {
       next: (res) => {
         post.totalLikes = res.totalLikes;
         post.liked = res.liked;
-        // Forzar reactividad actualizando el signal con el mismo array
         this.publicaciones.update(v => [...v]);
       }
     });

@@ -15,17 +15,17 @@ import os, json
 
 class App(ctk.CTk):
     def __init__(self):
-        # Cargar tema guardado antes de inicializar la ventana
+
         tema = self._cargar_tema()
         ctk.set_appearance_mode(tema)
         ctk.set_default_color_theme("blue")
 
         super().__init__()
         self.title(APP_NAME)
-        self.geometry("1100x700")                      # tamaño inicial mientras carga
-        self.after(10, lambda: self.state("zoomed"))   # maximizar tras el primer frame
+        self.geometry("1100x700")                      
+        self.after(10, lambda: self.state("zoomed"))  
 
-        # Icono de la ventana
+
         _ico = os.path.join(IMAGES_DIR, "octolab.ico")
         if os.path.exists(_ico):
             self.iconbitmap(_ico)
@@ -48,7 +48,7 @@ class App(ctk.CTk):
             pass
         return "Dark"
 
-    # -- NAVEGACIÓN ------------------------------------------------
+
     def _limpiar(self):
         for w in self.winfo_children():
             w.destroy()
@@ -133,7 +133,7 @@ class App(ctk.CTk):
         for w in self.content.winfo_children():
             w.destroy()
 
-        # Resaltar pestaña activa
+
         for k, btn in self._nav_buttons.items():
             if k == key:
                 btn.configure(fg_color=("gray75", "#1e293b"),
